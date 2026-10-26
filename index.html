@@ -3,18 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thiệp Cưới - Đức Thắng & Kiều Trang | 20.12.2026</title>
+  <title>Thiệp Mời Cưới - Đức Thắng & Kiều Trang</title>
   
   <!-- Meta tags cho SEO & Social Sharing -->
-  <meta name="description" content="Chào mừng bạn đến với thiệp cưới online của Đức Thắng & Kiều Trang. Trân trọng kính mời bạn đến tham dự lễ thành hôn của chúng mình vào ngày 20.12.2026!">
+  <meta name="description" content="Chào mừng bạn đến với thiệp cưới online của Đức Thắng & Kiều Trang. Trân trọng kính mời bạn đến tham dự lễ thành hôn của chúng mình!">
   <meta property="og:title" content="Thiệp Cưới Online - Đức Thắng & Kiều Trang">
-  <meta property="og:description" content="Trân trọng kính mời bạn đến chung vui trong ngày trọng đại của Đức Thắng & Kiều Trang!">
-  <meta property="og:image" content="assets/images/TTT09222_web.jpg">
-  
-  <!-- Google Fonts: Cormorant Garamond, Pinyon Script, Montserrat, Playfair Display -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <meta property="og:description" content="Trân trọng kính mời bạn đến dự tiệc cưới của Đức Thắng & Kiều Trang!">
+  <meta property="og:image" content="assets/images/TTT09584_web.jpg">
   
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -25,29 +20,29 @@
 <body>
 
   <!-- ==========================================
-       BACKGROUND MUSIC
+       BACKGROUND MUSIC (SOFT ROMANTIC PIANO)
        ========================================== -->
   <audio id="bg-music" loop preload="auto">
     <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-200.mp3" type="audio/mpeg">
     Trình duyệt của bạn không hỗ trợ phát nhạc nền.
   </audio>
   
-  <button id="music-toggle" class="music-btn" aria-label="Bật/Tắt nhạc nền" title="Phát nhạc nền">
+  <button id="music-toggle" class="music-btn" aria-label="Bật/Tắt nhạc nền">
     <i class="fa-solid fa-play"></i>
   </button>
 
   <!-- ==========================================
-       0. ENVELOPE COVER (MÀN HÌNH BẮT ĐẦU - PHONG BÌ THƯ ĐỎ)
+       1. ENVELOPE COVER (MÀN HÌNH BẮT ĐẦU - PHONG BÌ THƯ ĐỎ NHƯ ẢNH GỐC)
        ========================================== -->
   <div id="envelope-cover" class="envelope-cover-overlay">
     <div class="envelope-screen-wrapper">
       
-      <!-- Tiêu đề trên cùng: Thiệp Mời Cưới -->
+      <!-- Tiêu đề trên cùng: Thiệp Mời Cưới (nằm bên trên icon Song Hỷ) -->
       <div class="envelope-top-title" id="envelope-top-title">
         <span class="envelope-title-cursive">Thiệp Mời Cưới</span>
       </div>
 
-      <!-- Biểu tượng Song Hỷ (囍) -->
+      <!-- Biểu tượng Song Hỷ (囍) nằm bên dưới tiêu đề, phía trên phong bì -->
       <div class="envelope-wedding-emblem" id="envelope-wedding-emblem">
         <img src="assets/song_hy.png" alt="Biểu tượng Song Hỷ" class="song-hy-icon">
       </div>
@@ -59,7 +54,7 @@
         <div class="envelope-body">
           <!-- Cụm hoa góc trên bên trái -->
           <div class="envelope-flower flower-top-left">
-            <img src="assets/images/flower_top_left.png" alt="Hoa cưới trang trí">
+            <img src="assets/images/flower_top_left.png" alt="Hoa cưới trang trí góc trên bên trái">
           </div>
 
           <!-- Mặt sau phong bì & nắp mở phía sau -->
@@ -73,14 +68,14 @@
             </div>
           </div>
 
-          <!-- Nếp gấp hai bên & đáy phong bì -->
+          <!-- Nếp gấp hai bên & đáy phong bì tạo thành túi -->
           <div class="envelope-pocket">
             <div class="pocket-fold pocket-left"></div>
             <div class="pocket-fold pocket-right"></div>
             <div class="pocket-fold pocket-bottom"></div>
           </div>
 
-          <!-- Nắp tam giác phong bì trên cùng -->
+          <!-- Nắp tam giác phong bì trên cùng (gập xuống khi chưa mở) -->
           <div class="envelope-top-flap" id="envelope-flap">
             <div class="flap-triangle"></div>
           </div>
@@ -94,106 +89,100 @@
 
       </div>
 
-      <!-- Tên cô dâu chú rể phía dưới phong bì -->
+      <!-- Thông tin phía dưới phong bì: Tên cô dâu chú rể (chữ Calligraphy đỏ) -->
       <div class="envelope-bottom-info" id="envelope-bottom-info">
         <div class="envelope-couple-names">Đức Thắng &amp; Kiều Trang</div>
       </div>
 
     </div>
 
-    <!-- Container chứa hiệu ứng 3 trái tim bay lên sau khi mở -->
+    <!-- Container chứa hiệu ứng 3 trái tim bay lên sau cùng -->
     <div id="envelope-hearts-container" class="envelope-hearts-container"></div>
   </div>
 
   <!-- ==========================================
-       1. HERO BANNER (CHUẨN THEO ẢNH MẪU CỦA BẠN)
+       2. HERO BANNER (GIỮ NGUYÊN ẢNH, KIỂU CHỮ & HIỆU ỨNG NHƯ ẢNH BẠN GỬI)
        ========================================== -->
-  <header id="hero" class="hero-screen">
-    <div class="hero-bg" style="background-image: url('assets/images/TTT09222_web.jpg');"></div>
+  <header id="hero">
+    <div class="hero-bg" style="background-image: url('assets/images/TTT09584_web.jpg'), url('assets/images/TTT09584.jpg');"></div>
     <div class="hero-overlay"></div>
     
     <div class="hero-content">
-      <h1 class="hero-groom-name reveal-up">Đức Thắng</h1>
-      <div class="hero-monogram-symbol reveal-scale delay-1">
-        <svg viewBox="0 0 100 100" class="monogram-svg">
-          <path d="M50 20 C65 20 78 32 78 48 C78 68 50 82 50 82 C50 82 22 68 22 48 C22 32 35 20 50 20 Z" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.8"/>
-          <text x="50" y="56" text-anchor="middle" font-family="'Pinyon Script', cursive" font-size="34" fill="#ffffff" font-style="italic">&amp;</text>
-        </svg>
-      </div>
-      <h1 class="hero-bride-name reveal-up delay-2">Kiều Trang</h1>
-      <p class="hero-date-text reveal-up delay-3">20 . 12 . 2026</p>
+      <h1 class="hero-names">Đức Thắng <span>&</span> Kiều Trang</h1>
+      <p class="hero-date">20 . 12 . 2026</p>
     </div>
     
-    <div class="hero-scroll-indicator" id="scroll-hint-btn">
-      <span class="scroll-label">CUỘN XUỐNG</span>
-      <i class="fa-solid fa-chevron-down scroll-arrow"></i>
+    <div class="scroll-down-hint" id="scroll-down-hint">
+      <span>Cuộn xuống</span>
+      <i class="fa-solid fa-angle-down"></i>
     </div>
   </header>
 
   <!-- ==========================================
-       2. INVITATION & COUNTDOWN (THEO MẪU SCREEN 1)
+       3. INVITATION & COUNTDOWN OVER PHOTO (ẢNH TTT08982 - THEO MẪU ẢNH THỨ 3)
        ========================================== -->
   <section id="invitation-section" class="invitation-section">
     <div class="container section-inner">
       
-      <!-- Ảnh cưới lãng mạn phía trên hộp đếm ngược -->
-      <div class="invitation-photo-frame reveal-scale">
-        <img src="assets/images/TTT09584_web.jpg" alt="Đức Thắng & Kiều Trang" class="invitation-lead-photo">
-      </div>
+      <div class="invitation-card-editorial reveal-up">
+        
+        <!-- Khung ảnh TTT08982 với 4 ô ngày tháng năm đè lên trên ảnh -->
+        <div class="invitation-photo-container">
+          <img src="assets/images/TTT08982_web.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang" class="invitation-lead-photo">
+          
+          <!-- 4 Ô Đếm Ngược Nằm Trực Tiếp Trên Nửa Dưới Của Ảnh (Chuẩn Theo Mẫu Ảnh Thứ 3) -->
+          <div class="countdown-over-photo">
+            <div class="countdown-cell">
+              <span class="countdown-val" id="days">00</span>
+              <span class="countdown-tag">ngày</span>
+            </div>
+            <div class="countdown-cell">
+              <span class="countdown-val" id="hours">00</span>
+              <span class="countdown-tag">giờ</span>
+            </div>
+            <div class="countdown-cell">
+              <span class="countdown-val" id="minutes">00</span>
+              <span class="countdown-tag">phút</span>
+            </div>
+            <div class="countdown-cell">
+              <span class="countdown-val" id="seconds">00</span>
+              <span class="countdown-tag">giây</span>
+            </div>
+          </div>
+        </div>
 
-      <!-- 4 Ô Đếm Ngược Ngày Cưới (Màu Đỏ Rượu Vang Đậm Sang Trọng) -->
-      <div class="countdown-bar reveal-up delay-1">
-        <div class="countdown-cell">
-          <span class="countdown-val" id="days">00</span>
-          <span class="countdown-tag">ngày</span>
-        </div>
-        <div class="countdown-cell">
-          <span class="countdown-val" id="hours">00</span>
-          <span class="countdown-tag">giờ</span>
-        </div>
-        <div class="countdown-cell">
-          <span class="countdown-val" id="minutes">00</span>
-          <span class="countdown-tag">phút</span>
-        </div>
-        <div class="countdown-cell">
-          <span class="countdown-val" id="seconds">00</span>
-          <span class="countdown-tag">giây</span>
-        </div>
-      </div>
+        <!-- Khung nội dung thư mời phía dưới ô đếm ngược -->
+        <div class="invitation-letter-card">
+          <h2 class="invitation-letter-spaced reveal-up delay-1">I N V I T A T I O N</h2>
+          
+          <div class="invitation-letter-body reveal-up delay-2">
+            <p class="invitation-greeting">Gửi đến gia đình và bạn bè thân mến,</p>
+            <p class="invitation-text">
+              Cảm ơn bạn đã dành thời gian quý báu để cùng chúng mình chung vui trong ngày đặc biệt này.
+              Chúng mình vô cùng biết ơn vì luôn có sự đồng hành và ủng hộ của bạn, và thật vinh hạnh khi được chia sẻ những khoảnh khắc tuyệt vời này cùng bạn.
+            </p>
+            <p class="invitation-conclusion">
+              Trân trọng kính mời bạn đến dự lễ cưới của chúng mình.
+            </p>
+          </div>
 
-      <!-- Tiêu đề INVITATION dãn cách chữ sang trọng -->
-      <div class="invitation-title-wrap reveal-up delay-2">
-        <h2 class="invitation-letter-spaced">I N V I T A T I O N</h2>
-        <div class="invitation-accent-line"></div>
-      </div>
-
-      <!-- Bức thư mời cưới ấm áp, chân thành -->
-      <div class="invitation-letter-box reveal-up delay-3">
-        <p class="invitation-greeting">Gửi đến gia đình và bạn bè thân mến,</p>
-        <p class="invitation-text">
-          Cảm ơn bạn đã dành thời gian quý báu để cùng chúng mình chung vui trong ngày đặc biệt này.
-          Chúng mình vô cùng biết ơn vì luôn có sự đồng hành và ủng hộ của bạn, và thật vinh hạnh khi được chia sẻ những khoảnh khắc tuyệt vời này cùng bạn.
-        </p>
-        <p class="invitation-conclusion">
-          Trân trọng kính mời bạn đến dự lễ cưới của chúng mình.
-        </p>
-      </div>
-
-      <!-- Chữ ký cô dâu chú rể phong cách Calligraphy -->
-      <div class="invitation-signature-block reveal-up delay-4">
-        <span class="signature-ceremony">Lễ Thành Hôn</span>
-        <div class="signature-names-cursive">
-          <span>Nguyễn Đức Thắng</span>
-          <span class="amp">&amp;</span>
-          <span>Vũ Kiều Trang</span>
+          <div class="invitation-signature-block reveal-up delay-3">
+            <span class="signature-ceremony">Lễ Thành Hôn</span>
+            <div class="signature-names-cursive">
+              <span>Nguyễn Đức Thắng</span>
+              <span class="amp">&amp;</span>
+              <span>Vũ Kiều Trang</span>
+            </div>
+          </div>
         </div>
+
       </div>
 
     </div>
   </section>
 
   <!-- ==========================================
-       3. ABOUT US - CÔ DÂU & CHÚ RỂ (THEO MẪU SCREEN 4)
+       4. ABOUT US - CÔ DÂU & CHÚ RỂ (THEO MẪU SCREEN 4)
        ========================================== -->
   <section id="about-section" class="about-section">
     <div class="container">
@@ -298,7 +287,7 @@
   </section>
 
   <!-- ==========================================
-       4. SWEET WEDDING & EDITORIAL PHOTO COLLAGE (THEO MẪU SCREEN 2 & SCREEN 3)
+       5. SWEET WEDDING & EDITORIAL PHOTO COLLAGE (THEO MẪU SCREEN 2 & SCREEN 3)
        ========================================== -->
   <section id="sweet-wedding-section" class="sweet-wedding-section">
     <div class="container">
@@ -312,7 +301,7 @@
       <!-- Bố cục tạp chí nghệ thuật chữ MARRY ME? & YES! I DO! -->
       <div class="editorial-collage-wrap">
         
-        <!-- Chữ dọc / trang trí MARRY ME? -->
+        <!-- Chữ trang trí MARRY ME? -->
         <div class="editorial-typo-left reveal-left">
           <div class="typo-word-marry">M A R R Y</div>
           <div class="typo-word-me">M E ?</div>
@@ -362,7 +351,7 @@
   </section>
 
   <!-- ==========================================
-       5. ĐỊA ĐIỂM TỔ CHỨC & LỊCH TRÌNH TIỆC CƯỚI (THEO MẪU SCREEN 2 & THÔNG TIN CỦA BẠN)
+       6. ĐỊA ĐIỂM TỔ CHỨC & LỊCH TRÌNH TIỆC CƯỚI (THEO MẪU SCREEN 2)
        ========================================== -->
   <section id="events-section" class="events-section">
     <div class="container">
@@ -506,7 +495,7 @@
   </section>
 
   <!-- ==========================================
-       6. RSVP - XÁC NHẬN THAM DỰ (THEO MẪU SCREEN 5)
+       7. RSVP - XÁC NHẬN THAM DỰ (THEO MẪU SCREEN 5)
        ========================================== -->
   <section id="rsvp-section" class="rsvp-section">
     <div class="container">
@@ -573,7 +562,7 @@
   </section>
 
   <!-- ==========================================
-       7. WISHING WELL - GỬI QUÀ MỪNG & QR CODE (THEO MẪU SCREEN 5)
+       8. WISHING WELL - GỬI QUÀ MỪNG & QR CODE (THEO MẪU SCREEN 5)
        ========================================== -->
   <section id="wishing-section" class="wishing-section">
     <div class="container text-center">
@@ -639,7 +628,7 @@
   </section>
 
   <!-- ==========================================
-       8. GUESTBOOK - SỔ LƯU BÚT CHÚC PHÚC (GỌN GÀNG, KHÔNG COMMENT BAY)
+       9. GUESTBOOK - SỔ LƯU BÚT CHÚC PHÚC (GỌN GÀNG, KHÔNG COMMENT BAY)
        ========================================== -->
   <section id="guestbook-section" class="guestbook-section">
     <div class="container">
@@ -684,7 +673,7 @@
   </section>
 
   <!-- ==========================================
-       9. FOOTER CẢM ƠN
+       10. FOOTER CẢM ƠN
        ========================================== -->
   <footer class="site-footer text-center">
     <div class="container">

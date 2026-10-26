@@ -1,15 +1,6 @@
 /* ==========================================================================
    ONLINE WEDDING INVITATION - JAVASCRIPT
    Duc Thang & Kieu Trang | 20.12.2026
-   Features:
-   - Realistic Red Envelope Opening & 3 Big Floating Hearts
-   - Background Music Toggle
-   - Real-time Countdown to 20/12/2026 09:30
-   - Ultra-smooth Scroll Entrance Animations (slide in from margins)
-   - Photo Gallery Lightbox with Keyboard & Touch Navigation
-   - RSVP Management with LocalStorage
-   - Quick One-touch Copy Bank Account Number
-   - Elegant Guestbook Wishes (No floating stream comments)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -54,57 +45,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================
-  // 2. BACKGROUND MUSIC SYSTEM
+  // 2. BACKGROUND MUSIC & ENVELOPE LOGIC (BACK LẠI CHUẨN XÁC)
   // ==========================================
+  const envelopeCover = document.getElementById('envelope-cover');
+  const envelopeInteractive = document.getElementById('envelope-interactive');
   const musicBtn = document.getElementById('music-toggle');
   const bgMusic = document.getElementById('bg-music');
-  let isMusicPlaying = false;
+  let isPlaying = false;
+  let isOpened = false;
+  let autoEnterTimer = null;
 
   if (bgMusic) {
     bgMusic.volume = 0.5;
   }
 
-  function playMusic() {
+  function playAudio() {
     if (!bgMusic) return;
     bgMusic.play().then(() => {
-      isMusicPlaying = true;
+      isPlaying = true;
       if (musicBtn) {
         musicBtn.classList.add('playing');
-        musicBtn.querySelector('i').className = 'fa-solid fa-pause';
+        const icon = musicBtn.querySelector('i');
+        if (icon) icon.className = 'fa-solid fa-compact-disc';
       }
     }).catch(err => {
-      console.log("Autoplay waiting for user gesture:", err);
+      console.log("Browser blocked autoplay. Waiting for user interaction.", err);
     });
   }
 
-  function toggleMusic() {
+  function toggleAudio() {
     if (!bgMusic) return;
-    if (isMusicPlaying) {
+    if (isPlaying) {
       bgMusic.pause();
-      isMusicPlaying = false;
+      isPlaying = false;
       if (musicBtn) {
         musicBtn.classList.remove('playing');
-        musicBtn.querySelector('i').className = 'fa-solid fa-play';
+        const icon = musicBtn.querySelector('i');
+        if (icon) icon.className = 'fa-solid fa-play';
       }
     } else {
-      playMusic();
+      playAudio();
     }
   }
 
   if (musicBtn) {
-    musicBtn.addEventListener('click', toggleMusic);
+    musicBtn.addEventListener('click', toggleAudio);
   }
 
-
-  // ==========================================
-  // 3. ENVELOPE OPENING & 3 FLOATING HEARTS
-  // ==========================================
-  const envelopeCover = document.getElementById('envelope-cover');
-  const envelopeInteractive = document.getElementById('envelope-interactive');
-  let isEnvelopeOpened = false;
-  let autoTransitionTimer = null;
-  let lastOpenClickTime = 0;
-
+  // Hiệu ứng 3 trái tim đỏ lớn bay lên từ bên trong phong bì sau khi mở
   function spawnThreeBigRedHearts() {
     const container = document.getElementById('envelope-hearts-container');
     if (!container || !envelopeCover || envelopeCover.classList.contains('opened')) return;
@@ -118,13 +106,31 @@ document.addEventListener('DOMContentLoaded', () => {
       startY = envelopeRect.top + envelopeRect.height * 0.46;
     }
 
-    const heartsConfig = [
-      { size: 54, offsetX: -68, sway: 'bigHeartSwayLeft', duration: 3.4, delay: 0 },
-      { size: 74, offsetX: 0,   sway: 'bigHeartSwayCenter', duration: 3.6, delay: 220 },
-      { size: 60, offsetX: 68,  sway: 'bigHeartSwayRight', duration: 3.2, delay: 450 }
+    const threeHearts = [
+      {
+        size: 54,
+        offsetX: -68,
+        sway: 'bigHeartSwayLeft',
+        duration: 3.4,
+        delay: 0
+      },
+      {
+        size: 72,
+        offsetX: 0,
+        sway: 'bigHeartSwayCenter',
+        duration: 3.6,
+        delay: 220
+      },
+      {
+        size: 60,
+        offsetX: 68,
+        sway: 'bigHeartSwayRight',
+        duration: 3.2,
+        delay: 450
+      }
     ];
 
-    heartsConfig.forEach((cfg) => {
+    threeHearts.forEach((cfg) => {
       setTimeout(() => {
         if (!container || !envelopeCover || envelopeCover.classList.contains('opened')) return;
 
@@ -159,62 +165,80 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function openEnvelopeStep() {
-    if (isEnvelopeOpened) return;
-    isEnvelopeOpened = true;
+  window.spawnThreeBigRedHearts = spawnThreeBigRedHearts;
 
-    if (envelopeCover) envelopeCover.classList.add('envelope-opened');
-    if (envelopeInteractive) envelopeInteractive.classList.add('opening');
+  // Bước 1: Mở phong bì thư và trồi ảnh cưới lên
+  function openEnvelope() {
+    if (isOpened) return;
+    isOpened = true;
 
-    setTimeout(spawnThreeBigRedHearts, 950);
-    setTimeout(playMusic, 500);
+    if (envelopeCover) {
+      envelopeCover.classList.add('envelope-opened');
+    }
+    if (envelopeInteractive) {
+      envelopeInteractive.classList.add('opening');
+    }
 
     setTimeout(() => {
-      if (envelopeInteractive) envelopeInteractive.classList.add('opened-float');
+      spawnThreeBigRedHearts();
+    }, 1000);
+
+    setTimeout(playAudio, 500);
+
+    setTimeout(() => {
+      if (envelopeInteractive) {
+        envelopeInteractive.classList.add('opened-float');
+      }
     }, 1200);
   }
 
-  function enterMainSite() {
-    if (autoTransitionTimer) {
-      clearTimeout(autoTransitionTimer);
-      autoTransitionTimer = null;
+  // Bước 2: Vào xem toàn bộ website thiệp cưới
+  function enterWeddingSite() {
+    if (autoEnterTimer) {
+      clearTimeout(autoEnterTimer);
+      autoEnterTimer = null;
     }
     if (envelopeCover) {
       envelopeCover.classList.add('opened');
     }
     document.body.style.overflowY = 'auto';
-    setTimeout(playMusic, 300);
-
-    // Kích hoạt ngay các animation ở hero screen
-    triggerInViewAnimations();
+    setTimeout(playAudio, 300);
   }
 
-  function handleEnvelopeInteraction(e) {
+  // Logic click theo yêu cầu gốc:
+  // - CHỈ gắn sự kiện click vào thiệp (envelopeInteractive)
+  // - KHÔNG gắn sự kiện click vào text "thiệp mời cưới", icon "song_hy", chữ "Đức Thắng Kiều Trang"
+  // - Click lần 1: Mở thiệp và sau 6s tự động chuyển vào trang sau
+  // - Click lần 2: Mở trang tiếp theo luôn lập tức
+  let lastOpenTime = 0;
+  function handleEnvelopeClick(e) {
     if (e) e.stopPropagation();
     const now = Date.now();
 
-    if (!isEnvelopeOpened) {
-      lastOpenClickTime = now;
-      openEnvelopeStep();
-      autoTransitionTimer = setTimeout(enterMainSite, 5800);
+    if (!isOpened) {
+      lastOpenTime = now;
+      openEnvelope();
+      autoEnterTimer = setTimeout(() => {
+        enterWeddingSite();
+      }, 6000);
     } else {
-      if (now - lastOpenClickTime > 600) {
-        enterMainSite();
+      if (now - lastOpenTime > 600) {
+        enterWeddingSite();
       }
     }
   }
 
   if (envelopeInteractive) {
-    envelopeInteractive.addEventListener('click', handleEnvelopeInteraction);
+    envelopeInteractive.addEventListener('click', handleEnvelopeClick);
   }
 
-  // Khóa cuộn trang khi chưa mở phong bì
+  // Mặc định khóa cuộn trang khi chưa mở thiệp
   document.body.style.overflowY = 'hidden';
 
-  // Nút cuộn xuống ở Hero Banner
-  const scrollHintBtn = document.getElementById('scroll-hint-btn');
-  if (scrollHintBtn) {
-    scrollHintBtn.addEventListener('click', () => {
+  // Nút Cuộn xuống ở Hero Screen
+  const scrollDownHint = document.getElementById('scroll-down-hint');
+  if (scrollDownHint) {
+    scrollDownHint.addEventListener('click', () => {
       const invSec = document.getElementById('invitation-section');
       if (invSec) {
         invSec.scrollIntoView({ behavior: 'smooth' });
@@ -224,33 +248,114 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================
-  // 4. ULTRA-SMOOTH SCROLL ENTRANCE ANIMATIONS (TỪ LỀ VÀO MƯỢT MÀ)
+  // 3. SMOOTH SCROLL REVEAL (TỪ LỀ VÀO MƯỢT MÀ)
   // ==========================================
-  const animatedElements = document.querySelectorAll('.reveal, .reveal-up, .reveal-left, .reveal-right, .reveal-scale');
+  const revealElements = document.querySelectorAll('.reveal, .reveal-up, .reveal-left, .reveal-right, .reveal-scale');
+  const observerOptions = {
+    root: null,
+    threshold: 0.12,
+    rootMargin: "0px 0px -40px 0px"
+  };
 
-  const scrollObserver = new IntersectionObserver((entries, observer) => {
+  const revealObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
         observer.unobserve(entry.target);
       }
     });
-  }, {
-    root: null,
-    threshold: 0.12,
-    rootMargin: "0px 0px -40px 0px"
-  });
+  }, observerOptions);
 
-  animatedElements.forEach(el => scrollObserver.observe(el));
+  revealElements.forEach(el => revealObserver.observe(el));
 
-  function triggerInViewAnimations() {
-    animatedElements.forEach(el => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) {
-        el.classList.add('active');
+
+  // ==========================================
+  // 4. PHOTO GALLERY LIGHTBOX WITH NAVIGATION
+  // ==========================================
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxClose = document.getElementById('lightbox-close');
+  const lightboxPrev = document.getElementById('lightbox-prev');
+  const lightboxNext = document.getElementById('lightbox-next');
+  let currentImgIndex = 0;
+
+  const gallerySources = [
+    'assets/images/TTT08789_web.jpg',
+    'assets/images/TTT08816_web.jpg',
+    'assets/images/TTT08627_web.jpg',
+    'assets/images/TTT08982_web.jpg',
+    'assets/images/TTT09584_web.jpg',
+    'assets/images/TTT09222_web.jpg'
+  ];
+
+  document.querySelectorAll('.gallery-trigger').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const explicitSrc = trigger.getAttribute('data-img-src');
+      if (explicitSrc) {
+        openSingleLightbox(explicitSrc);
+        return;
+      }
+      const idx = trigger.getAttribute('data-img-index');
+      if (idx !== null && idx !== undefined) {
+        currentImgIndex = parseInt(idx, 10);
+        openGalleryLightbox(currentImgIndex);
+      } else {
+        openSingleLightbox(trigger.getAttribute('src'));
       }
     });
+  });
+
+  function openGalleryLightbox(index) {
+    if (!lightbox || !lightboxImg) return;
+    currentImgIndex = index;
+    lightboxImg.src = gallerySources[currentImgIndex];
+    if (lightboxPrev) lightboxPrev.style.display = 'block';
+    if (lightboxNext) lightboxNext.style.display = 'block';
+    lightbox.style.display = 'flex';
+    setTimeout(() => lightbox.classList.add('active'), 10);
   }
+
+  function openSingleLightbox(src) {
+    if (!lightbox || !lightboxImg) return;
+    lightboxImg.src = src;
+    if (lightboxPrev) lightboxPrev.style.display = 'none';
+    if (lightboxNext) lightboxNext.style.display = 'none';
+    lightbox.style.display = 'flex';
+    setTimeout(() => lightbox.classList.add('active'), 10);
+  }
+
+  function closeLightbox() {
+    if (!lightbox) return;
+    lightbox.classList.remove('active');
+    setTimeout(() => { lightbox.style.display = 'none'; }, 350);
+  }
+
+  function showNextImage() {
+    currentImgIndex = (currentImgIndex + 1) % gallerySources.length;
+    lightboxImg.src = gallerySources[currentImgIndex];
+  }
+
+  function showPrevImage() {
+    currentImgIndex = (currentImgIndex - 1 + gallerySources.length) % gallerySources.length;
+    lightboxImg.src = gallerySources[currentImgIndex];
+  }
+
+  if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+  if (lightboxNext) lightboxNext.addEventListener('click', showNextImage);
+  if (lightboxPrev) lightboxPrev.addEventListener('click', showPrevImage);
+
+  if (lightbox) {
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox || !lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') showNextImage();
+    if (e.key === 'ArrowLeft') showPrevImage();
+  });
 
 
   // ==========================================
@@ -264,7 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setTimeout(() => {
       toast.classList.remove('show');
-    }, 3800);
+    }, 4000);
   };
 
 
@@ -295,97 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================
-  // 7. PHOTO GALLERY LIGHTBOX WITH FULL NAVIGATION
-  // ==========================================
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-img');
-  const lightboxClose = document.getElementById('lightbox-close');
-  const lightboxPrev = document.getElementById('lightbox-prev');
-  const lightboxNext = document.getElementById('lightbox-next');
-  let currentLightboxIndex = 0;
-
-  // Danh sách các ảnh kỷ niệm
-  const galleryPhotosList = [
-    'assets/images/TTT08789_web.jpg',
-    'assets/images/TTT08816_web.jpg',
-    'assets/images/TTT08627_web.jpg',
-    'assets/images/TTT08982_web.jpg',
-    'assets/images/TTT09584_web.jpg',
-    'assets/images/TTT09222_web.jpg'
-  ];
-
-  document.querySelectorAll('.gallery-trigger').forEach(trigger => {
-    trigger.addEventListener('click', () => {
-      const explicitSrc = trigger.getAttribute('data-img-src');
-      if (explicitSrc) {
-        openSingleLightbox(explicitSrc);
-        return;
-      }
-      const idx = trigger.getAttribute('data-img-index');
-      if (idx !== null && idx !== undefined) {
-        currentLightboxIndex = parseInt(idx, 10);
-        openGalleryLightbox(currentLightboxIndex);
-      } else {
-        openSingleLightbox(trigger.getAttribute('src'));
-      }
-    });
-  });
-
-  function openGalleryLightbox(index) {
-    if (!lightbox || !lightboxImg) return;
-    currentLightboxIndex = index;
-    lightboxImg.src = galleryPhotosList[currentLightboxIndex];
-    if (lightboxPrev) lightboxPrev.style.display = 'block';
-    if (lightboxNext) lightboxNext.style.display = 'block';
-    lightbox.style.display = 'flex';
-    setTimeout(() => lightbox.classList.add('active'), 10);
-  }
-
-  function openSingleLightbox(src) {
-    if (!lightbox || !lightboxImg) return;
-    lightboxImg.src = src;
-    if (lightboxPrev) lightboxPrev.style.display = 'none';
-    if (lightboxNext) lightboxNext.style.display = 'none';
-    lightbox.style.display = 'flex';
-    setTimeout(() => lightbox.classList.add('active'), 10);
-  }
-
-  function closeLightboxModal() {
-    if (!lightbox) return;
-    lightbox.classList.remove('active');
-    setTimeout(() => { lightbox.style.display = 'none'; }, 350);
-  }
-
-  function nextGalleryPhoto() {
-    currentLightboxIndex = (currentLightboxIndex + 1) % galleryPhotosList.length;
-    lightboxImg.src = galleryPhotosList[currentLightboxIndex];
-  }
-
-  function prevGalleryPhoto() {
-    currentLightboxIndex = (currentLightboxIndex - 1 + galleryPhotosList.length) % galleryPhotosList.length;
-    lightboxImg.src = galleryPhotosList[currentLightboxIndex];
-  }
-
-  if (lightboxClose) lightboxClose.addEventListener('click', closeLightboxModal);
-  if (lightboxNext) lightboxNext.addEventListener('click', nextGalleryPhoto);
-  if (lightboxPrev) lightboxPrev.addEventListener('click', prevGalleryPhoto);
-
-  if (lightbox) {
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) closeLightboxModal();
-    });
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (!lightbox || !lightbox.classList.contains('active')) return;
-    if (e.key === 'Escape') closeLightboxModal();
-    if (e.key === 'ArrowRight') nextGalleryPhoto();
-    if (e.key === 'ArrowLeft') prevGalleryPhoto();
-  });
-
-
-  // ==========================================
-  // 8. RSVP SUBMISSION (LOCALSTORAGE)
+  // 7. RSVP FORM SUBMISSION (localStorage)
   // ==========================================
   const rsvpForm = document.getElementById('wedding-rsvp-form');
   const rsvpGuestsContainer = document.getElementById('rsvp-guests-container');
@@ -420,24 +435,24 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const rsvpEntry = {
+      const rsvpData = {
         id: Date.now(),
         name: name,
         phone: phone,
-        attendance: attendance === 'yes' ? 'Tham dự' : 'Không tham dự',
+        attendance: attendance === 'yes' ? 'Tham gia' : 'Không tham gia',
         guests: guests,
         note: note || 'Không có',
         time: new Date().toLocaleString('vi-VN')
       };
 
-      const existingRsvp = JSON.parse(localStorage.getItem('wedding_rsvp_list')) || [];
-      existingRsvp.push(rsvpEntry);
-      localStorage.setItem('wedding_rsvp_list', JSON.stringify(existingRsvp));
+      const existingRsvpList = JSON.parse(localStorage.getItem('wedding_rsvp_list')) || [];
+      existingRsvpList.push(rsvpData);
+      localStorage.setItem('wedding_rsvp_list', JSON.stringify(existingRsvpList));
 
       if (attendance === 'yes') {
-        window.showToast(`Cảm ơn ${name}! Chúng mình rất vui được đón tiếp bạn vào ngày 20/12/2026.`);
+        window.showToast(`Cảm ơn ${name}! Cô dâu & Chú rể rất vui được đón tiếp bạn.`);
       } else {
-        window.showToast(`Cảm ơn ${name} đã gửi phản hồi cho Cô dâu & Chú rể!`);
+        window.showToast(`Cảm ơn ${name} đã phản hồi cho Cô dâu & Chú rể!`);
       }
 
       if (note) {
@@ -450,7 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================
-  // 9. GUESTBOOK WISHES (SỔ LƯU BÚT TRANG NHÃ)
+  // 8. GUESTBOOK (SỔ LƯU BÚT)
   // ==========================================
   const guestbookForm = document.getElementById('guestbook-form');
   const guestbookMessages = document.getElementById('guestbook-messages');

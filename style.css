@@ -1,37 +1,40 @@
 /* ==========================================================================
    ONLINE WEDDING INVITATION - STYLESHEET
-   Style: Elegant, Premium, Romantic, Warm Blush & Wine Red Accents
-   Theme: Cinelove & Editorial Wedding Aesthetics
-   Fonts: Cormorant Garamond, Pinyon Script, Montserrat, Playfair Display
+   Style: Elegant, Premium, Romantic, Glassmorphism, Responsive
+   Fonts: Pinyon Script (Cursive), Cormorant Garamond (Serif), Montserrat (Sans-serif)
    ========================================================================== */
 
-/* CSS Variables */
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Pinyon+Script&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap');
+
+/* CSS Custom Properties for Theme Colors */
 :root {
-  --primary-red: #8c2229;         /* Rich Burgundy / Wine Red */
-  --primary-red-hover: #75181e;
-  --accent-pink: #d47b80;          /* Warm Dusty Rose / Sweet Wedding Pink */
-  --accent-rose-soft: #fbf5f2;     /* Very Light Blush / Warm Cream */
-  --accent-cream: #f4eae4;         /* Soft Cream Neutral */
-  --bg-pure: #ffffff;
-  --bg-cream: #faf5f2;
-  --bg-tinted: #f7ede8;
+  --primary-color: #5b7b9c;      /* Dusky Ocean Blue */
+  --primary-hover: #3a5270;      /* Darker Slate Blue */
+  --primary-red: #8e2329;        /* Rich Burgundy Red for countdown & accents */
+  --accent-color: #3f5673;       /* Deep Ocean Navy */
+  --accent-soft: #f2f6fa;        /* Very light soft blue/white */
+  --accent-pink: #d47b80;        /* Warm Dusty Rose */
+  --bg-color-1: #f7fafc;          /* Ice Pure White */
+  --bg-color-2: #ebf1f5;          /* Soft Light Slate Blue */
+  --bg-cream: #faf5f2;           /* Warm Wedding Cream */
+  --text-dark: #2b3e50;          /* Deep Navy text */
   --text-main: #2b2424;          /* Warm Charcoal Navy */
-  --text-muted: #6e6464;         /* Soft Gray Charcoal */
-  --text-light: #ffffff;
-  --border-light: rgba(140, 34, 41, 0.12);
-  --border-subtle: rgba(0, 0, 0, 0.06);
-  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+  --text-muted: #6b8296;         /* Muted Ocean Blue */
+  --text-light: #ffffff;         /* White */
+  --border-color: rgba(91, 123, 156, 0.25);
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 10px 20px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.12);
   --shadow-card: 0 15px 35px rgba(140, 34, 41, 0.08);
-  --shadow-deep: 0 20px 45px rgba(0, 0, 0, 0.14);
-  --font-serif: 'Cormorant Garamond', serif;
-  --font-display: 'Playfair Display', serif;
   --font-cursive: 'Pinyon Script', cursive;
-  --font-sans: 'Montserrat', sans-serif;
-  --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-fast: all 0.25s ease;
+  --font-title: 'Cormorant Garamond', serif;
+  --font-body: 'Montserrat', sans-serif;
+  --transition-smooth: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-fast: all 0.3s ease;
 }
 
-/* Reset & Base Setup */
+/* Reset & Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -44,7 +47,7 @@ html {
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   color: var(--text-main);
   background-color: var(--bg-cream);
   line-height: 1.6;
@@ -52,13 +55,13 @@ body {
 }
 
 h1, h2, h3, h4, h5 {
-  font-family: var(--font-serif);
+  font-family: var(--font-title);
   font-weight: 500;
-  color: var(--text-main);
-  line-height: 1.25;
+  letter-spacing: 0.5px;
 }
 
 p {
+  font-size: 1rem;
   font-weight: 300;
 }
 
@@ -72,7 +75,7 @@ button {
   cursor: pointer;
   border: none;
   background: none;
-  font-family: inherit;
+  font-family: var(--font-body);
   transition: var(--transition-fast);
 }
 
@@ -83,18 +86,15 @@ img {
 }
 
 .container {
-  width: 100%;
-  max-width: 1080px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 20px;
 }
 
-.text-center {
-  text-align: center;
-}
+.text-center { text-align: center; }
 
 /* ==========================================================================
-   SMOOTH ENTRANCE ANIMATIONS (HIỆU ỨNG TỪ LỀ VÀO MƯỢT MÀ NHẤT)
+   SMOOTH ENTRANCE ANIMATIONS (HIỆU ỨNG TỪ LỀ VÀO MƯỢT MÀ)
    ========================================================================== */
 .reveal,
 .reveal-up,
@@ -103,27 +103,15 @@ img {
 .reveal-scale {
   opacity: 0;
   will-change: opacity, transform;
-  transition: opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1), transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal,
-.reveal-up {
-  transform: translateY(50px);
-}
+.reveal-up { transform: translateY(45px); }
+.reveal-left { transform: translateX(-65px); }
+.reveal-right { transform: translateX(65px); }
+.reveal-scale { transform: scale(0.92); }
 
-.reveal-left {
-  transform: translateX(-70px);
-}
-
-.reveal-right {
-  transform: translateX(70px);
-}
-
-.reveal-scale {
-  transform: scale(0.92);
-}
-
-/* Trạng thái kích hoạt khi cuộn vào tầm nhìn */
 .reveal.active,
 .reveal-up.active,
 .reveal-left.active,
@@ -133,60 +121,62 @@ img {
   transform: translate(0, 0) scale(1);
 }
 
-/* Staggered Delay Helpers */
-.delay-1 { transition-delay: 0.14s; }
-.delay-2 { transition-delay: 0.28s; }
-.delay-3 { transition-delay: 0.42s; }
-.delay-4 { transition-delay: 0.56s; }
-.delay-5 { transition-delay: 0.7s; }
+.delay-1 { transition-delay: 0.12s; }
+.delay-2 { transition-delay: 0.24s; }
+.delay-3 { transition-delay: 0.36s; }
+.delay-4 { transition-delay: 0.48s; }
+.delay-5 { transition-delay: 0.6s; }
 
 /* ==========================================================================
-   FLOATING MUSIC PLAYER BUTTON (MATCHING HERO SAMPLE)
+   BACKGROUND MUSIC BUTTON
    ========================================================================== */
 .music-btn {
   position: fixed;
-  bottom: 25px;
-  right: 25px;
-  width: 50px;
-  height: 50px;
+  bottom: 30px;
+  right: 30px;
+  width: 55px;
+  height: 55px;
+  background-color: var(--text-light);
   border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-lg);
   display: flex;
-  align-items: center;
   justify-content: center;
-  z-index: 9999;
-  border: 2px solid #5b7b9c;
-  color: #5b7b9c;
+  align-items: center;
+  z-index: 1000;
+  border: 2px solid var(--primary-color);
   outline: none;
   transition: var(--transition-smooth);
 }
 
-.music-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
-}
-
 .music-btn i {
-  font-size: 1.25rem;
-  margin-left: 2px;
-}
-
-.music-btn.playing i {
-  margin-left: 0;
+  font-size: 1.5rem;
+  color: var(--primary-color);
 }
 
 .music-btn.playing {
-  animation: vinylRotate 5s linear infinite;
+  animation: rotateVinyl 4s linear infinite;
 }
 
-@keyframes vinylRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.music-btn::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 50%;
+  border: 1px dashed var(--primary-color);
+  opacity: 0.5;
+  animation: rotateVinyl 12s linear infinite reverse;
+}
+
+@keyframes rotateVinyl {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* ==========================================================================
-   0. ENVELOPE COVER (MÀN HÌNH BẮT ĐẦU - PHONG BÌ THƯ ĐỎ THẬT)
+   1. INVITATION COVER (PHONG BÌ THƯ ĐỎ GỐC CỦA BẠN - GIỮ NGUYÊN HOÀN TOÀN)
    ========================================================================== */
 #envelope-cover.envelope-cover-overlay {
   position: fixed;
@@ -211,6 +201,84 @@ img {
   pointer-events: none;
 }
 
+/* Hiệu ứng 3 trái tim đỏ lớn bay lên từ phong bì khi mở thiệp */
+.envelope-hearts-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 99999;
+}
+
+.floating-big-heart {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform, opacity;
+  animation: flyUpOffScreen var(--duration, 3.4s) cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+.floating-big-heart .heart-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}
+
+.floating-big-heart svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8)) drop-shadow(0 6px 18px rgba(185, 28, 28, 0.5));
+}
+
+@keyframes flyUpOffScreen {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.4);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(-80px) scale(1.15);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-260px) scale(1.05);
+  }
+  65% {
+    opacity: 0.98;
+    transform: translateY(-560px) scale(1);
+  }
+  100% {
+    opacity: 0.92;
+    transform: translateY(-960px) scale(0.95);
+  }
+}
+
+@keyframes bigHeartSwayLeft {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  35% { transform: translateX(-38px) rotate(-14deg); }
+  70% { transform: translateX(22px) rotate(8deg); }
+}
+
+@keyframes bigHeartSwayRight {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  35% { transform: translateX(40px) rotate(15deg); }
+  70% { transform: translateX(-20px) rotate(-8deg); }
+}
+
+@keyframes bigHeartSwayCenter {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  30% { transform: translateX(-20px) rotate(-8deg); }
+  65% { transform: translateX(25px) rotate(10deg); }
+}
+
 .envelope-screen-wrapper {
   display: flex;
   flex-direction: column;
@@ -223,36 +291,58 @@ img {
   box-sizing: border-box;
 }
 
+/* 1.1 Top Title "Thiệp Mời Cưới" */
 .envelope-top-title {
-  margin-bottom: 25px;
+  margin-bottom: 6px;
   text-align: center;
+  cursor: default;
   position: relative;
   z-index: 50;
+  user-select: none;
 }
 
 .envelope-title-cursive {
   font-family: var(--font-cursive);
-  font-size: 3.8rem;
+  font-size: 2.3rem;
   color: #6d1a20;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   font-weight: 500;
-  text-shadow: 0 2px 10px rgba(109, 26, 32, 0.15);
+  text-shadow: 0 2px 8px rgba(109, 26, 32, 0.12);
   display: inline-block;
   line-height: 1.1;
 }
 
+/* 1.2 Top Wedding Emblem (Song Hỷ 囍) */
 .envelope-wedding-emblem {
-  margin-bottom: 15px;
+  text-align: center;
+  margin-bottom: 22px;
+  cursor: default;
+  position: relative;
   z-index: 50;
+  user-select: none;
 }
 
 .song-hy-icon {
-  width: 52px;
-  height: 52px;
+  width: 58px;
+  height: 58px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(109, 26, 32, 0.25));
+  display: inline-block;
+  filter: drop-shadow(0 4px 10px rgba(167, 34, 40, 0.22));
+  animation: emblemGentleFloat 3.8s ease-in-out infinite alternate;
 }
 
+@keyframes emblemGentleFloat {
+  0% {
+    transform: translateY(0);
+    filter: drop-shadow(0 4px 10px rgba(167, 34, 40, 0.22));
+  }
+  100% {
+    transform: translateY(-3px);
+    filter: drop-shadow(0 7px 16px rgba(167, 34, 40, 0.32));
+  }
+}
+
+/* 1.3 Envelope Stage & 3D Perspective */
 .envelope-stage {
   position: relative;
   width: 380px;
@@ -260,14 +350,18 @@ img {
   height: 250px;
   perspective: 1200px;
   cursor: pointer;
-  margin: 5px 0 25px;
+  margin: 10px 0 25px;
   animation: envelopeFloating 3.6s ease-in-out infinite alternate;
   transition: transform 0.85s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 @keyframes envelopeFloating {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-9px); }
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-9px);
+  }
 }
 
 .envelope-stage:hover {
@@ -276,14 +370,26 @@ img {
 
 .envelope-stage.opening {
   animation: none;
-  transform: translateY(30px);
+  transform: translateY(45px);
 }
 
+.envelope-stage.opening:hover {
+  transform: translateY(45px);
+}
+
+/* Floral Bouquet Corner */
 .envelope-flower {
   position: absolute;
   pointer-events: none;
   z-index: 22;
   transition: z-index 0.1s ease;
+}
+
+.envelope-flower img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.14));
 }
 
 .flower-top-left {
@@ -292,16 +398,11 @@ img {
   width: 205px;
 }
 
-.flower-top-left img {
-  width: 100%;
-  height: auto;
-  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.14));
-}
-
 .envelope-stage.opening .envelope-flower.flower-top-left {
   z-index: 4;
 }
 
+/* Envelope Physical Body */
 .envelope-body {
   position: relative;
   width: 100%;
@@ -312,6 +413,7 @@ img {
   overflow: visible;
 }
 
+/* Inner Back Wall of Envelope */
 .envelope-inner-back {
   position: absolute;
   top: 0;
@@ -323,12 +425,13 @@ img {
   z-index: 1;
 }
 
+/* Back Flap */
 .envelope-back-flap {
   position: absolute;
-  top: -115px;
+  top: -80px;
   left: 0;
   width: 100%;
-  height: 120px;
+  height: 85px;
   background: linear-gradient(180deg, #7a1116 0%, #5e0b0f 100%);
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   z-index: 2;
@@ -343,6 +446,7 @@ img {
   transform: scaleY(1);
 }
 
+/* The Photo Card Inside */
 .envelope-photo-card {
   position: absolute;
   top: 15px;
@@ -359,16 +463,16 @@ img {
   opacity: 0;
   visibility: hidden;
   overflow: hidden;
-  background: #ffffff;
+  background: transparent;
   border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
-  border: 3px solid #ffffff;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.28);
+  border: none;
 }
 
 .photo-img-wrapper {
   width: 100%;
   height: 100%;
-  border-radius: 4px;
+  border-radius: 8px;
   overflow: hidden;
   background: #fbf5ef;
 }
@@ -379,10 +483,11 @@ img {
   object-fit: cover;
   object-position: center 20%;
   display: block;
+  border-radius: 8px;
 }
 
 .envelope-stage.opening .envelope-photo-card {
-  transform: translateY(-110px);
+  transform: translateY(-68px);
   z-index: 8;
   pointer-events: auto;
   opacity: 1;
@@ -395,10 +500,11 @@ img {
 }
 
 @keyframes photoGentleBob {
-  0% { transform: translateY(-110px); }
-  100% { transform: translateY(-118px); }
+  0% { transform: translateY(-68px); }
+  100% { transform: translateY(-73px); }
 }
 
+/* Pocket folds */
 .envelope-pocket {
   position: absolute;
   top: 0;
@@ -442,6 +548,7 @@ img {
   filter: drop-shadow(0 -3px 8px rgba(0, 0, 0, 0.2));
 }
 
+/* Top Triangular Flap */
 .envelope-top-flap {
   position: absolute;
   top: 0;
@@ -462,6 +569,7 @@ img {
   clip-path: polygon(0 0, 50% 100%, 100% 0);
 }
 
+/* Wax Seal */
 .envelope-wax-seal {
   position: absolute;
   top: 50%;
@@ -479,6 +587,7 @@ img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
 .seal-glow {
@@ -495,8 +604,14 @@ img {
 }
 
 @keyframes sealPulse {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
 }
 
 .envelope-stage.opening .envelope-top-flap {
@@ -508,93 +623,120 @@ img {
 .envelope-bottom-info {
   text-align: center;
   margin-top: 18px;
-  cursor: pointer;
+  cursor: default;
+  transition: transform 0.85s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.envelope-cover-overlay.envelope-opened .envelope-bottom-info {
+  transform: translateY(30px);
 }
 
 .envelope-couple-names {
-  font-family: var(--font-serif);
-  font-size: 1.32rem;
-  letter-spacing: 3.5px;
-  font-weight: 600;
-  color: #3b2024;
-  text-transform: uppercase;
+  font-family: var(--font-cursive);
+  font-size: 2.7rem;
+  letter-spacing: 1px;
+  font-weight: 500;
+  color: #6d1a20;
+  line-height: 1.1;
 }
 
-/* 3 Trái tim bay lên */
-.envelope-hearts-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 99999;
+/* Envelope Mobile responsive */
+@media (max-width: 440px) {
+  .envelope-screen-wrapper {
+    padding: 15px 10px;
+  }
+  .envelope-top-title {
+    margin-bottom: 4px;
+  }
+  .envelope-title-cursive {
+    font-size: 1.85rem;
+  }
+  .envelope-wedding-emblem {
+    margin-bottom: 14px;
+  }
+  .song-hy-icon {
+    width: 48px;
+    height: 48px;
+  }
+  .envelope-stage {
+    width: 320px;
+    height: 210px;
+    margin: 10px 0 18px;
+    animation: envelopeFloatingMobile 3.6s ease-in-out infinite alternate;
+  }
+  @keyframes envelopeFloatingMobile {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-7px); }
+  }
+  .envelope-stage.opening {
+    animation: none;
+    transform: translateY(38px);
+  }
+  .envelope-stage.opening:hover {
+    transform: translateY(38px);
+  }
+  .envelope-cover-overlay.envelope-opened .envelope-bottom-info {
+    transform: translateY(22px);
+  }
+  .envelope-photo-card {
+    left: 12px;
+    right: 12px;
+    height: 180px;
+    top: 10px;
+    background: transparent;
+  }
+  .photo-img-wrapper {
+    height: 100%;
+    border-radius: 6px;
+  }
+  .envelope-stage.opening .envelope-photo-card {
+    transform: translateY(-58px);
+  }
+  .envelope-stage.opened-float .envelope-photo-card {
+    animation: photoGentleBobMobile 3.2s ease-in-out infinite alternate;
+  }
+  @keyframes photoGentleBobMobile {
+    0% { transform: translateY(-58px); }
+    100% { transform: translateY(-64px); }
+  }
+  .flower-top-left {
+    top: -34px;
+    left: -28px;
+    width: 170px;
+  }
+  .envelope-wax-seal {
+    width: 54px;
+    height: 54px;
+    top: 50%;
+  }
+  .envelope-back-flap {
+    top: -65px;
+    height: 70px;
+  }
+  .envelope-couple-names {
+    font-size: 2.2rem;
+    letter-spacing: 0.5px;
+  }
 }
 
-.floating-big-heart {
-  position: absolute;
-  pointer-events: none;
-  user-select: none;
-  will-change: transform, opacity;
-  animation: flyUpOffScreen var(--duration, 3.4s) cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-}
-
-.floating-big-heart .heart-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  will-change: transform;
-}
-
-.floating-big-heart svg {
-  width: 100%;
-  height: 100%;
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8)) drop-shadow(0 6px 18px rgba(185, 28, 28, 0.5));
-}
-
-@keyframes flyUpOffScreen {
-  0% { opacity: 0; transform: translateY(30px) scale(0.4); }
-  10% { opacity: 1; transform: translateY(-80px) scale(1.15); }
-  30% { opacity: 1; transform: translateY(-260px) scale(1.05); }
-  65% { opacity: 0.98; transform: translateY(-560px) scale(1); }
-  100% { opacity: 0.92; transform: translateY(-960px) scale(0.95); }
-}
-
-@keyframes bigHeartSwayLeft {
-  0%, 100% { transform: translateX(0) rotate(0deg); }
-  35% { transform: translateX(-38px) rotate(-14deg); }
-  70% { transform: translateX(22px) rotate(8deg); }
-}
-
-@keyframes bigHeartSwayRight {
-  0%, 100% { transform: translateX(0) rotate(0deg); }
-  35% { transform: translateX(40px) rotate(15deg); }
-  70% { transform: translateX(-20px) rotate(-8deg); }
-}
-
-@keyframes bigHeartSwayCenter {
-  0%, 100% { transform: translateX(0) rotate(0deg); }
-  30% { transform: translateX(-20px) rotate(-8deg); }
-  65% { transform: translateX(25px) rotate(10deg); }
+@media (max-width: 360px) {
+  .envelope-couple-names {
+    font-size: 1.9rem;
+    letter-spacing: 0.5px;
+  }
 }
 
 /* ==========================================================================
-   1. HERO BANNER SCREEN (CHUẨN THEO ẢNH MẪU CỦA BẠN)
+   2. HERO BANNER (GIỮ NGUYÊN HOÀN TOÀN NHƯ ẢNH MẪU ĐẦU TIÊN CỦA BẠN)
    ========================================================================== */
-.hero-screen {
-  position: relative;
-  width: 100%;
+#hero {
   height: 100vh;
-  min-height: 640px;
+  position: relative;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background-color: #1a1616;
+  background-color: #1a1a1a;
 }
 
 .hero-bg {
@@ -604,15 +746,18 @@ img {
   width: 100%;
   height: 100%;
   background-size: cover;
-  background-position: center 30%;
-  filter: brightness(0.72) contrast(1.05);
-  transform: scale(1.02);
-  transition: transform 12s ease;
+  background-position: center;
+  filter: brightness(0.6);
   z-index: 1;
+  transform-origin: center 38%;
+  animation: heroZoomInOut 16s ease-in-out infinite alternate;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
-.hero-screen:hover .hero-bg {
-  transform: scale(1.06);
+@keyframes heroZoomInOut {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.16); }
 }
 
 .hero-overlay {
@@ -621,87 +766,84 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at center, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.55) 100%);
+  background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.4) 80%);
   z-index: 2;
 }
 
 .hero-content {
   position: relative;
-  z-index: 5;
+  z-index: 3;
+  color: var(--text-light);
   text-align: center;
-  color: #ffffff;
   padding: 0 20px;
-  max-width: 600px;
 }
 
-.hero-groom-name,
-.hero-bride-name {
-  font-family: var(--font-serif);
-  font-size: 4.2rem;
-  font-weight: 500;
-  letter-spacing: 2px;
-  color: #ffffff;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  line-height: 1.15;
+.hero-names {
+  font-family: var(--font-title);
+  font-size: 5rem;
+  line-height: 1.2;
+  margin-bottom: 25px;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+  animation: zoomInName 1.8s ease;
 }
 
-.hero-monogram-symbol {
-  width: 58px;
-  height: 58px;
-  margin: 8px auto;
-  opacity: 0.92;
+.hero-names span {
+  font-family: var(--font-cursive);
+  font-size: 4rem;
+  color: #d4a574; /* Soft Gold Ampersand */
+  display: inline-block;
+  margin: 0 15px;
 }
 
-.monogram-svg {
-  width: 100%;
-  height: 100%;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+.hero-date {
+  font-size: 1.3rem;
+  font-weight: 300;
+  letter-spacing: 3px;
+  margin-bottom: 40px;
+  animation: fadeInUp 1.5s ease;
 }
 
-.hero-date-text {
-  font-family: var(--font-sans);
-  font-size: 1.25rem;
-  font-weight: 400;
-  letter-spacing: 6px;
-  margin-top: 24px;
-  color: rgba(255, 255, 255, 0.95);
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-}
-
-.hero-scroll-indicator {
+.scroll-down-hint {
   position: absolute;
-  bottom: 35px;
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  color: var(--text-light);
+  z-index: 3;
+  text-align: center;
+  animation: bounceHint 2s infinite;
   cursor: pointer;
-  color: rgba(255, 255, 255, 0.9);
-  animation: bounceHint 2.4s infinite ease-in-out;
 }
 
-.scroll-label {
-  font-size: 0.78rem;
-  letter-spacing: 3px;
-  font-weight: 500;
+.scroll-down-hint i {
+  font-size: 1.5rem;
+  display: block;
+}
+
+.scroll-down-hint span {
+  font-size: 0.75rem;
   text-transform: uppercase;
-}
-
-.scroll-arrow {
-  font-size: 1.1rem;
+  letter-spacing: 2px;
 }
 
 @keyframes bounceHint {
-  0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-  40% { transform: translateX(-50%) translateY(-9px); }
-  60% { transform: translateX(-50%) translateY(-5px); }
+  0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+  40% { transform: translate(-50%, -10px); }
+  60% { transform: translate(-50%, -5px); }
+}
+
+@keyframes zoomInName {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ==========================================================================
-   2. INVITATION & COUNTDOWN (THEO MẪU SCREEN 1)
+   3. INVITATION & COUNTDOWN OVER PHOTO (THEO MẪU ẢNH THỨ 3 CỦA BẠN)
    ========================================================================== */
 .invitation-section {
   padding: 80px 0 90px;
@@ -710,53 +852,62 @@ img {
 }
 
 .invitation-section .section-inner {
-  max-width: 650px;
+  max-width: 620px;
   margin: 0 auto;
-  text-align: center;
 }
 
-.invitation-photo-frame {
-  width: 100%;
-  max-width: 520px;
-  margin: 0 auto 35px;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+.invitation-card-editorial {
   background: #ffffff;
+  border-radius: 18px;
+  overflow: visible;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(212, 123, 128, 0.18);
+  position: relative;
+}
+
+.invitation-photo-container {
+  position: relative;
+  width: 100%;
+  border-radius: 18px 18px 0 0;
+  overflow: visible;
+  background: #fbf5ef;
 }
 
 .invitation-lead-photo {
   width: 100%;
-  height: 480px;
+  height: 520px;
   object-fit: cover;
-  object-position: center 25%;
-  transition: transform 0.6s ease;
+  object-position: center 20%;
+  display: block;
+  border-radius: 18px 18px 0 0;
 }
 
-.invitation-photo-frame:hover .invitation-lead-photo {
-  transform: scale(1.02);
-}
-
-/* 4 Ô Đếm Ngược Màu Đỏ Rượu Vang */
-.countdown-bar {
+/* 4 Ô Đếm Ngược Nằm Trực Tiếp Trên Nửa Dưới Của Ảnh (Chuẩn Theo Mẫu Ảnh Thứ 3) */
+.countdown-over-photo {
+  position: absolute;
+  bottom: -32px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
-  gap: 16px;
-  margin-bottom: 50px;
-  flex-wrap: wrap;
+  gap: 14px;
+  z-index: 10;
+  width: 90%;
+  max-width: 440px;
 }
 
 .countdown-cell {
   background: var(--primary-red);
   color: #ffffff;
-  width: 82px;
-  height: 88px;
+  flex: 1;
+  max-width: 82px;
+  height: 84px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 20px rgba(140, 34, 41, 0.28);
+  box-shadow: 0 8px 22px rgba(142, 35, 41, 0.35);
   transition: transform 0.3s ease;
 }
 
@@ -765,76 +916,64 @@ img {
 }
 
 .countdown-val {
-  font-family: var(--font-display);
+  font-family: var(--font-title);
   font-size: 2.1rem;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1;
 }
 
 .countdown-tag {
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 400;
   margin-top: 4px;
-  opacity: 0.92;
+  opacity: 0.95;
   text-transform: lowercase;
 }
 
-/* Tiêu đề INVITATION */
-.invitation-title-wrap {
-  margin-bottom: 30px;
+/* Khung nội dung thư mời phía dưới ô đếm ngược */
+.invitation-letter-card {
+  padding: 60px 35px 45px;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 0 0 18px 18px;
 }
 
 .invitation-letter-spaced {
-  font-family: var(--font-serif);
+  font-family: var(--font-title);
   font-size: 2.3rem;
-  font-weight: 500;
-  letter-spacing: 0.38em;
+  letter-spacing: 0.35em;
   color: var(--text-main);
   text-transform: uppercase;
+  margin-bottom: 25px;
 }
 
-.invitation-accent-line {
-  width: 60px;
-  height: 2px;
-  background: var(--accent-pink);
-  margin: 15px auto 0;
-}
-
-/* Thư mời */
-.invitation-letter-box {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
-  padding: 35px 30px;
-  border-radius: 16px;
-  border: 1px solid rgba(212, 123, 128, 0.18);
-  box-shadow: var(--shadow-soft);
-  margin-bottom: 40px;
+.invitation-letter-body {
   line-height: 1.85;
+  margin-bottom: 35px;
 }
 
 .invitation-greeting {
   font-size: 1.15rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--primary-red);
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .invitation-text {
   font-size: 1.02rem;
-  color: var(--text-muted);
+  color: #554d4d;
   margin-bottom: 15px;
   text-align: justify;
 }
 
 .invitation-conclusion {
-  font-size: 1.08rem;
+  font-size: 1.06rem;
   font-weight: 500;
   color: var(--text-main);
 }
 
-/* Chữ ký Calligraphy */
 .invitation-signature-block {
-  margin-top: 25px;
+  margin-top: 20px;
 }
 
 .signature-ceremony {
@@ -860,7 +999,7 @@ img {
 }
 
 /* ==========================================================================
-   3. ABOUT US (THEO MẪU SCREEN 4)
+   4. ABOUT US - CÔ DÂU & CHÚ RỂ (THEO MẪU SCREEN 4)
    ========================================================================== */
 .about-section {
   padding: 90px 0 100px;
@@ -955,7 +1094,7 @@ img {
 .about-vertical-tag span {
   writing-mode: vertical-rl;
   text-orientation: mixed;
-  font-family: var(--font-serif);
+  font-family: var(--font-title);
   font-size: 1.15rem;
   letter-spacing: 3px;
   font-weight: 600;
@@ -992,7 +1131,7 @@ img {
 }
 
 .about-family-block {
-  background: var(--accent-rose-soft);
+  background: #fbf5f2;
   border-radius: 12px;
   padding: 18px 20px;
   margin: 22px 0 20px;
@@ -1042,7 +1181,7 @@ img {
 }
 
 /* ==========================================================================
-   4. SWEET WEDDING & EDITORIAL PHOTO COLLAGE (THEO MẪU SCREEN 2 & 3)
+   5. SWEET WEDDING & EDITORIAL PHOTO COLLAGE (THEO MẪU SCREEN 2 & 3)
    ========================================================================== */
 .sweet-wedding-section {
   padding: 90px 0;
@@ -1056,7 +1195,7 @@ img {
 }
 
 .sweet-title-spaced {
-  font-family: var(--font-serif);
+  font-family: var(--font-title);
   font-size: 2.8rem;
   letter-spacing: 0.35em;
   font-weight: 500;
@@ -1086,7 +1225,7 @@ img {
 .editorial-typo-right {
   position: absolute;
   z-index: 10;
-  font-family: var(--font-display);
+  font-family: var(--font-title);
   font-weight: 700;
   color: rgba(140, 34, 41, 0.85);
   text-transform: uppercase;
@@ -1167,7 +1306,6 @@ img {
   transform: scale(1.06);
 }
 
-/* Gallery Grid */
 .wedding-gallery-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1180,7 +1318,7 @@ img {
   border-radius: 10px;
   overflow: hidden;
   height: 240px;
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-sm);
   cursor: pointer;
   background: #ffffff;
 }
@@ -1217,7 +1355,7 @@ img {
 }
 
 /* ==========================================================================
-   5. ĐỊA ĐIỂM TỔ CHỨC & LỊCH TRÌNH (THEO MẪU SCREEN 2)
+   6. ĐỊA ĐIỂM TỔ CHỨC & LỊCH TRÌNH (THEO MẪU SCREEN 2)
    ========================================================================== */
 .events-section {
   padding: 90px 0 100px;
@@ -1229,7 +1367,7 @@ img {
 }
 
 .events-title-spaced {
-  font-family: var(--font-serif);
+  font-family: var(--font-title);
   font-size: 2.7rem;
   letter-spacing: 0.3em;
   color: var(--primary-red);
@@ -1272,7 +1410,7 @@ img {
 }
 
 .main-date {
-  font-family: var(--font-serif);
+  font-family: var(--font-title);
   font-size: 1.45rem;
   font-weight: 600;
   color: var(--text-main);
@@ -1284,7 +1422,6 @@ img {
   font-style: italic;
 }
 
-/* Locations Grid */
 .locations-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1320,7 +1457,7 @@ img {
   width: 58px;
   height: 58px;
   border-radius: 50%;
-  background: var(--accent-rose-soft);
+  background: #fbf5f2;
   color: var(--primary-red);
   display: flex;
   align-items: center;
@@ -1400,7 +1537,7 @@ img {
 }
 
 .btn-map-guide:hover {
-  background: var(--primary-red-hover);
+  background: #75181e;
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(140, 34, 41, 0.35);
 }
@@ -1474,7 +1611,7 @@ img {
 .step-time-badge {
   width: 60px;
   text-align: right;
-  font-family: var(--font-display);
+  font-family: var(--font-title);
   font-size: 1.15rem;
   font-weight: 700;
   color: var(--primary-red);
@@ -1522,7 +1659,7 @@ img {
 
 .step-content-card.card-finish {
   border-left: 4px solid var(--primary-red);
-  background: var(--accent-rose-soft);
+  background: #fbf5f2;
 }
 
 .step-title {
@@ -1539,7 +1676,7 @@ img {
 }
 
 /* ==========================================================================
-   6. RSVP SECTION (THEO MẪU SCREEN 5)
+   7. RSVP SECTION (THEO MẪU SCREEN 5)
    ========================================================================== */
 .rsvp-section {
   padding: 90px 0;
@@ -1562,7 +1699,7 @@ img {
 }
 
 .rsvp-dialog-title {
-  font-family: var(--font-display);
+  font-family: var(--font-title);
   font-size: 2.1rem;
   font-weight: 700;
   color: var(--text-main);
@@ -1600,7 +1737,7 @@ img {
   padding: 13px 16px;
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 8px;
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   font-size: 0.95rem;
   color: var(--text-main);
   background: #ffffff;
@@ -1680,7 +1817,7 @@ img {
 }
 
 /* ==========================================================================
-   7. WISHING WELL & QR CODE (THEO MẪU SCREEN 5)
+   8. WISHING WELL & QR CODE (THEO MẪU SCREEN 5)
    ========================================================================== */
 .wishing-section {
   padding: 90px 0 100px;
@@ -1693,7 +1830,7 @@ img {
   padding: 24px 30px;
   background: rgba(255, 255, 255, 0.85);
   border-radius: 16px;
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-sm);
   border: 1px solid rgba(212, 123, 128, 0.2);
 }
 
@@ -1709,11 +1846,11 @@ img {
 }
 
 .wishing-main-title {
-  font-family: var(--font-display);
+  font-family: var(--font-title);
   font-size: 2.8rem;
   letter-spacing: 0.15em;
   font-weight: 700;
-  color: #df6d73; /* Hồng cam nổi bật đúng mẫu ảnh Screen 5 */
+  color: #df6d73;
   text-transform: uppercase;
 }
 
@@ -1821,8 +1958,8 @@ img {
 }
 
 .acc-number {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-family: var(--font-title);
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--primary-red);
   letter-spacing: 1px;
@@ -1850,7 +1987,7 @@ img {
 }
 
 /* ==========================================================================
-   8. GUESTBOOK SECTION (GỌN GÀNG, KHÔNG COMMENT BAY)
+   9. GUESTBOOK SECTION (GỌN GÀNG, KHÔNG COMMENT BAY)
    ========================================================================== */
 .guestbook-section {
   padding: 80px 0 100px;
@@ -1898,7 +2035,7 @@ img {
   background: var(--bg-cream);
   padding: 30px;
   border-radius: 16px;
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-sm);
   border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
@@ -1918,7 +2055,7 @@ img {
 }
 
 .btn-wish-submit:hover {
-  background: var(--primary-red-hover);
+  background: #75181e;
   transform: translateY(-2px);
 }
 
@@ -1926,7 +2063,7 @@ img {
   background: var(--bg-cream);
   padding: 30px;
   border-radius: 16px;
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
 }
@@ -1990,7 +2127,7 @@ img {
 }
 
 /* ==========================================================================
-   9. FOOTER
+   10. FOOTER
    ========================================================================== */
 .site-footer {
   padding: 60px 0 45px;
@@ -2006,7 +2143,7 @@ img {
 }
 
 .footer-date-sub {
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   font-size: 1.1rem;
   letter-spacing: 4px;
   color: rgba(255, 255, 255, 0.85);
@@ -2132,12 +2269,16 @@ img {
 }
 
 /* ==========================================================================
-   MOBILE & RESPONSIVE ADJUSTMENTS
+   RESPONSIVENESS (MOBILE)
    ========================================================================== */
 @media (max-width: 860px) {
-  .hero-groom-name,
-  .hero-bride-name {
-    font-size: 3.2rem;
+  .hero-names {
+    font-size: 3.5rem;
+  }
+  .hero-names span {
+    font-size: 2.8rem;
+    display: block;
+    margin: 5px 0;
   }
   
   .about-cards-wrap,
@@ -2201,28 +2342,44 @@ img {
 }
 
 @media (max-width: 480px) {
-  .hero-groom-name,
-  .hero-bride-name {
-    font-size: 2.6rem;
+  .hero-names {
+    font-size: 2.8rem;
   }
 
-  .hero-date-text {
+  .hero-date {
     font-size: 1.05rem;
-    letter-spacing: 4px;
+    letter-spacing: 2px;
+  }
+
+  .invitation-lead-photo {
+    height: 390px;
+  }
+
+  .countdown-over-photo {
+    bottom: -25px;
+    gap: 8px;
+    width: 95%;
+  }
+
+  .countdown-cell {
+    height: 72px;
+  }
+
+  .countdown-val {
+    font-size: 1.6rem;
+  }
+
+  .countdown-tag {
+    font-size: 0.72rem;
+  }
+
+  .invitation-letter-card {
+    padding: 48px 20px 35px;
   }
 
   .invitation-letter-spaced {
     font-size: 1.8rem;
-    letter-spacing: 0.25em;
-  }
-
-  .countdown-cell {
-    width: 68px;
-    height: 74px;
-  }
-
-  .countdown-val {
-    font-size: 1.7rem;
+    letter-spacing: 0.22em;
   }
 
   .signature-names-cursive {
@@ -2260,9 +2417,9 @@ img {
   .lightbox-next { right: -10px; font-size: 2rem; }
 
   .music-btn {
-    bottom: 18px;
-    right: 18px;
-    width: 44px;
-    height: 44px;
+    bottom: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
   }
 }
