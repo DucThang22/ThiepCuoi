@@ -121,58 +121,165 @@
   <!-- ==========================================
        3. INVITATION & COUNTDOWN OVER PHOTO (ẢNH TTT08982 - THEO MẪU ẢNH THỨ 3)
        ========================================== -->
+  <!-- ==========================================
+       3. INVITATION & COUNTDOWN OVER FULL PHOTO (ẢNH TTT08982)
+       ========================================== -->
   <section id="invitation-section" class="invitation-section">
     <div class="container section-inner">
       
       <div class="invitation-card-editorial reveal-up">
         
-        <!-- Khung ảnh TTT08982 với 4 ô ngày tháng năm đè lên trên ảnh -->
+        <!-- Khung ảnh TTT08982 hiển thị trọn vẹn toàn bộ ảnh (full ảnh) -->
         <div class="invitation-photo-container">
           <img src="assets/images/TTT08982_web.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang" class="invitation-lead-photo">
           
-          <!-- 4 Ô Đếm Ngược Nằm Trực Tiếp Trên Nửa Dưới Của Ảnh (Chuẩn Theo Mẫu Ảnh Thứ 3) -->
-          <div class="countdown-over-photo">
-            <div class="countdown-cell">
-              <span class="countdown-val" id="days">00</span>
-              <span class="countdown-tag">ngày</span>
+          <!-- Lớp phủ nội dung với nền trong suốt (giảm opacity) để hiển thị trọn vẹn ảnh bên dưới -->
+          <div class="invitation-overlay-wrap">
+            
+            <!-- 4 Ô Đếm Ngược Nằm Trực Tiếp Trên Nửa Dưới Của Ảnh -->
+            <div class="countdown-over-photo reveal-up">
+              <div class="countdown-cell">
+                <span class="countdown-val" id="days">00</span>
+                <span class="countdown-tag">ngày</span>
+              </div>
+              <div class="countdown-cell">
+                <span class="countdown-val" id="hours">00</span>
+                <span class="countdown-tag">giờ</span>
+              </div>
+              <div class="countdown-cell">
+                <span class="countdown-val" id="minutes">00</span>
+                <span class="countdown-tag">phút</span>
+              </div>
+              <div class="countdown-cell">
+                <span class="countdown-val" id="seconds">00</span>
+                <span class="countdown-tag">giây</span>
+              </div>
             </div>
-            <div class="countdown-cell">
-              <span class="countdown-val" id="hours">00</span>
-              <span class="countdown-tag">giờ</span>
+
+            <!-- Khung nội dung thư mời phía dưới ô đếm ngược (nền kính mờ giảm opacity để thấy rõ váy cưới & hoa bên dưới) -->
+            <div class="invitation-letter-card reveal-up delay-1">
+              <h2 class="invitation-letter-spaced" id="invitation-title">INVITATION</h2>
+              
+              <div class="invitation-letter-body">
+                <p class="invitation-greeting">Gửi đến gia đình và bạn bè thân mến,</p>
+                <p class="invitation-text">
+                  Cảm ơn bạn đã dành thời gian quý báu để cùng chúng mình chung vui trong ngày đặc biệt này.
+                  Chúng mình vô cùng biết ơn vì luôn có sự đồng hành và ủng hộ của bạn, và thật vinh hạnh khi được chia sẻ những khoảnh khắc tuyệt vời này cùng bạn.
+                </p>
+                <p class="invitation-conclusion">
+                  Trân trọng kính mời bạn đến dự lễ cưới của chúng mình.
+                </p>
+              </div>
             </div>
-            <div class="countdown-cell">
-              <span class="countdown-val" id="minutes">00</span>
-              <span class="countdown-tag">phút</span>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================
+       4. CEREMONY ANNOUNCEMENT - LỄ THÀNH HÔN & THÔNG BÁO HAI BÊN GIA ĐÌNH (THEO MẪU ẢNH 3)
+       ========================================== -->
+  <section id="ceremony-section" class="ceremony-section">
+    <div class="container ceremony-container">
+      
+      <div class="ceremony-card-cinelove reveal-up">
+        
+        <!-- Khối Tiêu Đề Lễ Thành Hôn & Tên Cặp Đôi (Chuẩn bố cục ảnh 3) -->
+        <div class="ceremony-header-row">
+          <div class="ceremony-title-left">
+            <div class="ceremony-badge-stack">
+              <span class="ceremony-word">Lễ</span>
+              <span class="ceremony-word">Thành</span>
+              <span class="ceremony-word">Hôn</span>
             </div>
-            <div class="countdown-cell">
-              <span class="countdown-val" id="seconds">00</span>
-              <span class="countdown-tag">giây</span>
+            <div class="ceremony-vertical-bar"></div>
+          </div>
+          
+          <div class="ceremony-names-right">
+            <div class="ceremony-name-groom">Nguyễn Đức Thắng</div>
+            <div class="ceremony-ampersand">&amp;</div>
+            <div class="ceremony-name-bride">Vũ Kiều Trang</div>
+          </div>
+        </div>
+
+        <!-- Khối Thông Tin Hai Bên Gia Đình (2 Cột Nhà Trai - Nhà Gái) -->
+        <div class="ceremony-family-grid">
+          <!-- Cột Nhà Trai -->
+          <div class="ceremony-family-box groom-side reveal-left">
+            <h4 class="ceremony-side-title">Nhà Trai</h4>
+            <div class="ceremony-parent-item">
+              <span class="parent-label">Ông:</span>
+              <span class="parent-name">Nguyễn Xuân Quyết</span>
+            </div>
+            <div class="ceremony-parent-item">
+              <span class="parent-label">Bà:</span>
+              <span class="parent-name">Nguyễn Thu Thủy</span>
+            </div>
+            <div class="ceremony-address-item">
+              <span>Khu Cầu Rèm - thôn Đông An - xã Nam Tiên Hưng - tỉnh Hưng Yên</span>
+            </div>
+          </div>
+
+          <!-- Cột Nhà Gái -->
+          <div class="ceremony-family-box bride-side reveal-right">
+            <h4 class="ceremony-side-title">Nhà Gái</h4>
+            <div class="ceremony-parent-item">
+              <span class="parent-label">Ông :</span>
+              <span class="parent-name">Vũ Văn Đỏ</span>
+            </div>
+            <div class="ceremony-parent-item">
+              <span class="parent-label">Bà :</span>
+              <span class="parent-name">Vũ Thị Lụa</span>
+            </div>
+            <div class="ceremony-address-item">
+              <span>thôn Quyết Tiến - phường Trần Lãm - tỉnh Hưng Yên</span>
             </div>
           </div>
         </div>
 
-        <!-- Khung nội dung thư mời phía dưới ô đếm ngược -->
-        <div class="invitation-letter-card">
-          <h2 class="invitation-letter-spaced reveal-up delay-1">I N V I T A T I O N</h2>
+        <!-- Khối Thông Báo Tiệc Cưới & Ngày Giờ (Chuẩn ảnh 3) -->
+        <div class="ceremony-fest-block reveal-up delay-1">
+          <h3 class="fest-main-title">TIỆC MỪNG LỄ THÀNH HÔN</h3>
+          <p class="fest-main-time">VÀO LÚC 09:30 CHỦ NHẬT</p>
           
-          <div class="invitation-letter-body reveal-up delay-2">
-            <p class="invitation-greeting">Gửi đến gia đình và bạn bè thân mến,</p>
-            <p class="invitation-text">
-              Cảm ơn bạn đã dành thời gian quý báu để cùng chúng mình chung vui trong ngày đặc biệt này.
-              Chúng mình vô cùng biết ơn vì luôn có sự đồng hành và ủng hộ của bạn, và thật vinh hạnh khi được chia sẻ những khoảnh khắc tuyệt vời này cùng bạn.
-            </p>
-            <p class="invitation-conclusion">
-              Trân trọng kính mời bạn đến dự lễ cưới của chúng mình.
-            </p>
-          </div>
-
-          <div class="invitation-signature-block reveal-up delay-3">
-            <span class="signature-ceremony">Lễ Thành Hôn</span>
-            <div class="signature-names-cursive">
-              <span>Nguyễn Đức Thắng</span>
-              <span class="amp">&amp;</span>
-              <span>Vũ Kiều Trang</span>
+          <!-- Hàng Ngày Tháng Năm Đẳng Cấp với Số 20 Khổng Lồ ở Giữa -->
+          <div class="fest-date-divider-row">
+            <div class="date-flank-col left">
+              <span class="flank-line"></span>
+              <span class="flank-text">THÁNG 12</span>
             </div>
+            <div class="date-center-giant">
+              <span class="giant-number">20</span>
+            </div>
+            <div class="date-flank-col right">
+              <span class="flank-text">NĂM 2026</span>
+              <span class="flank-line"></span>
+            </div>
+          </div>
+          
+          <p class="fest-lunar-date">(Tức ngày 12 tháng 11 năm Bính Ngọ)</p>
+        </div>
+
+        <!-- Khối Địa Điểm Tổ Chức -->
+        <div class="ceremony-venue-block reveal-up delay-2">
+          <div class="venue-ornament">❖</div>
+          <h4 class="venue-heading">ĐỊA ĐIỂM TỔ CHỨC</h4>
+          <p class="venue-title">TƯ GIA NHÀ TRAI</p>
+          <p class="venue-address">Khu Cầu Rèm - thôn Đông An - xã Nam Tiên Hưng - tỉnh Hưng Yên</p>
+          
+          <div class="ceremony-action-btns">
+            <a href="https://maps.google.com/?q=Khu+Cầu+Rèm+Đông+An+Nam+Tiên+Hưng+Hưng+Yên" target="_blank" rel="noopener" class="btn-ceremony-nav map-btn">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>Xem Bản Đồ Chỉ Đường</span>
+            </a>
+            <a href="#events-section" class="btn-ceremony-nav timeline-btn">
+              <i class="fa-regular fa-clock"></i>
+              <span>Xem Lịch Trình Tiệc Cưới</span>
+            </a>
           </div>
         </div>
 

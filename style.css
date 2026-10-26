@@ -843,7 +843,7 @@ img {
 }
 
 /* ==========================================================================
-   3. INVITATION & COUNTDOWN OVER PHOTO (THEO MẪU ẢNH THỨ 3 CỦA BẠN)
+   3. INVITATION & COUNTDOWN OVER FULL PHOTO (ẢNH TTT08982)
    ========================================================================== */
 .invitation-section {
   padding: 80px 0 90px;
@@ -852,14 +852,14 @@ img {
 }
 
 .invitation-section .section-inner {
-  max-width: 620px;
+  max-width: 580px;
   margin: 0 auto;
 }
 
 .invitation-card-editorial {
   background: #ffffff;
-  border-radius: 18px;
-  overflow: visible;
+  border-radius: 20px;
+  overflow: hidden;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(212, 123, 128, 0.18);
   position: relative;
@@ -868,46 +868,53 @@ img {
 .invitation-photo-container {
   position: relative;
   width: 100%;
-  border-radius: 18px 18px 0 0;
-  overflow: visible;
+  overflow: hidden;
   background: #fbf5ef;
 }
 
 .invitation-lead-photo {
   width: 100%;
-  height: 520px;
-  object-fit: cover;
-  object-position: center 20%;
+  height: auto;
   display: block;
-  border-radius: 18px 18px 0 0;
+  object-fit: contain;
 }
 
-/* 4 Ô Đếm Ngược Nằm Trực Tiếp Trên Nửa Dưới Của Ảnh (Chuẩn Theo Mẫu Ảnh Thứ 3) */
-.countdown-over-photo {
+/* Lớp phủ nội dung với nền trong suốt (giảm opacity) để hiển thị trọn vẹn váy cưới & hoa bên dưới */
+.invitation-overlay-wrap {
   position: absolute;
-  bottom: -32px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0 16px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 5;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.35) 25%, rgba(255, 255, 255, 0.65) 100%);
+}
+
+.countdown-over-photo {
   display: flex;
   justify-content: center;
-  gap: 14px;
-  z-index: 10;
-  width: 90%;
-  max-width: 440px;
+  gap: 12px;
+  width: 92%;
+  max-width: 420px;
+  margin-bottom: 14px;
 }
 
 .countdown-cell {
-  background: var(--primary-red);
+  background: linear-gradient(145deg, #8c2229 0%, #68151b 100%);
   color: #ffffff;
   flex: 1;
-  max-width: 82px;
-  height: 84px;
-  border-radius: 8px;
+  max-width: 78px;
+  height: 76px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 22px rgba(142, 35, 41, 0.35);
+  box-shadow: 0 8px 24px rgba(100, 17, 22, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   transition: transform 0.3s ease;
 }
 
@@ -917,85 +924,378 @@ img {
 
 .countdown-val {
   font-family: var(--font-title);
-  font-size: 2.1rem;
+  font-size: 2rem;
   font-weight: 700;
   line-height: 1;
 }
 
 .countdown-tag {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 400;
-  margin-top: 4px;
+  margin-top: 3px;
   opacity: 0.95;
   text-transform: lowercase;
 }
 
-/* Khung nội dung thư mời phía dưới ô đếm ngược */
+/* Khung nội dung thư mời: giảm opacity để nhìn xuyên qua thấy toàn bộ váy cưới và hoa */
 .invitation-letter-card {
-  padding: 60px 35px 45px;
+  width: 100%;
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.74);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 24px 22px 20px;
   text-align: center;
-  background: #ffffff;
-  border-radius: 0 0 18px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
 }
 
 .invitation-letter-spaced {
   font-family: var(--font-title);
-  font-size: 2.3rem;
-  letter-spacing: 0.35em;
+  font-size: clamp(1.15rem, 4.2vw, 2.1rem);
+  letter-spacing: clamp(0.12em, 2vw, 0.35em);
   color: var(--text-main);
   text-transform: uppercase;
-  margin-bottom: 25px;
+  white-space: nowrap !important;
+  word-break: keep-all;
+  text-align: center;
+  margin-bottom: 14px;
+  display: block;
+  width: 100%;
 }
 
 .invitation-letter-body {
-  line-height: 1.85;
-  margin-bottom: 35px;
+  line-height: 1.65;
 }
 
 .invitation-greeting {
-  font-size: 1.15rem;
+  font-size: 1.08rem;
   font-weight: 600;
   color: var(--primary-red);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .invitation-text {
-  font-size: 1.02rem;
-  color: #554d4d;
-  margin-bottom: 15px;
-  text-align: justify;
+  font-size: 0.95rem;
+  color: #382c2d;
+  margin-bottom: 10px;
+  text-align: center;
+  line-height: 1.6;
 }
 
 .invitation-conclusion {
-  font-size: 1.06rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--text-main);
 }
 
-.invitation-signature-block {
-  margin-top: 20px;
+/* ==========================================================================
+   CEREMONY ANNOUNCEMENT - LỄ THÀNH HÔN & THÔNG BÁO HAI BÊN GIA ĐÌNH (THEO MẪU ẢNH 3)
+   ========================================================================== */
+.ceremony-section {
+  padding: 85px 0 95px;
+  background-color: #fbf6f3;
+  position: relative;
+  border-top: 1px solid rgba(212, 123, 128, 0.15);
 }
 
-.signature-ceremony {
-  font-family: var(--font-cursive);
-  font-size: 2.4rem;
-  color: var(--primary-red);
-  display: block;
-  line-height: 1;
-  margin-bottom: 6px;
+.ceremony-container {
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.signature-names-cursive {
+.ceremony-card-cinelove {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 50px 38px 45px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(212, 123, 128, 0.18);
+  position: relative;
+}
+
+/* Khối Tiêu Đề Lễ Thành Hôn & Tên Cặp Đôi (Chuẩn bố cục ảnh 3) */
+.ceremony-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 45px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid rgba(212, 123, 128, 0.16);
+  gap: 25px;
+}
+
+.ceremony-title-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+}
+
+.ceremony-badge-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.15;
+}
+
+.ceremony-word {
   font-family: var(--font-cursive);
-  font-size: 3.2rem;
+  font-size: 2.7rem;
+  color: #641116;
+}
+
+.ceremony-vertical-bar {
+  width: 2.5px;
+  height: 55px;
+  background: #8c2229;
+  border-radius: 2px;
+  margin-top: 14px;
+}
+
+.ceremony-names-right {
+  flex: 1;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  padding-top: 8px;
+}
+
+.ceremony-name-groom,
+.ceremony-name-bride {
+  font-family: var(--font-cursive);
+  font-size: 3.1rem;
   color: #641116;
   line-height: 1.2;
 }
 
-.signature-names-cursive .amp {
-  font-size: 2.6rem;
-  color: var(--accent-pink);
-  margin: 0 10px;
+.ceremony-ampersand {
+  font-family: var(--font-cursive);
+  font-size: 2.4rem;
+  color: #8c2229;
+  line-height: 1;
+  margin: 4px 20px;
+}
+
+/* Khối Hai Bên Gia Đình (2 Cột) */
+.ceremony-family-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-bottom: 45px;
+  padding-bottom: 35px;
+  border-bottom: 1px solid rgba(212, 123, 128, 0.16);
+}
+
+.ceremony-family-box {
+  text-align: left;
+}
+
+.ceremony-side-title {
+  font-family: var(--font-title);
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--primary-red);
+  margin-bottom: 14px;
+  letter-spacing: 0.5px;
+}
+
+.ceremony-parent-item {
+  font-size: 1rem;
+  color: #3b2e2f;
+  margin-bottom: 6px;
+  display: flex;
+  gap: 6px;
+}
+
+.parent-label {
+  color: #6e5557;
+  min-width: 38px;
+}
+
+.parent-name {
+  font-weight: 600;
+  color: #2b1f20;
+}
+
+.ceremony-address-item {
+  font-size: 0.88rem;
+  color: #6e5557;
+  margin-top: 10px;
+  line-height: 1.45;
+}
+
+/* Khối Tiệc Mừng & Giờ Giấc */
+.ceremony-fest-block {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.fest-main-title {
+  font-family: var(--font-title);
+  font-size: 1.75rem;
+  letter-spacing: 2.5px;
+  color: #382526;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.fest-main-time {
+  font-family: var(--font-title);
+  font-size: 1.35rem;
+  letter-spacing: 2px;
+  color: #553b3c;
+  text-transform: uppercase;
+  margin-bottom: 25px;
+}
+
+/* Bố cục ngày tháng với số 20 khổng lồ ở giữa theo mẫu ảnh 3 */
+.fest-date-divider-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  max-width: 460px;
+  margin: 0 auto 12px;
+  position: relative;
+}
+
+.date-flank-col {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.date-flank-col.left {
+  justify-content: flex-end;
+}
+
+.date-flank-col.right {
+  justify-content: flex-start;
+}
+
+.flank-line {
+  flex: 1;
+  height: 1.5px;
+  background: #d4a5a8;
+}
+
+.flank-text {
+  font-family: var(--font-title);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: #382526;
+  padding: 0 12px;
+  white-space: nowrap;
+}
+
+.date-center-giant {
+  padding: 0 6px;
+}
+
+.giant-number {
+  font-family: var(--font-title);
+  font-size: 5rem;
+  font-weight: 700;
+  line-height: 0.85;
+  color: #8c2229;
+  background: linear-gradient(180deg, #96252d 0%, #641116 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block;
+}
+
+.fest-lunar-date {
+  font-family: var(--font-title);
+  font-size: 1.12rem;
+  font-style: italic;
+  color: #6e5557;
+  margin-top: 6px;
+}
+
+/* Khối Địa Điểm Tổ Chức */
+.ceremony-venue-block {
+  text-align: center;
+  background: #fdfaf8;
+  border-radius: 14px;
+  padding: 28px 24px;
+  border: 1px dashed rgba(212, 123, 128, 0.25);
+}
+
+.venue-ornament {
+  color: #8c2229;
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+.venue-heading {
+  font-family: var(--font-title);
+  font-size: 1.35rem;
+  letter-spacing: 2.5px;
+  color: #382526;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.venue-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--primary-red);
+  margin-bottom: 6px;
+}
+
+.venue-address {
+  font-size: 0.95rem;
+  color: #5a4b4c;
+  line-height: 1.5;
+  margin-bottom: 22px;
+}
+
+.ceremony-action-btns {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-ceremony-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: 25px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-ceremony-nav.map-btn {
+  background: var(--primary-red);
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(140, 34, 41, 0.25);
+}
+
+.btn-ceremony-nav.map-btn:hover {
+  background: #75181e;
+  transform: translateY(-2px);
+  color: #ffffff;
+}
+
+.btn-ceremony-nav.timeline-btn {
+  background: #ffffff;
+  color: var(--primary-red);
+  border: 1px solid rgba(140, 34, 41, 0.3);
+}
+
+.btn-ceremony-nav.timeline-btn:hover {
+  background: #fbf3ee;
+  transform: translateY(-2px);
 }
 
 /* ==========================================================================
@@ -2352,17 +2652,24 @@ img {
   }
 
   .invitation-lead-photo {
-    height: 390px;
+    height: auto;
+  }
+
+  .invitation-overlay-wrap {
+    padding: 0 10px 14px;
   }
 
   .countdown-over-photo {
-    bottom: -25px;
+    position: static;
+    transform: none;
     gap: 8px;
-    width: 95%;
+    width: 96%;
+    margin-bottom: 10px;
   }
 
   .countdown-cell {
-    height: 72px;
+    max-width: 72px;
+    height: 68px;
   }
 
   .countdown-val {
@@ -2374,16 +2681,98 @@ img {
   }
 
   .invitation-letter-card {
-    padding: 48px 20px 35px;
+    padding: 16px 14px 14px;
   }
 
   .invitation-letter-spaced {
-    font-size: 1.8rem;
-    letter-spacing: 0.22em;
+    font-size: clamp(1.1rem, 3.8vw, 1.6rem);
+    letter-spacing: clamp(0.1em, 1.8vw, 0.22em);
+    white-space: nowrap !important;
+    margin-bottom: 8px;
   }
 
-  .signature-names-cursive {
-    font-size: 2.4rem;
+  .invitation-greeting {
+    font-size: 0.96rem;
+    margin-bottom: 6px;
+  }
+
+  .invitation-text {
+    font-size: 0.86rem;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .invitation-conclusion {
+    font-size: 0.9rem;
+  }
+
+  /* Ceremony card responsive */
+  .ceremony-card-cinelove {
+    padding: 35px 20px 30px;
+  }
+
+  .ceremony-header-row {
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
+  .ceremony-word {
+    font-size: 2.2rem;
+  }
+
+  .ceremony-vertical-bar {
+    height: 45px;
+  }
+
+  .ceremony-name-groom,
+  .ceremony-name-bride {
+    font-size: 2.3rem;
+  }
+
+  .ceremony-ampersand {
+    font-size: 1.8rem;
+  }
+
+  .ceremony-family-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .ceremony-family-box {
+    text-align: center;
+  }
+
+  .ceremony-parent-item {
+    justify-content: center;
+  }
+
+  .fest-main-title {
+    font-size: 1.35rem;
+    letter-spacing: 1.5px;
+  }
+
+  .fest-main-time {
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+  }
+
+  .flank-text {
+    font-size: 0.98rem;
+    letter-spacing: 1px;
+    padding: 0 6px;
+  }
+
+  .giant-number {
+    font-size: 3.8rem;
+  }
+
+  .ceremony-action-btns {
+    flex-direction: column;
+  }
+
+  .btn-ceremony-nav {
+    width: 100%;
+    justify-content: center;
   }
 
   .about-title-script {
