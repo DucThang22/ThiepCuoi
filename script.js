@@ -61,14 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   // 1. DYNAMIC WEDDING DATE & COUNTDOWN
   // ==========================================
-  // Mặc định: ngày cưới tự động tính là 60 ngày sau ngày hiện tại để người dùng test
-  // Khi chỉnh sửa thật, bạn hãy đổi dòng này thành ngày cố định, ví dụ:
-  // const COUNTDOWN_TARGET = new Date("2026-10-25T09:00:00").getTime();
-  
-  const targetDate = new Date();
-  targetDate.setDate(targetDate.getDate() + 60); // 60 ngày từ hôm nay
-  targetDate.setHours(9, 0, 0, 0);
-  const COUNTDOWN_TARGET = targetDate.getTime();
+  // Ngày cưới cố định: 20/12/2026 lúc 08:30 sáng
+  const COUNTDOWN_TARGET = new Date("2026-12-20T08:30:00").getTime();
 
   function updateCountdown() {
     const now = new Date().getTime();
@@ -92,20 +86,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setInterval(updateCountdown, 1000);
   updateCountdown(); // Chạy ngay lập tức lần đầu
-
-
-  // ==========================================
-  // 2. ENVELOPE OPENING & PHOTO FLOATING ANIMATION
-  // ==========================================
-  const envelopeCover = document.getElementById('envelope-cover');
+  const envelopeCover = document.getElementById('envelope-cover');
   const envelopeInteractive = document.getElementById('envelope-interactive');
-  const envelopeWaxSeal = document.getElementById('envelope-wax-seal');
-  const envelopeTopTitle = document.getElementById('envelope-top-title');
-  const envelopeBottomInfo = document.getElementById('envelope-bottom-info');
   const musicBtn = document.getElementById('music-toggle');
   const bgMusic = document.getElementById('bg-music');
   let isPlaying = false;
   let isOpened = false;
+  let autoEnterTimer = null;
 
   // Cấu hình âm lượng nhỏ vừa phải
   bgMusic.volume = 0.5;
@@ -131,7 +118,85 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Bước 1: Mở phong bì thư và trồi ảnh cưới TTT09222 lên
+  // Hiệu ứng 3 trái tim đỏ lớn bay lên từ bên trong phong bì sau khi mở xong
+  function spawnThreeBigRedHearts() {
+    const container = document.getElementById('envelope-hearts-container');
+    if (!container || !envelopeCover || envelopeCover.classList.contains('opened')) return;
+
+    // Xác định toạ độ xuất phát (từ bên trong miệng phong bì, nơi ảnh cưới vừa trồi lên)
+    const envelopeRect = envelopeInteractive ? envelopeInteractive.getBoundingClientRect() : null;
+    let startX = window.innerWidth / 2;
+    let startY = window.innerHeight * 0.55;
+
+    if (envelopeRect) {
+      startX = envelopeRect.left + envelopeRect.width / 2;
+      startY = envelopeRect.top + envelopeRect.height * 0.46;
+    }
+
+    // 3 trái tim đỏ lớn, kích thước to rõ và quỹ đạo bay uốn lượn liên tục lên đỉnh màn hình
+    const threeHearts = [
+      {
+        size: 54, // 54px (lệch trái)
+        offsetX: -68,
+        sway: 'bigHeartSwayLeft',
+        duration: 3.4,
+        delay: 0
+      },
+      {
+        size: 72, // 72px (trái tim chủ đạo lớn nhất bay ở giữa)
+        offsetX: 0,
+        sway: 'bigHeartSwayCenter',
+        duration: 3.6,
+        delay: 220
+      },
+      {
+        size: 60, // 60px (lệch phải)
+        offsetX: 68,
+        sway: 'bigHeartSwayRight',
+        duration: 3.2,
+        delay: 450
+      }
+    ];
+
+    threeHearts.forEach((cfg) => {
+      setTimeout(() => {
+        if (!container || !envelopeCover || envelopeCover.classList.contains('opened')) return;
+
+        const heartEl = document.createElement('div');
+        heartEl.className = 'floating-big-heart';
+        heartEl.style.left = `${startX + cfg.offsetX - cfg.size / 2}px`;
+        heartEl.style.top = `${startY - cfg.size / 2}px`;
+        heartEl.style.width = `${cfg.size}px`;
+        heartEl.style.height = `${cfg.size}px`;
+        heartEl.style.setProperty('--duration', `${cfg.duration}s`);
+
+        // Trái tim màu đỏ thắm (#e60026) với viền trắng bạc sắc nét và vệt sáng 3D nổi bật
+        heartEl.innerHTML = `
+          <div class="heart-inner" style="animation: ${cfg.sway} 2.2s ease-in-out infinite;">
+            <svg viewBox="0 0 32 32" width="100%" height="100%">
+              <path d="M16 28.5L14.1 26.8C7.3 20.6 2.8 16.5 2.8 11.4C2.8 7.3 6 4.1 10.1 4.1C12.4 4.1 14.6 5.2 16 6.8C17.4 5.2 19.6 4.1 21.9 4.1C26 4.1 29.2 7.3 29.2 11.4C29.2 16.5 24.7 20.6 17.9 26.8L16 28.5Z"
+                    fill="#e60026"
+                    stroke="#ffffff"
+                    stroke-width="1.2"
+                    stroke-linejoin="round"/>
+              <path d="M10 6C7.5 6 5.5 8 5.5 10.8C5.5 12.8 7 15.2 10.5 18.5C10.8 16.8 11.5 13.5 13.2 11.2C14.2 9.8 15.2 9.2 15.8 8.8C14.5 7.2 12.5 6 10 6Z"
+                    fill="rgba(255, 255, 255, 0.45)"/>
+            </svg>
+          </div>
+        `;
+
+        container.appendChild(heartEl);
+
+        setTimeout(() => {
+          heartEl.remove();
+        }, cfg.duration * 1000 + 400);
+      }, cfg.delay);
+    });
+  }
+
+  window.spawnThreeBigRedHearts = spawnThreeBigRedHearts;
+
+  // Bước 1: Mở phong bì thư và trồi ảnh cưới lên
   function openEnvelope() {
     if (isOpened) return;
     isOpened = true;
@@ -142,9 +207,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (envelopeInteractive) {
       envelopeInteractive.classList.add('opening');
     }
-    if (envelopeTopTitle) {
-      envelopeTopTitle.classList.add('opening');
-    }
+
+    // Sau khi phong thư mở xong (~1000ms), 3 trái tim đỏ lớn bắt đầu bay lên từ bên trong
+    setTimeout(() => {
+      spawnThreeBigRedHearts();
+    }, 1000);
 
     // Phát nhạc nhẹ nhàng
     setTimeout(playAudio, 500);
@@ -159,6 +226,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Bước 2: Vào xem toàn bộ website thiệp cưới
   function enterWeddingSite() {
+    if (autoEnterTimer) {
+      clearTimeout(autoEnterTimer);
+      autoEnterTimer = null;
+    }
     if (envelopeCover) {
       envelopeCover.classList.add('opened');
     }
@@ -166,53 +237,39 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(playAudio, 300);
   }
 
-  if (envelopeCover) {
-    // Click vào phong bì / con dấu / tiêu đề lần đầu sẽ mở phong bì
-    if (envelopeInteractive) {
-      envelopeInteractive.addEventListener('click', () => {
-        if (!isOpened) {
-          openEnvelope();
-        } else {
-          enterWeddingSite();
-        }
-      });
-    }
+  // Logic click theo yêu cầu:
+  // - CHỈ gắn sự kiện click vào thiệp (envelopeInteractive)
+  // - KHÔNG gắn sự kiện click vào text "thiệp mời cưới", icon "song_hy", chữ "Đức Thắng Kiều Trang"
+  // - Click lần 1: Mở thiệp và sau 5s tự động chuyển vào trang sau
+  // - Click lần 2: Mở trang tiếp theo luôn lập tức
+  let lastOpenTime = 0;
+  function handleEnvelopeClick(e) {
+    if (e) e.stopPropagation();
+    const now = Date.now();
 
-    if (envelopeWaxSeal) {
-      envelopeWaxSeal.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (!isOpened) {
-          openEnvelope();
-        } else {
-          enterWeddingSite();
-        }
-      });
-    }
+    if (!isOpened) {
+      // Click lần 1: Mở thiệp
+      lastOpenTime = now;
+      openEnvelope();
 
-    if (envelopeTopTitle) {
-      envelopeTopTitle.addEventListener('click', () => {
-        if (!isOpened) openEnvelope();
-        else enterWeddingSite();
-      });
-    }
-
-    if (envelopeBottomInfo) {
-      envelopeBottomInfo.addEventListener('click', () => {
-        if (!isOpened) openEnvelope();
-        else enterWeddingSite();
-      });
-    }
-
-    // Khi đã mở phong bì, nhấp vào bất kỳ đâu trên màn hình cũng vào xem thiệp cưới
-    envelopeCover.addEventListener('click', (e) => {
-      if (isOpened && !e.target.closest('#music-toggle')) {
+      // Sau 6s tự động chuyển vào trang sau (đủ thời gian ngắm trọn vẹn 3 trái tim bay vút lên đỉnh)
+      autoEnterTimer = setTimeout(() => {
+        enterWeddingSite();
+      }, 6000);
+    } else {
+      // Chỉ cho phép click lần 2 sau ít nhất 600ms để tránh tình cờ double-click làm mất hiệu ứng mở thiệp
+      if (now - lastOpenTime > 600) {
         enterWeddingSite();
       }
-    });
-
-    // Mặc định khóa cuộn trang khi chưa mở thiệp
-    document.body.style.overflowY = 'hidden';
+    }
   }
+
+  if (envelopeInteractive) {
+    envelopeInteractive.addEventListener('click', handleEnvelopeClick);
+  }
+
+  // Mặc định khóa cuộn trang khi chưa mở thiệp
+  document.body.style.overflowY = 'hidden';
 
   // Sự kiện bấm nút bật/tắt nhạc nổi
   if (musicBtn) {
