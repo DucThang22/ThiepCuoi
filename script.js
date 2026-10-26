@@ -1,75 +1,40 @@
 /* ==========================================================================
    ONLINE WEDDING INVITATION - JAVASCRIPT
-   Features: Envelope opening, Music play/pause, Dynamic Countdown,
-             RSVP to localStorage, Guestbook wishes, Image Lightbox, Scroll Animation
+   Duc Thang & Kieu Trang | 20.12.2026
+   Features:
+   - Realistic Red Envelope Opening & 3 Big Floating Hearts
+   - Background Music Toggle
+   - Real-time Countdown to 20/12/2026 09:30
+   - Ultra-smooth Scroll Entrance Animations (slide in from margins)
+   - Photo Gallery Lightbox with Keyboard & Touch Navigation
+   - RSVP Management with LocalStorage
+   - Quick One-touch Copy Bank Account Number
+   - Elegant Guestbook Wishes (No floating stream comments)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
-  
-  // ==========================================
-  // 0. AUTO GOOGLE DRIVE IMAGE CONVERTER
-  // Tự động nhận diện và chuyển đổi link Google Drive thành ảnh hiển thị trực tiếp
-  // ==========================================
-  function convertDriveLink(url) {
-    if (!url || typeof url !== 'string') return url;
-    if (!url.includes('drive.google.com') && !url.includes('docs.google.com')) return url;
-    
-    // Tìm ID của file trên Google Drive
-    const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-    if (match && match[1]) {
-      const fileId = match[1];
-      // Direct stream link từ Google CDN
-      return `https://lh3.googleusercontent.com/d/${fileId}`;
-    }
-    return url;
-  }
-
-  function autoConvertDriveImages() {
-    // 1. Chuyển đổi tất cả thẻ <img> có link Drive
-    document.querySelectorAll('img').forEach(img => {
-      const src = img.getAttribute('src');
-      if (src && (src.includes('drive.google.com') || src.includes('docs.google.com'))) {
-        const directSrc = convertDriveLink(src);
-        img.setAttribute('src', directSrc);
-        
-        // Tự động fallback sang thumbnail chất lượng cao nếu cần
-        img.addEventListener('error', function fallback() {
-          const fileMatch = src.match(/\/d\/([a-zA-Z0-9_-]+)/) || src.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-          if (fileMatch && fileMatch[1]) {
-            this.src = `https://drive.google.com/thumbnail?id=${fileMatch[1]}&sz=w1600`;
-          }
-        }, { once: true });
-      }
-    });
-
-    // 2. Chuyển đổi các thẻ dùng style background-image có link Drive
-    document.querySelectorAll('[style*="drive.google.com"]').forEach(el => {
-      const bg = el.style.backgroundImage;
-      if (bg && bg.includes('drive.google.com')) {
-        const match = bg.match(/url\(['"]?(.*?)['"]?\)/);
-        if (match && match[1]) {
-          const directUrl = convertDriveLink(match[1]);
-          el.style.backgroundImage = `url('${directUrl}')`;
-        }
-      }
-    });
-  }
-
-  // Chạy chuyển đổi link Drive ngay khi tải trang
-  autoConvertDriveImages();
 
   // ==========================================
-  // 1. DYNAMIC WEDDING DATE & COUNTDOWN
+  // 1. DYNAMIC WEDDING COUNTDOWN (20/12/2026 lúc 09:30)
   // ==========================================
-  // Ngày cưới cố định: 20/12/2026 lúc 08:30 sáng
-  const COUNTDOWN_TARGET = new Date("2026-12-20T08:30:00").getTime();
+  const COUNTDOWN_TARGET = new Date("2026-12-20T09:30:00").getTime();
 
   function updateCountdown() {
     const now = new Date().getTime();
     const distance = COUNTDOWN_TARGET - now;
 
+    const daysEl = document.getElementById('days');
+    const hoursEl = document.getElementById('hours');
+    const minutesEl = document.getElementById('minutes');
+    const secondsEl = document.getElementById('seconds');
+
+    if (!daysEl) return;
+
     if (distance < 0) {
-      document.querySelector('.countdown-container').innerHTML = "<h3 style='font-family: var(--font-title); color: var(--primary-color);'>Đã đến ngày hạnh phúc!</h3>";
+      daysEl.innerText = "00";
+      hoursEl.innerText = "00";
+      minutesEl.innerText = "00";
+      secondsEl.innerText = "00";
       return;
     }
 
@@ -78,52 +43,72 @@ document.addEventListener('DOMContentLoaded', () => {
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    document.getElementById('days').innerText = String(days).padStart(2, '0');
-    document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-    document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-    document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+    daysEl.innerText = String(days).padStart(2, '0');
+    hoursEl.innerText = String(hours).padStart(2, '0');
+    minutesEl.innerText = String(minutes).padStart(2, '0');
+    secondsEl.innerText = String(seconds).padStart(2, '0');
   }
 
   setInterval(updateCountdown, 1000);
-  updateCountdown(); // Chạy ngay lập tức lần đầu
-  const envelopeCover = document.getElementById('envelope-cover');
-  const envelopeInteractive = document.getElementById('envelope-interactive');
+  updateCountdown();
+
+
+  // ==========================================
+  // 2. BACKGROUND MUSIC SYSTEM
+  // ==========================================
   const musicBtn = document.getElementById('music-toggle');
   const bgMusic = document.getElementById('bg-music');
-  let isPlaying = false;
-  let isOpened = false;
-  let autoEnterTimer = null;
+  let isMusicPlaying = false;
 
-  // Cấu hình âm lượng nhỏ vừa phải
-  bgMusic.volume = 0.5;
+  if (bgMusic) {
+    bgMusic.volume = 0.5;
+  }
 
-  function playAudio() {
+  function playMusic() {
+    if (!bgMusic) return;
     bgMusic.play().then(() => {
-      isPlaying = true;
-      musicBtn.classList.add('playing');
-      musicBtn.querySelector('i').className = 'fa-solid fa-compact-disc';
+      isMusicPlaying = true;
+      if (musicBtn) {
+        musicBtn.classList.add('playing');
+        musicBtn.querySelector('i').className = 'fa-solid fa-pause';
+      }
     }).catch(err => {
-      console.log("Browser blocked autoplay. Waiting for user interaction.", err);
+      console.log("Autoplay waiting for user gesture:", err);
     });
   }
 
-  function toggleAudio() {
-    if (isPlaying) {
+  function toggleMusic() {
+    if (!bgMusic) return;
+    if (isMusicPlaying) {
       bgMusic.pause();
-      isPlaying = false;
-      musicBtn.classList.remove('playing');
-      musicBtn.querySelector('i').className = 'fa-solid fa-play';
+      isMusicPlaying = false;
+      if (musicBtn) {
+        musicBtn.classList.remove('playing');
+        musicBtn.querySelector('i').className = 'fa-solid fa-play';
+      }
     } else {
-      playAudio();
+      playMusic();
     }
   }
 
-  // Hiệu ứng 3 trái tim đỏ lớn bay lên từ bên trong phong bì sau khi mở xong
+  if (musicBtn) {
+    musicBtn.addEventListener('click', toggleMusic);
+  }
+
+
+  // ==========================================
+  // 3. ENVELOPE OPENING & 3 FLOATING HEARTS
+  // ==========================================
+  const envelopeCover = document.getElementById('envelope-cover');
+  const envelopeInteractive = document.getElementById('envelope-interactive');
+  let isEnvelopeOpened = false;
+  let autoTransitionTimer = null;
+  let lastOpenClickTime = 0;
+
   function spawnThreeBigRedHearts() {
     const container = document.getElementById('envelope-hearts-container');
     if (!container || !envelopeCover || envelopeCover.classList.contains('opened')) return;
 
-    // Xác định toạ độ xuất phát (từ bên trong miệng phong bì, nơi ảnh cưới vừa trồi lên)
     const envelopeRect = envelopeInteractive ? envelopeInteractive.getBoundingClientRect() : null;
     let startX = window.innerWidth / 2;
     let startY = window.innerHeight * 0.55;
@@ -133,32 +118,13 @@ document.addEventListener('DOMContentLoaded', () => {
       startY = envelopeRect.top + envelopeRect.height * 0.46;
     }
 
-    // 3 trái tim đỏ lớn, kích thước to rõ và quỹ đạo bay uốn lượn liên tục lên đỉnh màn hình
-    const threeHearts = [
-      {
-        size: 54, // 54px (lệch trái)
-        offsetX: -68,
-        sway: 'bigHeartSwayLeft',
-        duration: 3.4,
-        delay: 0
-      },
-      {
-        size: 72, // 72px (trái tim chủ đạo lớn nhất bay ở giữa)
-        offsetX: 0,
-        sway: 'bigHeartSwayCenter',
-        duration: 3.6,
-        delay: 220
-      },
-      {
-        size: 60, // 60px (lệch phải)
-        offsetX: 68,
-        sway: 'bigHeartSwayRight',
-        duration: 3.2,
-        delay: 450
-      }
+    const heartsConfig = [
+      { size: 54, offsetX: -68, sway: 'bigHeartSwayLeft', duration: 3.4, delay: 0 },
+      { size: 74, offsetX: 0,   sway: 'bigHeartSwayCenter', duration: 3.6, delay: 220 },
+      { size: 60, offsetX: 68,  sway: 'bigHeartSwayRight', duration: 3.2, delay: 450 }
     ];
 
-    threeHearts.forEach((cfg) => {
+    heartsConfig.forEach((cfg) => {
       setTimeout(() => {
         if (!container || !envelopeCover || envelopeCover.classList.contains('opened')) return;
 
@@ -170,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
         heartEl.style.height = `${cfg.size}px`;
         heartEl.style.setProperty('--duration', `${cfg.duration}s`);
 
-        // Trái tim màu đỏ thắm (#e60026) với viền trắng bạc sắc nét và vệt sáng 3D nổi bật
         heartEl.innerHTML = `
           <div class="heart-inner" style="animation: ${cfg.sway} 2.2s ease-in-out infinite;">
             <svg viewBox="0 0 32 32" width="100%" height="100%">
@@ -194,369 +159,381 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  window.spawnThreeBigRedHearts = spawnThreeBigRedHearts;
+  function openEnvelopeStep() {
+    if (isEnvelopeOpened) return;
+    isEnvelopeOpened = true;
 
-  // Bước 1: Mở phong bì thư và trồi ảnh cưới lên
-  function openEnvelope() {
-    if (isOpened) return;
-    isOpened = true;
+    if (envelopeCover) envelopeCover.classList.add('envelope-opened');
+    if (envelopeInteractive) envelopeInteractive.classList.add('opening');
 
-    if (envelopeCover) {
-      envelopeCover.classList.add('envelope-opened');
-    }
-    if (envelopeInteractive) {
-      envelopeInteractive.classList.add('opening');
-    }
+    setTimeout(spawnThreeBigRedHearts, 950);
+    setTimeout(playMusic, 500);
 
-    // Sau khi phong thư mở xong (~1000ms), 3 trái tim đỏ lớn bắt đầu bay lên từ bên trong
     setTimeout(() => {
-      spawnThreeBigRedHearts();
-    }, 1000);
-
-    // Phát nhạc nhẹ nhàng
-    setTimeout(playAudio, 500);
-
-    // Kích hoạt hiệu ứng chuyển động lên xuống nhẹ nhàng sau khi ảnh trượt lên xong
-    setTimeout(() => {
-      if (envelopeInteractive) {
-        envelopeInteractive.classList.add('opened-float');
-      }
+      if (envelopeInteractive) envelopeInteractive.classList.add('opened-float');
     }, 1200);
   }
 
-  // Bước 2: Vào xem toàn bộ website thiệp cưới
-  function enterWeddingSite() {
-    if (autoEnterTimer) {
-      clearTimeout(autoEnterTimer);
-      autoEnterTimer = null;
+  function enterMainSite() {
+    if (autoTransitionTimer) {
+      clearTimeout(autoTransitionTimer);
+      autoTransitionTimer = null;
     }
     if (envelopeCover) {
       envelopeCover.classList.add('opened');
     }
     document.body.style.overflowY = 'auto';
-    setTimeout(playAudio, 300);
+    setTimeout(playMusic, 300);
+
+    // Kích hoạt ngay các animation ở hero screen
+    triggerInViewAnimations();
   }
 
-  // Logic click theo yêu cầu:
-  // - CHỈ gắn sự kiện click vào thiệp (envelopeInteractive)
-  // - KHÔNG gắn sự kiện click vào text "thiệp mời cưới", icon "song_hy", chữ "Đức Thắng Kiều Trang"
-  // - Click lần 1: Mở thiệp và sau 5s tự động chuyển vào trang sau
-  // - Click lần 2: Mở trang tiếp theo luôn lập tức
-  let lastOpenTime = 0;
-  function handleEnvelopeClick(e) {
+  function handleEnvelopeInteraction(e) {
     if (e) e.stopPropagation();
     const now = Date.now();
 
-    if (!isOpened) {
-      // Click lần 1: Mở thiệp
-      lastOpenTime = now;
-      openEnvelope();
-
-      // Sau 6s tự động chuyển vào trang sau (đủ thời gian ngắm trọn vẹn 3 trái tim bay vút lên đỉnh)
-      autoEnterTimer = setTimeout(() => {
-        enterWeddingSite();
-      }, 6000);
+    if (!isEnvelopeOpened) {
+      lastOpenClickTime = now;
+      openEnvelopeStep();
+      autoTransitionTimer = setTimeout(enterMainSite, 5800);
     } else {
-      // Chỉ cho phép click lần 2 sau ít nhất 600ms để tránh tình cờ double-click làm mất hiệu ứng mở thiệp
-      if (now - lastOpenTime > 600) {
-        enterWeddingSite();
+      if (now - lastOpenClickTime > 600) {
+        enterMainSite();
       }
     }
   }
 
   if (envelopeInteractive) {
-    envelopeInteractive.addEventListener('click', handleEnvelopeClick);
+    envelopeInteractive.addEventListener('click', handleEnvelopeInteraction);
   }
 
-  // Mặc định khóa cuộn trang khi chưa mở thiệp
+  // Khóa cuộn trang khi chưa mở phong bì
   document.body.style.overflowY = 'hidden';
 
-  // Sự kiện bấm nút bật/tắt nhạc nổi
-  if (musicBtn) {
-    musicBtn.addEventListener('click', toggleAudio);
+  // Nút cuộn xuống ở Hero Banner
+  const scrollHintBtn = document.getElementById('scroll-hint-btn');
+  if (scrollHintBtn) {
+    scrollHintBtn.addEventListener('click', () => {
+      const invSec = document.getElementById('invitation-section');
+      if (invSec) {
+        invSec.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
   }
 
 
   // ==========================================
-  // 3. SCROLL REVEAL (INTERSECTION OBSERVER)
+  // 4. ULTRA-SMOOTH SCROLL ENTRANCE ANIMATIONS (TỪ LỀ VÀO MƯỢT MÀ)
   // ==========================================
-  const revealElements = document.querySelectorAll('.reveal');
-  const observerOptions = {
-    root: null,
-    threshold: 0.15,
-    rootMargin: "0px 0px -50px 0px"
-  };
+  const animatedElements = document.querySelectorAll('.reveal, .reveal-up, .reveal-left, .reveal-right, .reveal-scale');
 
-  const revealObserver = new IntersectionObserver((entries, observer) => {
+  const scrollObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
-        observer.unobserve(entry.target); // Chỉ chạy hiệu ứng 1 lần
+        observer.unobserve(entry.target);
       }
     });
-  }, observerOptions);
-
-  revealElements.forEach(el => revealObserver.observe(el));
-
-
-  // ==========================================
-  // 4. PHOTO GALLERY LIGHTBOX WITH NAVIGATION
-  // ==========================================
-  const galleryItems = document.querySelectorAll('.gallery-item');
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-img');
-  const lightboxClose = document.getElementById('lightbox-close');
-  const lightboxPrev = document.getElementById('lightbox-prev');
-  const lightboxNext = document.getElementById('lightbox-next');
-  let currentImgIndex = 0;
-  const imageSources = [];
-
-  // Thu thập các link ảnh trong gallery
-  galleryItems.forEach((item, index) => {
-    const img = item.querySelector('img');
-    imageSources.push(img.getAttribute('src'));
-    
-    item.addEventListener('click', () => {
-      currentImgIndex = index;
-      openLightbox(img.getAttribute('src'));
-    });
+  }, {
+    root: null,
+    threshold: 0.12,
+    rootMargin: "0px 0px -40px 0px"
   });
 
-  function openLightbox(src) {
-    lightboxImg.setAttribute('src', src);
-    lightbox.style.display = 'flex';
-    setTimeout(() => lightbox.classList.add('active'), 10);
-  }
+  animatedElements.forEach(el => scrollObserver.observe(el));
 
-  function closeLightbox() {
-    lightbox.classList.remove('active');
-    setTimeout(() => lightbox.style.display = 'none', 400);
-  }
-
-  function showNextImage() {
-    currentImgIndex = (currentImgIndex + 1) % imageSources.length;
-    lightboxImg.setAttribute('src', imageSources[currentImgIndex]);
-  }
-
-  function showPrevImage() {
-    currentImgIndex = (currentImgIndex - 1 + imageSources.length) % imageSources.length;
-    lightboxImg.setAttribute('src', imageSources[currentImgIndex]);
-  }
-
-  if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
-  if (lightboxNext) lightboxNext.addEventListener('click', showNextImage);
-  if (lightboxPrev) lightboxPrev.addEventListener('click', showPrevImage);
-
-  // Click ra ngoài ảnh để đóng lightbox
-  if (lightbox) {
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) {
-        closeLightbox();
+  function triggerInViewAnimations() {
+    animatedElements.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        el.classList.add('active');
       }
     });
   }
-
-  // Hỗ trợ phím mũi tên và ESC
-  document.addEventListener('keydown', (e) => {
-    if (!lightbox.classList.contains('active')) return;
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowRight') showNextImage();
-    if (e.key === 'ArrowLeft') showPrevImage();
-  });
 
 
   // ==========================================
   // 5. TOAST NOTIFICATION UTILITY
   // ==========================================
-  function showToast(message) {
+  window.showToast = function(message) {
     const toast = document.getElementById('toast');
+    if (!toast) return;
     toast.innerText = message;
     toast.classList.add('show');
-    
+
     setTimeout(() => {
       toast.classList.remove('show');
-    }, 4000);
+    }, 3800);
+  };
+
+
+  // ==========================================
+  // 6. QUICK COPY BANK ACCOUNT NUMBER
+  // ==========================================
+  window.copyAccount = function(accountNumber, ownerLabel) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(accountNumber).then(() => {
+        window.showToast(`Đã sao chép STK ${ownerLabel} (${accountNumber}) thành công!`);
+      }).catch(() => {
+        fallbackCopy(accountNumber, ownerLabel);
+      });
+    } else {
+      fallbackCopy(accountNumber, ownerLabel);
+    }
+  };
+
+  function fallbackCopy(text, ownerLabel) {
+    const tempInput = document.createElement('input');
+    tempInput.value = text;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+    window.showToast(`Đã sao chép STK ${ownerLabel} (${text})!`);
   }
 
 
   // ==========================================
-  // 6. RSVP FORM SUBMISSION (localStorage)
+  // 7. PHOTO GALLERY LIGHTBOX WITH FULL NAVIGATION
   // ==========================================
-  const rsvpForm = document.getElementById('wedding-rsvp-form');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxClose = document.getElementById('lightbox-close');
+  const lightboxPrev = document.getElementById('lightbox-prev');
+  const lightboxNext = document.getElementById('lightbox-next');
+  let currentLightboxIndex = 0;
 
-  if (rsvpForm) {
-    rsvpForm.addEventListener('submit', (e) => {
-      e.preventDefault();
+  // Danh sách các ảnh kỷ niệm
+  const galleryPhotosList = [
+    'assets/images/TTT08789_web.jpg',
+    'assets/images/TTT08816_web.jpg',
+    'assets/images/TTT08627_web.jpg',
+    'assets/images/TTT08982_web.jpg',
+    'assets/images/TTT09584_web.jpg',
+    'assets/images/TTT09222_web.jpg'
+  ];
 
-      const guestName = document.getElementById('rsvp-name').value.trim();
-      const guestPhone = document.getElementById('rsvp-phone').value.trim();
-      const attendance = document.querySelector('input[name="attendance"]:checked').value;
-      const guestsCount = document.getElementById('rsvp-guests').value;
-      const guestNote = document.getElementById('rsvp-note').value.trim();
-
-      if (!guestName || !guestPhone) {
-        showToast("Vui lòng điền Họ tên và Số điện thoại!");
+  document.querySelectorAll('.gallery-trigger').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const explicitSrc = trigger.getAttribute('data-img-src');
+      if (explicitSrc) {
+        openSingleLightbox(explicitSrc);
         return;
       }
-
-      // Tạo đối tượng RSVP
-      const rsvpData = {
-        id: Date.now(),
-        name: guestName,
-        phone: guestPhone,
-        attendance: attendance === 'yes' ? 'Tham gia' : 'Không tham gia',
-        guests: attendance === 'yes' ? guestsCount : 0,
-        note: guestNote || 'Không có',
-        time: new Date().toLocaleString('vi-VN')
-      };
-
-      // Lưu trữ vào localStorage
-      const existingRsvpList = JSON.parse(localStorage.getItem('wedding_rsvp_list')) || [];
-      existingRsvpList.push(rsvpData);
-      localStorage.setItem('wedding_rsvp_list', JSON.stringify(existingRsvpList));
-
-      // Hiển thị thông báo thành công ngọt ngào
-      if (attendance === 'yes') {
-        showToast(`Cảm ơn ${guestName}! Cô dâu & Chú rể rất vui được đón tiếp bạn.`);
+      const idx = trigger.getAttribute('data-img-index');
+      if (idx !== null && idx !== undefined) {
+        currentLightboxIndex = parseInt(idx, 10);
+        openGalleryLightbox(currentLightboxIndex);
       } else {
-        showToast(`Cảm ơn ${guestName} đã phản hồi cho Cô dâu & Chú rể!`);
-      }
-
-      // Reset form
-      rsvpForm.reset();
-
-      // Nếu khách chúc luôn ở form RSVP, tự động đồng bộ vào Guestbook
-      if (guestNote) {
-        addGuestbookEntry(guestName, guestNote);
+        openSingleLightbox(trigger.getAttribute('src'));
       }
     });
+  });
 
-    // Ẩn/Hiện số người đi cùng tùy vào chọn Có tham dự hay không
-    const attendanceRadios = document.querySelectorAll('input[name="attendance"]');
-    const guestsGroup = document.getElementById('rsvp-guests').closest('.rsvp-form-group');
-    
+  function openGalleryLightbox(index) {
+    if (!lightbox || !lightboxImg) return;
+    currentLightboxIndex = index;
+    lightboxImg.src = galleryPhotosList[currentLightboxIndex];
+    if (lightboxPrev) lightboxPrev.style.display = 'block';
+    if (lightboxNext) lightboxNext.style.display = 'block';
+    lightbox.style.display = 'flex';
+    setTimeout(() => lightbox.classList.add('active'), 10);
+  }
+
+  function openSingleLightbox(src) {
+    if (!lightbox || !lightboxImg) return;
+    lightboxImg.src = src;
+    if (lightboxPrev) lightboxPrev.style.display = 'none';
+    if (lightboxNext) lightboxNext.style.display = 'none';
+    lightbox.style.display = 'flex';
+    setTimeout(() => lightbox.classList.add('active'), 10);
+  }
+
+  function closeLightboxModal() {
+    if (!lightbox) return;
+    lightbox.classList.remove('active');
+    setTimeout(() => { lightbox.style.display = 'none'; }, 350);
+  }
+
+  function nextGalleryPhoto() {
+    currentLightboxIndex = (currentLightboxIndex + 1) % galleryPhotosList.length;
+    lightboxImg.src = galleryPhotosList[currentLightboxIndex];
+  }
+
+  function prevGalleryPhoto() {
+    currentLightboxIndex = (currentLightboxIndex - 1 + galleryPhotosList.length) % galleryPhotosList.length;
+    lightboxImg.src = galleryPhotosList[currentLightboxIndex];
+  }
+
+  if (lightboxClose) lightboxClose.addEventListener('click', closeLightboxModal);
+  if (lightboxNext) lightboxNext.addEventListener('click', nextGalleryPhoto);
+  if (lightboxPrev) lightboxPrev.addEventListener('click', prevGalleryPhoto);
+
+  if (lightbox) {
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightboxModal();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox || !lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightboxModal();
+    if (e.key === 'ArrowRight') nextGalleryPhoto();
+    if (e.key === 'ArrowLeft') prevGalleryPhoto();
+  });
+
+
+  // ==========================================
+  // 8. RSVP SUBMISSION (LOCALSTORAGE)
+  // ==========================================
+  const rsvpForm = document.getElementById('wedding-rsvp-form');
+  const rsvpGuestsContainer = document.getElementById('rsvp-guests-container');
+  const attendanceRadios = document.querySelectorAll('input[name="attendance"]');
+
+  if (attendanceRadios.length && rsvpGuestsContainer) {
     attendanceRadios.forEach(radio => {
       radio.addEventListener('change', (e) => {
         if (e.target.value === 'no') {
-          guestsGroup.style.opacity = '0.5';
-          document.getElementById('rsvp-guests').setAttribute('disabled', 'true');
-          document.getElementById('rsvp-guests').value = '0';
+          rsvpGuestsContainer.style.opacity = '0.4';
+          document.getElementById('rsvp-guests').disabled = true;
         } else {
-          guestsGroup.style.opacity = '1';
-          document.getElementById('rsvp-guests').removeAttribute('disabled');
-          document.getElementById('rsvp-guests').value = '1';
+          rsvpGuestsContainer.style.opacity = '1';
+          document.getElementById('rsvp-guests').disabled = false;
         }
       });
     });
   }
 
+  if (rsvpForm) {
+    rsvpForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('rsvp-name').value.trim();
+      const phone = document.getElementById('rsvp-phone').value.trim();
+      const attendance = document.querySelector('input[name="attendance"]:checked').value;
+      const guests = attendance === 'yes' ? document.getElementById('rsvp-guests').value : 0;
+      const note = document.getElementById('rsvp-note').value.trim();
+
+      if (!name || !phone) {
+        window.showToast("Vui lòng điền Họ tên và Số điện thoại!");
+        return;
+      }
+
+      const rsvpEntry = {
+        id: Date.now(),
+        name: name,
+        phone: phone,
+        attendance: attendance === 'yes' ? 'Tham dự' : 'Không tham dự',
+        guests: guests,
+        note: note || 'Không có',
+        time: new Date().toLocaleString('vi-VN')
+      };
+
+      const existingRsvp = JSON.parse(localStorage.getItem('wedding_rsvp_list')) || [];
+      existingRsvp.push(rsvpEntry);
+      localStorage.setItem('wedding_rsvp_list', JSON.stringify(existingRsvp));
+
+      if (attendance === 'yes') {
+        window.showToast(`Cảm ơn ${name}! Chúng mình rất vui được đón tiếp bạn vào ngày 20/12/2026.`);
+      } else {
+        window.showToast(`Cảm ơn ${name} đã gửi phản hồi cho Cô dâu & Chú rể!`);
+      }
+
+      if (note) {
+        addGuestbookEntry(name, note);
+      }
+
+      rsvpForm.reset();
+    });
+  }
+
 
   // ==========================================
-  // 7. GUESTBOOK (localStorage)
+  // 9. GUESTBOOK WISHES (SỔ LƯU BÚT TRANG NHÃ)
   // ==========================================
   const guestbookForm = document.getElementById('guestbook-form');
   const guestbookMessages = document.getElementById('guestbook-messages');
 
-  // Lấy chữ cái đầu làm avatar
-  function getInitials(name) {
-    if (!name) return '❤';
-    const words = name.split(' ');
-    if (words.length >= 2) {
-      return (words[0].charAt(0) + words[words.length - 1].charAt(0)).toUpperCase();
+  const defaultWishes = [
+    {
+      name: 'Anh Nguyễn Hoàng Lâm',
+      text: 'Chúc mừng hai em trăm năm hạnh phúc! Chúc gia đình nhỏ luôn tràn ngập tiếng cười và yêu thương.',
+      time: '26/10/2026 10:15'
+    },
+    {
+      name: 'Chị Mai Lan',
+      text: 'Chúc cô dâu chú rể mãi ngọt ngào và gắn kết bền chặt như ngày đầu mới yêu nhé! Hẹn gặp hai bạn ngày 20/12.',
+      time: '26/10/2026 09:40'
+    },
+    {
+      name: 'Bạn Thảo Linh',
+      text: 'Chúc Kiều Trang và Đức Thắng luôn là hậu phương vững chắc và đồng hành cùng nhau trên mọi nẻo đường hạnh phúc!',
+      time: '26/10/2026 08:30'
     }
-    return name.charAt(0).toUpperCase();
-  }
+  ];
 
-  // Load lời chúc từ localStorage
   function loadWishes() {
     if (!guestbookMessages) return;
-    
-    const wishes = JSON.parse(localStorage.getItem('wedding_wishes')) || [
-      // Dữ liệu mẫu ban đầu để sổ lưu bút nhìn đẹp mắt
-      { name: 'Anh Nguyễn Hoàng Lâm', text: 'Chúc mừng hai em trăm năm hạnh phúc! Chúc gia đình nhỏ luôn tràn ngập tiếng cười và niềm vui.', time: '18/07/2026 09:12' },
-      { name: 'Chị Mai Lan', text: 'Chúc cô dâu chú rể mãi ngọt ngào như ngày đầu mới yêu nhé! Thật tiếc hôm đó mình đi công tác, gửi lời chúc phúc sâu sắc nhất.', time: '18/07/2026 08:30' }
-    ];
-
+    const wishes = JSON.parse(localStorage.getItem('wedding_wishes')) || defaultWishes;
     guestbookMessages.innerHTML = '';
-    
-    // Đảo ngược để lời chúc mới nhất lên đầu
+
     [...wishes].reverse().forEach(wish => {
-      const card = document.createElement('div');
-      card.className = 'message-card';
-      
-      const initials = getInitials(wish.name);
-      
-      card.innerHTML = `
-        <div class="message-avatar">${initials}</div>
-        <div class="message-body">
-          <div class="message-header">
-            <span class="message-name">${wish.name}</span>
-            <span class="message-time">${wish.time}</span>
-          </div>
-          <p class="message-text">${wish.text}</p>
+      const item = document.createElement('div');
+      item.className = 'wish-item-bubble';
+      item.innerHTML = `
+        <div class="wish-author-row">
+          <span class="wish-author-name">${escapeHtml(wish.name)}</span>
+          <span class="wish-date-time">${escapeHtml(wish.time)}</span>
         </div>
+        <p class="wish-content-text">${escapeHtml(wish.text)}</p>
       `;
-      guestbookMessages.appendChild(card);
+      guestbookMessages.appendChild(item);
     });
   }
 
-  // Thêm một lời chúc mới vào dữ liệu
   function addGuestbookEntry(name, text) {
-    const wishes = JSON.parse(localStorage.getItem('wedding_wishes')) || [
-      { name: 'Anh Nguyễn Hoàng Lâm', text: 'Chúc mừng hai em trăm năm hạnh phúc! Chúc gia đình nhỏ luôn tràn ngập tiếng cười và niềm vui.', time: '18/07/2026 09:12' },
-      { name: 'Chị Mai Lan', text: 'Chúc cô dâu chú rể mãi ngọt ngào như ngày đầu mới yêu nhé! Thật tiếc hôm đó mình đi công tác, gửi lời chúc phúc sâu sắc nhất.', time: '18/07/2026 08:30' }
-    ];
-
-    const newWish = {
+    const wishes = JSON.parse(localStorage.getItem('wedding_wishes')) || defaultWishes;
+    const newEntry = {
       name: name,
       text: text,
-      time: new Date().toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' })
+      time: new Date().toLocaleString('vi-VN', {
+        day: '2-digit', month: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      })
     };
-
-    wishes.push(newWish);
+    wishes.push(newEntry);
     localStorage.setItem('wedding_wishes', JSON.stringify(wishes));
     loadWishes();
   }
 
-  // Gửi form lưu bút
   if (guestbookForm) {
     guestbookForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      
       const nameInput = document.getElementById('wish-name');
       const textInput = document.getElementById('wish-text');
-      
+
       const name = nameInput.value.trim();
       const text = textInput.value.trim();
 
       if (!name || !text) {
-        showToast("Vui lòng điền tên và viết lời chúc!");
+        window.showToast("Vui lòng điền tên và lời chúc!");
         return;
       }
 
       addGuestbookEntry(name, text);
-      
       nameInput.value = '';
       textInput.value = '';
-      
-      showToast("Lời chúc của bạn đã gửi đến Cô dâu & Chú rể!");
+      window.showToast("Lời chúc của bạn đã gửi đến Đức Thắng & Kiều Trang!");
     });
   }
 
-  // Load lời chúc ban đầu
+  function escapeHtml(string) {
+    const div = document.createElement('div');
+    div.innerText = string;
+    return div.innerHTML;
+  }
+
   loadWishes();
-
-
-  // ==========================================
-  // 8. WISHING WELL QR MODAL / EXPAND EFFECT
-  // ==========================================
-  const qrWrappers = document.querySelectorAll('.wishing-qr-wrapper');
-  
-  qrWrappers.forEach(wrapper => {
-    wrapper.addEventListener('click', () => {
-      const qrImgSrc = wrapper.querySelector('img').getAttribute('src');
-      openLightbox(qrImgSrc);
-    });
-  });
 
 });
