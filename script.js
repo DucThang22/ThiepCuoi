@@ -549,6 +549,107 @@ document.addEventListener('DOMContentLoaded', () => {
     return div.innerHTML;
   }
 
+  // ==========================================
+  // 9. CINELOVE 42 FLOATING ACTION BAR LOGIC
+  // ==========================================
+  const floatOpenWishes = document.getElementById('float-open-wishes');
+  const floatOpenGift = document.getElementById('float-open-gift');
+  const floatBurstHearts = document.getElementById('float-burst-hearts');
+  const floatLikeBtn = document.getElementById('float-like-btn');
+  const likeCounter = document.getElementById('like-counter');
+  const heartsBurstContainer = document.getElementById('hearts-burst-container');
+
+  // Shortcut đến form lời chúc
+  if (floatOpenWishes) {
+    floatOpenWishes.addEventListener('click', () => {
+      const gbSec = document.getElementById('guestbook-section');
+      if (gbSec) {
+        gbSec.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => {
+          const wishInput = document.getElementById('wish-name');
+          if (wishInput) wishInput.focus();
+        }, 600);
+      }
+    });
+  }
+
+  // Shortcut đến quà mừng / QR
+  if (floatOpenGift) {
+    floatOpenGift.addEventListener('click', () => {
+      const giftSec = document.getElementById('wishing-section');
+      if (giftSec) {
+        giftSec.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
+
+  // Bắn tim rực rỡ khi nhấn nút "Bắn tim"
+  function triggerHeartsBurst(count = 14) {
+    if (!heartsBurstContainer) return;
+
+    const colors = ['#e63946', '#ff4d6d', '#ff758f', '#c9184a', '#ff8fa3', '#d90429'];
+    const emojis = ['💖', '💕', '❤️', '🌸', '✨', '🫶', '🥰'];
+
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => {
+        const heartEl = document.createElement('div');
+        heartEl.className = 'burst-heart';
+
+        const size = Math.floor(Math.random() * 24) + 20; // 20px - 44px
+        const leftPercent = Math.random() * 80 + 10; // 10% - 90%
+        const duration = (Math.random() * 1.5 + 2.0).toFixed(2); // 2.0s - 3.5s
+        const rotation = (Math.random() * 60 - 30).toFixed(0); // -30deg to 30deg
+        const useEmoji = Math.random() > 0.4;
+
+        heartEl.style.left = `${leftPercent}%`;
+        heartEl.style.bottom = '70px';
+        heartEl.style.fontSize = `${size}px`;
+        heartEl.style.setProperty('--duration', `${duration}s`);
+        heartEl.style.setProperty('--rot', `${rotation}deg`);
+
+        if (useEmoji) {
+          heartEl.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        } else {
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          heartEl.innerHTML = `
+            <svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="${color}">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+          `;
+        }
+
+        heartsBurstContainer.appendChild(heartEl);
+
+        setTimeout(() => {
+          heartEl.remove();
+        }, duration * 1000 + 200);
+      }, i * 65);
+    }
+  }
+
+  if (floatBurstHearts) {
+    floatBurstHearts.addEventListener('click', () => {
+      triggerHeartsBurst(16);
+      window.showToast("Cảm ơn tình cảm yêu thương của bạn! 💖");
+    });
+  }
+
+  // Nút like tăng dần
+  let currentLikes = parseInt(localStorage.getItem('wedding_likes_count') || '222', 10);
+  if (likeCounter) {
+    likeCounter.innerText = currentLikes;
+  }
+
+  if (floatLikeBtn) {
+    floatLikeBtn.addEventListener('click', () => {
+      currentLikes += 1;
+      localStorage.setItem('wedding_likes_count', String(currentLikes));
+      if (likeCounter) likeCounter.innerText = currentLikes;
+      floatLikeBtn.classList.add('liked');
+      triggerHeartsBurst(6);
+    });
+  }
+
   loadWishes();
 
 });
