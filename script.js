@@ -54,36 +54,48 @@ document.addEventListener('DOMContentLoaded', () => {
   let isPlaying = false;
   let isOpened = false;
   let autoEnterTimer = null;
+  let userManuallyPaused = false;
 
   if (bgMusic) {
-    bgMusic.volume = 0.5;
+    bgMusic.volume = 0.6;
   }
 
   function playAudio() {
     if (!bgMusic) return;
-    bgMusic.play().then(() => {
-      isPlaying = true;
-      if (musicBtn) {
-        musicBtn.classList.add('playing');
-        const icon = musicBtn.querySelector('i');
-        if (icon) icon.className = 'fa-solid fa-compact-disc';
-      }
-    }).catch(err => {
-      console.log("Browser blocked autoplay. Waiting for user interaction.", err);
-    });
+    const playPromise = bgMusic.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        isPlaying = true;
+        userManuallyPaused = false;
+        if (musicBtn) {
+          musicBtn.classList.add('playing');
+          const icon = musicBtn.querySelector('i');
+          if (icon) icon.className = 'fa-solid fa-compact-disc';
+        }
+      }).catch(err => {
+        console.log("Browser waiting for user interaction or blocked autoplay:", err);
+      });
+    }
+  }
+
+  function pauseAudio() {
+    if (!bgMusic) return;
+    bgMusic.pause();
+    isPlaying = false;
+    if (musicBtn) {
+      musicBtn.classList.remove('playing');
+      const icon = musicBtn.querySelector('i');
+      if (icon) icon.className = 'fa-solid fa-play';
+    }
   }
 
   function toggleAudio() {
     if (!bgMusic) return;
     if (isPlaying) {
-      bgMusic.pause();
-      isPlaying = false;
-      if (musicBtn) {
-        musicBtn.classList.remove('playing');
-        const icon = musicBtn.querySelector('i');
-        if (icon) icon.className = 'fa-solid fa-play';
-      }
+      userManuallyPaused = true;
+      pauseAudio();
     } else {
+      userManuallyPaused = false;
       playAudio();
     }
   }
@@ -167,10 +179,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.spawnThreeBigRedHearts = spawnThreeBigRedHearts;
 
-  // Bước 1: Mở phong bì thư và trồi ảnh cưới lên
+  // Bước 1: Mở phong bì thư và trồi ảnh cưới lên (đồng thời phát nhạc ngay lập tức)
   function openEnvelope() {
     if (isOpened) return;
     isOpened = true;
+
+    // Phát bài hát "Beautiful in White" ngay khi mở thiệp
+    playAudio();
 
     if (envelopeCover) {
       envelopeCover.classList.add('envelope-opened');
@@ -182,8 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       spawnThreeBigRedHearts();
     }, 1000);
-
-    setTimeout(playAudio, 500);
 
     setTimeout(() => {
       if (envelopeInteractive) {
@@ -202,18 +215,33 @@ document.addEventListener('DOMContentLoaded', () => {
       envelopeCover.classList.add('opened');
     }
     document.body.style.overflowY = 'auto';
-    setTimeout(playAudio, 300);
+
+    // Mặc định cuộn lên trang đầu tiên (Hero Screen / Trang đầu tiên)
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    const heroSection = document.getElementById('hero');
+    if (heroSection) {
+      heroSection.scrollIntoView({ behavior: 'instant', block: 'start' });
+    }
+
+    if (!isPlaying && !userManuallyPaused) {
+      playAudio();
+    }
   }
 
-  // Logic click theo yêu cầu gốc:
+  // Logic click theo yêu cầu:
   // - CHỈ gắn sự kiện click vào thiệp (envelopeInteractive)
   // - KHÔNG gắn sự kiện click vào text "thiệp mời cưới", icon "song_hy", chữ "Đức Thắng Kiều Trang"
-  // - Click lần 1: Mở thiệp và sau 6s tự động chuyển vào trang sau
+  // - Click lần 1: Mở thiệp, phát nhạc "Beautiful in White" và sau 6s tự động chuyển vào trang sau
   // - Click lần 2: Mở trang tiếp theo luôn lập tức
   let lastOpenTime = 0;
   function handleEnvelopeClick(e) {
     if (e) e.stopPropagation();
     const now = Date.now();
+
+    // Kích hoạt phát nhạc "Beautiful in White" ngay trong sự kiện click trực tiếp của người dùng
+    playAudio();
 
     if (!isOpened) {
       lastOpenTime = now;
@@ -232,7 +260,21 @@ document.addEventListener('DOMContentLoaded', () => {
     envelopeInteractive.addEventListener('click', handleEnvelopeClick);
   }
 
-  // Mặc định khóa cuộn trang khi chưa mở thiệp
+  // Đảm bảo phát nhạc mượt mà trên mọi thiết bị và trình duyệt khi người dùng chạm/tương tác
+  const triggerAudioOnFirstTouch = () => {
+    if (!isPlaying && !userManuallyPaused) {
+      playAudio();
+    }
+  };
+  document.addEventListener('pointerdown', triggerAudioOnFirstTouch, { passive: true });
+
+  // Mặc định khóa cuộn trang khi chưa mở thiệp & luôn reset scroll về đầu trang
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
   document.body.style.overflowY = 'hidden';
 
   // Nút Cuộn xuống ở Hero Screen
@@ -270,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================
-  // 4. PHOTO GALLERY LIGHTBOX WITH NAVIGATION
+  // 4. PHOTO GALLERY LIGHTBOX & 3D COVERFLOW SWIPE SLIDER
   // ==========================================
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightbox-img');
@@ -280,15 +322,179 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentImgIndex = 0;
 
   const gallerySources = [
-    'assets/images/TTT08789_web.jpg',
-    'assets/images/TTT08816_web.jpg',
     'assets/images/TTT08627_web.jpg',
     'assets/images/TTT08982_web.jpg',
     'assets/images/TTT09584_web.jpg',
-    'assets/images/TTT09222_web.jpg'
+    'assets/images/TTT09222_web.jpg',
+    'assets/images/TTT08789_web.jpg',
+    'assets/images/TTT08816_web.jpg'
   ];
 
-  document.querySelectorAll('.gallery-trigger').forEach(trigger => {
+  // 4.1. 3D COVERFLOW SWIPE SLIDER LOGIC (CHUẨN ẢNH THỨ 2)
+  const coverflowContainer = document.getElementById('album-coverflow');
+  const coverflowSlides = document.querySelectorAll('.cl-coverflow-slide');
+  const coverflowPrevBtn = document.getElementById('coverflow-prev');
+  const coverflowNextBtn = document.getElementById('coverflow-next');
+  const coverflowDotsWrap = document.getElementById('coverflow-dots');
+  let coverflowIndex = 0;
+  const totalSlides = coverflowSlides.length;
+
+  if (coverflowSlides.length && coverflowDotsWrap) {
+    // Tạo các chấm phân trang
+    coverflowDotsWrap.innerHTML = '';
+    coverflowSlides.forEach((_, idx) => {
+      const dot = document.createElement('span');
+      dot.className = `cl-coverflow-dot ${idx === 0 ? 'active' : ''}`;
+      dot.addEventListener('click', () => goToCoverflowSlide(idx));
+      coverflowDotsWrap.appendChild(dot);
+    });
+
+    function updateCoverflow(activeIdx) {
+      coverflowIndex = (activeIdx + totalSlides) % totalSlides;
+
+      coverflowSlides.forEach((slide, i) => {
+        let offset = i - coverflowIndex;
+        if (offset > totalSlides / 2) offset -= totalSlides;
+        if (offset < -totalSlides / 2) offset += totalSlides;
+
+        slide.classList.remove('active');
+
+        if (offset === 0) {
+          slide.classList.add('active');
+          slide.style.transform = 'translateX(0px) translateZ(0px) rotateY(0deg) scale(1)';
+          slide.style.opacity = '1';
+          slide.style.zIndex = '15';
+          slide.style.pointerEvents = 'auto';
+        } else if (offset === 1) {
+          slide.style.transform = 'translateX(100px) translateZ(-80px) rotateY(-36deg) scale(0.85)';
+          slide.style.opacity = '0.72';
+          slide.style.zIndex = '10';
+          slide.style.pointerEvents = 'auto';
+        } else if (offset === -1) {
+          slide.style.transform = 'translateX(-100px) translateZ(-80px) rotateY(36deg) scale(0.85)';
+          slide.style.opacity = '0.72';
+          slide.style.zIndex = '10';
+          slide.style.pointerEvents = 'auto';
+        } else if (offset === 2) {
+          slide.style.transform = 'translateX(175px) translateZ(-160px) rotateY(-48deg) scale(0.7)';
+          slide.style.opacity = '0.4';
+          slide.style.zIndex = '5';
+          slide.style.pointerEvents = 'auto';
+        } else if (offset === -2) {
+          slide.style.transform = 'translateX(-175px) translateZ(-160px) rotateY(48deg) scale(0.7)';
+          slide.style.opacity = '0.4';
+          slide.style.zIndex = '5';
+          slide.style.pointerEvents = 'auto';
+        } else {
+          const side = offset > 0 ? 220 : -220;
+          slide.style.transform = `translateX(${side}px) translateZ(-240px) scale(0.5)`;
+          slide.style.opacity = '0';
+          slide.style.zIndex = '1';
+          slide.style.pointerEvents = 'none';
+        }
+      });
+
+      // Cập nhật dots
+      const dots = coverflowDotsWrap.querySelectorAll('.cl-coverflow-dot');
+      dots.forEach((dot, dIdx) => {
+        dot.classList.toggle('active', dIdx === coverflowIndex);
+      });
+    }
+
+    function goToCoverflowSlide(idx) {
+      updateCoverflow(idx);
+    }
+
+    function nextCoverflowSlide() {
+      updateCoverflow(coverflowIndex + 1);
+    }
+
+    function prevCoverflowSlide() {
+      updateCoverflow(coverflowIndex - 1);
+    }
+
+    if (coverflowPrevBtn) coverflowPrevBtn.addEventListener('click', prevCoverflowSlide);
+    if (coverflowNextBtn) coverflowNextBtn.addEventListener('click', nextCoverflowSlide);
+
+    // Click vào slide: active thì mở Lightbox, không active thì chuyển tới slide đó
+    coverflowSlides.forEach((slide, sIdx) => {
+      slide.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (sIdx === coverflowIndex) {
+          openGalleryLightbox(sIdx);
+        } else {
+          goToCoverflowSlide(sIdx);
+        }
+      });
+    });
+
+    // HỖ TRỢ VUỐT CẢM ỨNG (TOUCH SWIPE) VÀ KÉO CHUỘT (MOUSE DRAG)
+    let startX = 0;
+    let isDragging = false;
+    let diffX = 0;
+
+    if (coverflowContainer) {
+      coverflowContainer.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        diffX = 0;
+      }, { passive: true });
+
+      coverflowContainer.addEventListener('touchmove', (e) => {
+        diffX = e.touches[0].clientX - startX;
+      }, { passive: true });
+
+      coverflowContainer.addEventListener('touchend', () => {
+        if (Math.abs(diffX) > 35) {
+          if (diffX < 0) {
+            nextCoverflowSlide();
+          } else {
+            prevCoverflowSlide();
+          }
+        }
+        diffX = 0;
+      });
+
+      coverflowContainer.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.clientX;
+        diffX = 0;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        diffX = e.clientX - startX;
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        if (Math.abs(diffX) > 40) {
+          if (diffX < 0) {
+            nextCoverflowSlide();
+          } else {
+            prevCoverflowSlide();
+          }
+        }
+        diffX = 0;
+      });
+    }
+
+    // Tự động chuyển sau mỗi 5s
+    let autoPlayTimer = setInterval(nextCoverflowSlide, 5000);
+    if (coverflowContainer) {
+      coverflowContainer.addEventListener('mouseenter', () => clearInterval(autoPlayTimer));
+      coverflowContainer.addEventListener('mouseleave', () => {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = setInterval(nextCoverflowSlide, 5000);
+      });
+      coverflowContainer.addEventListener('touchstart', () => clearInterval(autoPlayTimer), { passive: true });
+    }
+
+    updateCoverflow(0);
+  }
+
+  // 4.2. LIGHTBOX FUNCTIONS
+  document.querySelectorAll('.gallery-trigger:not(.cl-coverflow-slide .gallery-trigger)').forEach(trigger => {
     trigger.addEventListener('click', () => {
       const explicitSrc = trigger.getAttribute('data-img-src');
       if (explicitSrc) {
