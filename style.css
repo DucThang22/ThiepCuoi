@@ -1190,22 +1190,22 @@ img {
 .cl-ceremony-header-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: clamp(16px, 5vw, 24px);
-  margin-bottom: 26px;
   width: 100%;
+  margin-bottom: 26px;
 }
 
 .cl-ceremony-badge-stack {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  flex-shrink: 0;
 }
 
 .cl-script-word {
   font-family: var(--font-cursive);
-  font-size: clamp(2.1rem, 6vw, 2.5rem);
+  font-size: clamp(2rem, 5.5vw, 2.35rem);
   color: var(--cl-rose-deep);
   line-height: 1.05;
 }
@@ -1219,13 +1219,17 @@ img {
 }
 
 .cl-ceremony-names-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  flex-shrink: 0;
 }
 
 .cl-name-script {
   font-family: var(--font-cursive);
-  font-size: clamp(2.5rem, 7.5vw, 3rem);
+  font-size: clamp(2.2rem, 6.2vw, 2.6rem);
   color: var(--cl-rose-deep);
   line-height: 1.1;
   white-space: nowrap;
@@ -1233,7 +1237,7 @@ img {
 
 .cl-name-ampersand {
   font-family: var(--font-cursive);
-  font-size: clamp(1.6rem, 4.5vw, 2rem);
+  font-size: clamp(1.4rem, 4vw, 1.8rem);
   color: var(--cl-rose-accent);
   line-height: 0.85;
   margin: 1px 0;
@@ -2859,22 +2863,21 @@ img {
     line-height: 1.35;
   }
   .cl-ceremony-header-row {
-    gap: 16px;
     margin-bottom: 22px;
   }
   .cl-ceremony-header-divider {
     height: 75px;
   }
   .cl-script-word {
-    font-size: 2.15rem;
+    font-size: 2.1rem;
     line-height: 1.05;
   }
   .cl-name-script {
-    font-size: 2.55rem;
+    font-size: 2.35rem;
     white-space: nowrap;
   }
   .cl-name-ampersand {
-    font-size: 1.65rem;
+    font-size: 1.55rem;
   }
   .cl-sweet-spaced {
     font-size: 1.25rem;
@@ -2902,20 +2905,20 @@ img {
     font-size: 0.68rem;
   }
   .cl-ceremony-header-row {
-    gap: 14px;
+    margin-bottom: 18px;
   }
   .cl-ceremony-header-divider {
-    height: 70px;
+    height: 68px;
   }
   .cl-script-word {
-    font-size: 1.95rem;
+    font-size: 1.9rem;
   }
   .cl-name-script {
-    font-size: 2.3rem;
+    font-size: 2.15rem;
     white-space: nowrap;
   }
   .cl-name-ampersand {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
   .cl-sweet-spaced {
     font-size: 1.1rem;
