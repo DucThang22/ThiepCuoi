@@ -213,17 +213,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (envelopeCover) {
       envelopeCover.classList.add('opened');
+      setTimeout(() => {
+        envelopeCover.style.display = 'none';
+      }, 1250);
     }
-    document.body.style.overflowY = 'auto';
+    document.body.classList.remove('envelope-locked');
+    document.body.style.overflowY = '';
 
     // Mặc định cuộn lên trang đầu tiên (Hero Screen / Trang đầu tiên)
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
-    const heroSection = document.getElementById('hero');
-    if (heroSection) {
-      heroSection.scrollIntoView({ behavior: 'instant', block: 'start' });
-    }
 
     if (!isPlaying && !userManuallyPaused) {
       playAudio();
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.scrollTo(0, 0);
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
-  document.body.style.overflowY = 'hidden';
+  document.body.classList.add('envelope-locked');
 
   // Nút Cuộn xuống ở Hero Screen
   const scrollDownHint = document.getElementById('scroll-down-hint');
@@ -295,8 +295,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const revealElements = document.querySelectorAll('.reveal, .reveal-up, .reveal-left, .reveal-right, .reveal-scale');
   const observerOptions = {
     root: null,
-    threshold: 0.12,
-    rootMargin: "0px 0px -40px 0px"
+    threshold: 0.08,
+    rootMargin: "0px 0px 80px 0px"
   };
 
   const revealObserver = new IntersectionObserver((entries, observer) => {
