@@ -1146,12 +1146,13 @@ img {
 
 .cl-letter-title {
   font-family: var(--font-serif);
-  font-size: 1.6rem;
-  letter-spacing: 6px;
+  font-size: clamp(1.2rem, 4.5vw, 1.6rem);
+  letter-spacing: clamp(4px, 1.5vw, 7px);
   color: var(--cl-rose-deep);
   font-weight: 700;
   margin-bottom: 12px;
   text-shadow: 0 1px 4px rgba(255, 255, 255, 0.95), 0 0 12px rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
 }
 
 .cl-letter-body {
@@ -1223,6 +1224,7 @@ img {
   font-size: 2.4rem;
   color: var(--cl-rose-deep);
   line-height: 1.1;
+  white-space: nowrap;
 }
 
 .cl-name-ampersand {
@@ -1257,9 +1259,10 @@ img {
 }
 
 .cl-parent-line {
-  font-size: 0.84rem;
+  font-size: clamp(0.72rem, 2.7vw, 0.84rem);
   color: var(--cl-text-dark);
-  line-height: 1.6;
+  line-height: 1.55;
+  white-space: nowrap;
 }
 
 .cl-parent-line strong {
@@ -1629,10 +1632,13 @@ img {
 
 .cl-sweet-spaced {
   font-family: var(--font-serif);
-  font-size: 1.55rem;
-  letter-spacing: 5px;
+  font-size: clamp(1.15rem, 4.4vw, 1.55rem);
+  letter-spacing: clamp(3px, 1.2vw, 6px);
   color: var(--cl-rose-deep);
   font-weight: 600;
+  white-space: nowrap;
+  display: block;
+  text-align: center;
 }
 
 .cl-collage-wrap {
@@ -2379,6 +2385,7 @@ img {
   color: var(--cl-rose-deep);
   font-weight: 700;
   line-height: 1.2;
+  white-space: nowrap;
 }
 
 .cl-gift-stk-row {
@@ -2819,4 +2826,83 @@ img {
   transform: translateX(-50%) translateY(0);
   opacity: 1;
   pointer-events: auto;
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVENESS REFINEMENTS (TỐI ƯU HIỂN THỊ CHUẨN TRÊN ĐIỆN THOẠI)
+   ========================================================================== */
+@media (max-width: 480px) {
+  .cl-card-white {
+    padding: 24px 12px;
+    margin: 14px 8px;
+    border-radius: 20px;
+  }
+  .cl-family-grid {
+    gap: 8px;
+    padding: 16px 0;
+  }
+  .cl-parent-line {
+    font-size: 0.74rem;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+  .cl-side-title {
+    font-size: 1.15rem;
+    margin-bottom: 6px;
+  }
+  .cl-address-line {
+    font-size: 0.72rem;
+    line-height: 1.35;
+  }
+  .cl-ceremony-header-row {
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .cl-ceremony-header-divider {
+    height: 65px;
+  }
+  .cl-script-word {
+    font-size: 1.85rem;
+  }
+  .cl-name-script {
+    font-size: 2.1rem;
+    white-space: nowrap;
+  }
+  .cl-name-ampersand {
+    font-size: 1.5rem;
+  }
+  .cl-sweet-spaced {
+    font-size: 1.25rem;
+    letter-spacing: 4px;
+    white-space: nowrap;
+  }
+  .cl-editorial-banner {
+    margin-bottom: 18px;
+  }
+}
+
+@media (max-width: 380px) {
+  .cl-card-white {
+    padding: 20px 8px;
+    margin: 12px 6px;
+  }
+  .cl-family-grid {
+    gap: 4px;
+  }
+  .cl-parent-line {
+    font-size: 0.68rem;
+    white-space: nowrap;
+  }
+  .cl-address-line {
+    font-size: 0.66rem;
+  }
+  .cl-name-script {
+    font-size: 1.85rem;
+    white-space: nowrap;
+  }
+  .cl-sweet-spaced {
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    white-space: nowrap;
+  }
 }
