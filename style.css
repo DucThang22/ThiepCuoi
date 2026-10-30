@@ -1191,37 +1191,41 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: clamp(16px, 5vw, 24px);
   margin-bottom: 26px;
+  width: 100%;
 }
 
 .cl-ceremony-badge-stack {
   display: flex;
   flex-direction: column;
   text-align: center;
+  flex-shrink: 0;
 }
 
 .cl-script-word {
   font-family: var(--font-cursive);
-  font-size: 2.1rem;
+  font-size: clamp(2.1rem, 6vw, 2.5rem);
   color: var(--cl-rose-deep);
-  line-height: 1;
+  line-height: 1.05;
 }
 
 .cl-ceremony-header-divider {
   width: 1.5px;
-  height: 80px;
+  height: clamp(75px, 20vw, 85px);
   background: var(--cl-rose-deep);
-  opacity: 0.8;
+  opacity: 0.75;
+  flex-shrink: 0;
 }
 
 .cl-ceremony-names-col {
   text-align: center;
+  flex-shrink: 0;
 }
 
 .cl-name-script {
   font-family: var(--font-cursive);
-  font-size: 2.4rem;
+  font-size: clamp(2.5rem, 7.5vw, 3rem);
   color: var(--cl-rose-deep);
   line-height: 1.1;
   white-space: nowrap;
@@ -1229,10 +1233,10 @@ img {
 
 .cl-name-ampersand {
   font-family: var(--font-cursive);
-  font-size: 1.8rem;
+  font-size: clamp(1.6rem, 4.5vw, 2rem);
   color: var(--cl-rose-accent);
-  line-height: 0.8;
-  margin: 2px 0;
+  line-height: 0.85;
+  margin: 1px 0;
 }
 
 /* 2 Cột Nhà Trai - Nhà Gái */
@@ -2833,8 +2837,8 @@ img {
    ========================================================================== */
 @media (max-width: 480px) {
   .cl-card-white {
-    padding: 24px 12px;
-    margin: 14px 8px;
+    padding: 26px 16px;
+    margin: 14px 10px;
     border-radius: 20px;
   }
   .cl-family-grid {
@@ -2855,21 +2859,22 @@ img {
     line-height: 1.35;
   }
   .cl-ceremony-header-row {
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 16px;
+    margin-bottom: 22px;
   }
   .cl-ceremony-header-divider {
-    height: 65px;
+    height: 75px;
   }
   .cl-script-word {
-    font-size: 1.85rem;
+    font-size: 2.15rem;
+    line-height: 1.05;
   }
   .cl-name-script {
-    font-size: 2.1rem;
+    font-size: 2.55rem;
     white-space: nowrap;
   }
   .cl-name-ampersand {
-    font-size: 1.5rem;
+    font-size: 1.65rem;
   }
   .cl-sweet-spaced {
     font-size: 1.25rem;
@@ -2883,22 +2888,34 @@ img {
 
 @media (max-width: 380px) {
   .cl-card-white {
-    padding: 20px 8px;
+    padding: 22px 10px;
     margin: 12px 6px;
   }
   .cl-family-grid {
-    gap: 4px;
+    gap: 6px;
   }
   .cl-parent-line {
-    font-size: 0.68rem;
+    font-size: 0.7rem;
     white-space: nowrap;
   }
   .cl-address-line {
-    font-size: 0.66rem;
+    font-size: 0.68rem;
+  }
+  .cl-ceremony-header-row {
+    gap: 14px;
+  }
+  .cl-ceremony-header-divider {
+    height: 70px;
+  }
+  .cl-script-word {
+    font-size: 1.95rem;
   }
   .cl-name-script {
-    font-size: 1.85rem;
+    font-size: 2.3rem;
     white-space: nowrap;
+  }
+  .cl-name-ampersand {
+    font-size: 1.5rem;
   }
   .cl-sweet-spaced {
     font-size: 1.1rem;
