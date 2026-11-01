@@ -1042,7 +1042,7 @@ img {
 .cl-invitation-cover {
   position: relative;
   width: 100%;
-  min-height: 890px;
+  min-height: 870px;
   overflow: hidden;
   background-color: #faf5f2;
   transform: translateZ(0);
@@ -1083,12 +1083,12 @@ img {
 
 .cl-invitation-bg-img {
   width: 100%;
-  height: 115%;
+  height: 100%;
   position: absolute;
-  top: -13%;
+  top: 0;
   left: 0;
   object-fit: cover;
-  object-position: center top;
+  object-position: 65% top;
   transform: translateZ(0);
   pointer-events: none;
 }
@@ -1096,8 +1096,8 @@ img {
 .cl-invitation-content-overlay {
   position: relative;
   z-index: 4;
-  padding: 20px 14px 80px;
-  min-height: 890px;
+  padding: 22px 14px 80px;
+  min-height: 870px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -2913,14 +2913,15 @@ img {
 @media (max-width: 480px) {
   .cl-invitation-cover,
   .cl-invitation-content-overlay {
-    min-height: 880px;
+    min-height: 860px;
   }
   .cl-invitation-content-overlay {
-    padding-bottom: 80px;
+    padding: 22px 14px 80px;
   }
   .cl-invitation-bg-img {
-    height: 115%;
-    top: -13%;
+    height: 100%;
+    top: 0;
+    object-position: 65% top;
   }
   .cl-letter-card {
     padding: 24px 14px 30px;
@@ -2981,14 +2982,15 @@ img {
 @media (max-width: 380px) {
   .cl-invitation-cover,
   .cl-invitation-content-overlay {
-    min-height: 860px;
+    min-height: 840px;
   }
   .cl-invitation-content-overlay {
-    padding-bottom: 78px;
+    padding: 18px 12px 76px;
   }
   .cl-invitation-bg-img {
-    height: 116%;
-    top: -14%;
+    height: 100%;
+    top: 0;
+    object-position: 65% top;
   }
   .cl-countdown-grid {
     gap: 6px;
