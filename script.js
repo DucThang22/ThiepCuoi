@@ -361,7 +361,8 @@ document.addEventListener('DOMContentLoaded', () => {
         'assets/images/TTT09222_web.jpg',
         'assets/images/TTT09824_web.jpg',
         'assets/images/TTT09053_web.jpg',
-        'assets/images/TTT09839_web.jpg'
+        'assets/images/TTT09839_web.jpg',
+        'assets/images/TTT08816_web.jpg'
       ];
 
   // 4.1. 3D COVERFLOW SWIPE SLIDER LOGIC (CHUẨN ẢNH THỨ 2)
