@@ -228,6 +228,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!isPlaying && !userManuallyPaused) {
       playAudio();
     }
+
+    setTimeout(adjustTimelineTrack, 300);
   }
 
   // Logic click theo yêu cầu:
@@ -290,13 +292,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ==========================================
-  // 3. SMOOTH SCROLL REVEAL (TỪ LỀ VÀO MƯỢT MÀ)
+  // 3. SMOOTH SCROLL REVEAL (TỪ LỀ VÀO MƯỢT MÀ, CHẬM VÀ ĐẸP TRÊN MỌI VIEW)
   // ==========================================
   const revealElements = document.querySelectorAll('.reveal, .reveal-up, .reveal-left, .reveal-right, .reveal-scale');
   const observerOptions = {
     root: null,
-    threshold: 0.08,
-    rootMargin: "0px 0px 80px 0px"
+    threshold: 0.05,
+    rootMargin: "0px 0px -20px 0px"
   };
 
   const revealObserver = new IntersectionObserver((entries, observer) => {
@@ -310,6 +312,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
   revealElements.forEach(el => revealObserver.observe(el));
 
+  // ==========================================
+  // CĂN CHỈNH ĐƯỜNG KẺ TIMELINE TỪ TÂM TIM ĐẦU ĐẾN TÂM TIM CUỐI (LOẠI BỎ NÉT THỪA)
+  // ==========================================
+  function adjustTimelineTrack() {
+    const track = document.querySelector('.cl-timeline-track');
+    if (!track) return;
+    const firstNode = track.querySelector('.cl-timeline-row:first-child .cl-timeline-node');
+    const lastNode = track.querySelector('.cl-timeline-row:last-child .cl-timeline-node');
+    if (firstNode && lastNode) {
+      const trackRect = track.getBoundingClientRect();
+      const firstRect = firstNode.getBoundingClientRect();
+      const lastRect = lastNode.getBoundingClientRect();
+      const topOffset = (firstRect.top + firstRect.height / 2) - trackRect.top;
+      const bottomOffset = trackRect.bottom - (lastRect.top + lastRect.height / 2);
+      if (topOffset > 0 && bottomOffset > 0) {
+        track.style.setProperty('--line-top', `${Math.round(topOffset)}px`);
+        track.style.setProperty('--line-bottom', `${Math.round(bottomOffset)}px`);
+      }
+    }
+  }
+
+  adjustTimelineTrack();
+  window.addEventListener('resize', adjustTimelineTrack);
+  window.addEventListener('orientationchange', () => {
+    setTimeout(adjustTimelineTrack, 250);
+  });
+
 
   // ==========================================
   // 4. PHOTO GALLERY LIGHTBOX & 3D COVERFLOW SWIPE SLIDER
@@ -321,14 +350,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const lightboxNext = document.getElementById('lightbox-next');
   let currentImgIndex = 0;
 
-  const gallerySources = [
-    'assets/images/TTT08627_web.jpg',
-    'assets/images/TTT08982_web.jpg',
-    'assets/images/TTT09584_web.jpg',
-    'assets/images/TTT09222_web.jpg',
-    'assets/images/TTT08789_web.jpg',
-    'assets/images/TTT08816_web.jpg'
-  ];
+  // Tự động đồng bộ danh sách ảnh từ coverflow slider
+  const coverflowImgEls = document.querySelectorAll('#album-coverflow .gallery-trigger');
+  const gallerySources = coverflowImgEls.length
+    ? Array.from(coverflowImgEls).map(img => img.getAttribute('src')).filter(Boolean)
+    : [
+        'assets/images/TTT08627_web.jpg',
+        'assets/images/TTT08982_web.jpg',
+        'assets/images/TTT09584_web.jpg',
+        'assets/images/TTT09222_web.jpg',
+        'assets/images/TTT09824_web.jpg',
+        'assets/images/TTT09053_web.jpg',
+        'assets/images/TTT09839_web.jpg'
+      ];
 
   // 4.1. 3D COVERFLOW SWIPE SLIDER LOGIC (CHUẨN ẢNH THỨ 2)
   const coverflowContainer = document.getElementById('album-coverflow');
