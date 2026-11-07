@@ -685,7 +685,7 @@
         </div>
       </section>
 
-      <!-- SECTION 8: GỬI QUÀ MỪNG - QR NGÂN HÀNG (BỐ CỤC CHUẨN CINELOVE 42) -->
+      <!-- SECTION 8: GỬI QUÀ MỪNG - QR NGÂN HÀNG (HỘP QUÀ TƯƠNG TÁC 3D & HIỆU ỨNG MỞ QUÀ SIÊU MƯỢT) -->
       <section class="cl-section cl-gift-section reveal-up" id="wishing-section">
         
         <div class="cl-section-head text-center">
@@ -694,60 +694,137 @@
           <p class="cl-head-desc">Dành tặng những lời chúc phúc &amp; món quà ý nghĩa đến cặp đôi</p>
         </div>
 
-        <div class="cl-gift-cards-stack">
-          
-          <!-- THẺ 1: CHÚ RỂ (Avatar tròn bên trái, Thẻ QR bên phải - Chuẩn CineLove 42) -->
-          <div class="cl-gift-row reveal-left">
-            <div class="cl-gift-avatar-wrap">
-              <div class="cl-dashed-ring">
-                <img src="assets/images/TTT08867_avatar.jpg" alt="Chú rể Đức Thắng" class="cl-dashed-avatar groom-avatar">
-              </div>
-            </div>
+        <!-- SÂN KHẤU HỘP QUÀ TƯƠNG TÁC 3D -->
+        <div class="cl-gift-box-stage" id="gift-box-stage" role="button" tabindex="0" aria-label="Chạm để mở hộp quà mừng cưới">
+          <div class="cl-gift-box-container">
+            
+            <!-- Vầng sáng hào quang mềm mại -->
+            <div class="cl-gift-glow"></div>
 
-            <div class="cl-gift-card">
-              <div class="cl-gift-qr-box" title="Nhấp để phóng to QR">
-                <img src="assets/images/qr_groom_clean.png" alt="QR VietinBank Chú rể Đức Thắng" class="cl-gift-qr gallery-trigger" data-img-src="assets/images/qr_groom_clean.png">
-              </div>
-              <div class="cl-gift-info">
-                <span class="cl-gift-role">Chú rể</span>
-                <h4 class="cl-gift-name">Đức Thắng</h4>
-                <div class="cl-gift-stk-row">
-                  <span class="cl-stk-label">VietinBank :</span>
-                  <span class="cl-stk-val" id="groom-stk">106874944681</span>
+            <!-- Bóng đổ 3D dưới đáy hộp -->
+            <div class="cl-gift-shadow"></div>
+
+            <!-- Khối hộp quà 3D -->
+            <div class="cl-gift-box-3d" id="gift-box-3d">
+              
+              <!-- Nắp hộp quà + Nơ ruy băng kim hoàng -->
+              <div class="cl-gift-lid">
+                <!-- Nơ ruy băng 3D -->
+                <div class="cl-gift-bow">
+                  <div class="cl-bow-loop cl-bow-loop-left"></div>
+                  <div class="cl-bow-loop cl-bow-loop-right"></div>
+                  <div class="cl-bow-center"></div>
+                  <div class="cl-bow-tail cl-bow-tail-left"></div>
+                  <div class="cl-bow-tail cl-bow-tail-right"></div>
                 </div>
-                <button type="button" class="cl-btn-copy" onclick="copyAccount('106874944681', 'Chú rể')" title="Sao chép số tài khoản">
-                  <i class="fa-regular fa-copy"></i> Sao chép
-                </button>
+                <!-- Dây ruy băng ngang nắp -->
+                <div class="cl-lid-ribbon"></div>
+                <!-- Vành nắp hộp -->
+                <div class="cl-lid-rim"></div>
               </div>
-            </div>
-          </div>
 
-          <!-- THẺ 2: CÔ DÂU (Thẻ QR bên trái, Avatar tròn bên phải - Chuẩn CineLove 42) -->
-          <div class="cl-gift-row reverse reveal-right delay-1">
-            <div class="cl-gift-card">
-              <div class="cl-gift-qr-box" title="Nhấp để phóng to QR">
-                <img src="assets/images/qr_bride_clean.png" alt="QR VietinBank Cô dâu Kiều Trang" class="cl-gift-qr gallery-trigger" data-img-src="assets/images/qr_bride_clean.png">
+              <!-- Thân hộp quà sang trọng -->
+              <div class="cl-gift-body">
+                <!-- Ruy băng chữ thập thân hộp -->
+                <div class="cl-body-ribbon-v"></div>
+                <div class="cl-body-ribbon-h"></div>
+                <!-- Tia sáng bừng nở từ bên trong hộp -->
+                <div class="cl-body-inner-light"></div>
               </div>
-              <div class="cl-gift-info">
-                <span class="cl-gift-role">Cô dâu</span>
-                <h4 class="cl-gift-name">Kiều Trang</h4>
-                <div class="cl-gift-stk-row">
-                  <span class="cl-stk-label">VietinBank :</span>
-                  <span class="cl-stk-val" id="bride-stk">101873958290</span>
+
+              <!-- Các hạt bụi phép thuật & tim bay tung toé khi mở -->
+              <div class="cl-gift-particles" id="gift-particles">
+                <span class="cl-p-item p1">✨</span>
+                <span class="cl-p-item p2">💖</span>
+                <span class="cl-p-item p3">🌸</span>
+                <span class="cl-p-item p4">✨</span>
+                <span class="cl-p-item p5">❤️</span>
+                <span class="cl-p-item p6">✨</span>
+                <span class="cl-p-item p7">💕</span>
+                <span class="cl-p-item p8">⭐</span>
+              </div>
+
+            </div>
+
+            <!-- Nhãn gợi ý tương tác mở hộp quà -->
+            <div class="cl-gift-tap-hint">
+              <span class="cl-tap-pulse"></span>
+              <span class="cl-tap-text">
+                <i class="fa-solid fa-gift"></i> Chạm để mở hộp quà <i class="fa-solid fa-wand-magic-sparkles"></i>
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- WRAPPER CHỨA THẺ QR (ẨN BAN ĐẦU, HIỆN RA MƯỢT MÀ SAU KHI MỞ HỘP) -->
+        <div class="cl-gift-cards-wrapper" id="gift-cards-wrapper">
+          <div class="cl-gift-cards-inner">
+            
+            <div class="cl-gift-cards-stack">
+              
+              <!-- THẺ 1: CHÚ RỂ (Avatar tròn bên trái, Thẻ QR bên phải - Chuẩn CineLove 42) -->
+              <div class="cl-gift-row card-groom">
+                <div class="cl-gift-avatar-wrap">
+                  <div class="cl-dashed-ring">
+                    <img src="assets/images/TTT08867_avatar.jpg" alt="Chú rể Đức Thắng" class="cl-dashed-avatar groom-avatar">
+                  </div>
                 </div>
-                <button type="button" class="cl-btn-copy" onclick="copyAccount('101873958290', 'Cô dâu')" title="Sao chép số tài khoản">
-                  <i class="fa-regular fa-copy"></i> Sao chép
-                </button>
+
+                <div class="cl-gift-card">
+                  <div class="cl-gift-qr-box" title="Nhấp để phóng to QR">
+                    <img src="assets/images/qr_groom_clean.png" alt="QR VietinBank Chú rể Đức Thắng" class="cl-gift-qr gallery-trigger" data-img-src="assets/images/qr_groom_clean.png">
+                  </div>
+                  <div class="cl-gift-info">
+                    <span class="cl-gift-role">Chú rể</span>
+                    <h4 class="cl-gift-name">Đức Thắng</h4>
+                    <div class="cl-gift-stk-row">
+                      <span class="cl-stk-label">VietinBank :</span>
+                      <span class="cl-stk-val" id="groom-stk">106874944681</span>
+                    </div>
+                    <button type="button" class="cl-btn-copy" onclick="copyAccount('106874944681', 'Chú rể')" title="Sao chép số tài khoản">
+                      <i class="fa-regular fa-copy"></i> Sao chép
+                    </button>
+                  </div>
+                </div>
               </div>
+
+              <!-- THẺ 2: CÔ DÂU (Thẻ QR bên trái, Avatar tròn bên phải - Chuẩn CineLove 42) -->
+              <div class="cl-gift-row reverse card-bride">
+                <div class="cl-gift-card">
+                  <div class="cl-gift-qr-box" title="Nhấp để phóng to QR">
+                    <img src="assets/images/qr_bride_clean.png" alt="QR VietinBank Cô dâu Kiều Trang" class="cl-gift-qr gallery-trigger" data-img-src="assets/images/qr_bride_clean.png">
+                  </div>
+                  <div class="cl-gift-info">
+                    <span class="cl-gift-role">Cô dâu</span>
+                    <h4 class="cl-gift-name">Kiều Trang</h4>
+                    <div class="cl-gift-stk-row">
+                      <span class="cl-stk-label">VietinBank :</span>
+                      <span class="cl-stk-val" id="bride-stk">101873958290</span>
+                    </div>
+                    <button type="button" class="cl-btn-copy" onclick="copyAccount('101873958290', 'Cô dâu')" title="Sao chép số tài khoản">
+                      <i class="fa-regular fa-copy"></i> Sao chép
+                    </button>
+                  </div>
+                </div>
+
+                <div class="cl-gift-avatar-wrap">
+                  <div class="cl-dashed-ring">
+                    <img src="assets/images/TTT08816_avatar.jpg" alt="Cô dâu Kiều Trang" class="cl-dashed-avatar bride-avatar">
+                  </div>
+                </div>
+              </div>
+
             </div>
 
-            <div class="cl-gift-avatar-wrap">
-              <div class="cl-dashed-ring">
-                <img src="assets/images/TTT08816_avatar.jpg" alt="Cô dâu Kiều Trang" class="cl-dashed-avatar bride-avatar">
-              </div>
+            <!-- Nút đóng lại hộp quà tiện lợi -->
+            <div class="cl-gift-reclose-wrap text-center">
+              <button type="button" class="cl-gift-reclose-btn" id="gift-reclose-btn" title="Đóng lại hộp quà">
+                <i class="fa-solid fa-gift"></i> Đóng lại hộp quà
+              </button>
             </div>
+
           </div>
-
         </div>
 
       </section>
