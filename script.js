@@ -643,15 +643,16 @@ document.addEventListener('DOMContentLoaded', () => {
     window.showToast(`Đã sao chép STK ${ownerLabel} (${text})!`);
   }
 
-  // --- LOGIC HỘP QUÀ TƯƠNG TÁC 3D MỞ RA VIEW QR NGÂN HÀNG (SIÊU MƯỢT, ZERO LAG) ---
+  // --- LOGIC HỘP QUÀ TƯƠNG TÁC TỰ NHIÊN MỞ RA VIEW QR NGÂN HÀNG (ZERO-JUMP LAYOUT) ---
+  const giftViewport = document.getElementById('gift-viewport');
   const giftBoxStage = document.getElementById('gift-box-stage');
-  const giftCardsWrapper = document.getElementById('gift-cards-wrapper');
+  const giftCardsStage = document.getElementById('gift-cards-stage');
   const giftRecloseBtn = document.getElementById('gift-reclose-btn');
   let isGiftBoxOpening = false;
 
   function openGiftBox(shouldScroll = false) {
-    if (!giftBoxStage || !giftCardsWrapper) return;
-    if (giftCardsWrapper.classList.contains('is-visible') || isGiftBoxOpening) return;
+    if (!giftViewport || isGiftBoxOpening) return;
+    if (giftViewport.classList.contains('is-opened')) return;
 
     isGiftBoxOpening = true;
 
@@ -660,36 +661,23 @@ document.addEventListener('DOMContentLoaded', () => {
       try { navigator.vibrate(35); } catch (err) {}
     }
 
-    // 1. Bật class hoạt cảnh mở nắp 3D và bung toả hạt bụi phép thuật
-    giftBoxStage.classList.add('is-opening');
+    // 1. Bật hoạt cảnh nảy nhẹ & bung toả hạt bụi phép thuật
+    giftViewport.classList.add('is-opening');
 
-    // 2. Sau 420ms (khi nắp đã lật ngửa và tia sáng bừng lên), trượt mở view thẻ QR
+    // 2. Sau 420ms (khi hạt bung toả rực rỡ), chuyển tiếp mượt sang danh sách thẻ QR ngay tại chỗ
     setTimeout(() => {
-      giftBoxStage.classList.add('is-opened');
-      giftCardsWrapper.classList.add('is-visible');
+      giftViewport.classList.remove('is-opening');
+      giftViewport.classList.add('is-opened');
       isGiftBoxOpening = false;
-
-      if (shouldScroll) {
-        setTimeout(() => {
-          giftCardsWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 150);
-      }
     }, 420);
   }
 
   function closeGiftBox() {
-    if (!giftBoxStage || !giftCardsWrapper || isGiftBoxOpening) return;
+    if (!giftViewport || isGiftBoxOpening) return;
 
-    // Thu nhỏ và ẩn view thẻ QR
-    giftCardsWrapper.classList.remove('is-visible');
-
-    // Mở lại hộp quà về trạng thái ban đầu
-    setTimeout(() => {
-      giftBoxStage.classList.remove('is-opened');
-      setTimeout(() => {
-        giftBoxStage.classList.remove('is-opening');
-      }, 120);
-    }, 280);
+    // Đóng mượt mà tại chỗ, chuyển lại về hộp quà (zero jump layout)
+    giftViewport.classList.remove('is-opened');
+    giftViewport.classList.remove('is-opening');
   }
 
   if (giftBoxStage) {
@@ -894,7 +882,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (giftSec) {
         giftSec.scrollIntoView({ behavior: 'smooth' });
         // Tự động kích hoạt mở hộp quà nếu chưa mở để khách chiêm ngưỡng
-        if (giftCardsWrapper && !giftCardsWrapper.classList.contains('is-visible')) {
+        if (giftViewport && !giftViewport.classList.contains('is-opened')) {
           setTimeout(() => {
             openGiftBox(false);
           }, 500);

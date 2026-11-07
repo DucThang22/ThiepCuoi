@@ -685,7 +685,7 @@
         </div>
       </section>
 
-      <!-- SECTION 8: GỬI QUÀ MỪNG - QR NGÂN HÀNG (HỘP QUÀ TƯƠNG TÁC 3D & HIỆU ỨNG MỞ QUÀ SIÊU MƯỢT) -->
+      <!-- SECTION 8: GỬI QUÀ MỪNG - QR NGÂN HÀNG (HỘP QUÀ CƯỚI TỰ NHIÊN SANG TRỌNG & ZERO JUMP) -->
       <section class="cl-section cl-gift-section reveal-up" id="wishing-section">
         
         <div class="cl-section-head text-center">
@@ -694,72 +694,49 @@
           <p class="cl-head-desc">Dành tặng những lời chúc phúc &amp; món quà ý nghĩa đến cặp đôi</p>
         </div>
 
-        <!-- SÂN KHẤU HỘP QUÀ TƯƠNG TÁC 3D -->
-        <div class="cl-gift-box-stage" id="gift-box-stage" role="button" tabindex="0" aria-label="Chạm để mở hộp quà mừng cưới">
-          <div class="cl-gift-box-container">
-            
-            <!-- Vầng sáng hào quang mềm mại -->
-            <div class="cl-gift-glow"></div>
-
-            <!-- Bóng đổ 3D dưới đáy hộp -->
-            <div class="cl-gift-shadow"></div>
-
-            <!-- Khối hộp quà 3D -->
-            <div class="cl-gift-box-3d" id="gift-box-3d">
+        <!-- SÂN KHẤU HỘP QUÀ TƯƠNG TÁC (KIẾN TRÚC CSS GRID ỔN ĐỊNH - CHỐNG NHẢY VIEW 100%) -->
+        <div class="cl-gift-viewport" id="gift-viewport">
+          
+          <!-- LỚP 1: HỘP QUÀ CƯỚI TỰ NHIÊN TRANG TRỌNG (CẨM NANG THIỆP CƯỚI CAO CẤP) -->
+          <div class="cl-gift-stage-box" id="gift-box-stage" role="button" tabindex="0" aria-label="Chạm để mở hộp quà mừng cưới">
+            <div class="cl-gift-box-container">
               
-              <!-- Nắp hộp quà + Nơ ruy băng kim hoàng -->
-              <div class="cl-gift-lid">
-                <!-- Nơ ruy băng 3D -->
-                <div class="cl-gift-bow">
-                  <div class="cl-bow-loop cl-bow-loop-left"></div>
-                  <div class="cl-bow-loop cl-bow-loop-right"></div>
-                  <div class="cl-bow-center"></div>
-                  <div class="cl-bow-tail cl-bow-tail-left"></div>
-                  <div class="cl-bow-tail cl-bow-tail-right"></div>
+              <!-- Vầng sáng hào quang mềm mại -->
+              <div class="cl-gift-glow"></div>
+
+              <!-- Hộp quà cưới tự nhiên sang trọng -->
+              <div class="cl-gift-box-visual" id="gift-box-visual">
+                <img src="assets/images/wedding_gift_box.png" alt="Hộp quà cưới Đức Thắng & Kiều Trang" class="cl-gift-img">
+                
+                <!-- Bóng đổ mềm thực tế dưới đáy hộp quà -->
+                <div class="cl-gift-shadow"></div>
+
+                <!-- Các hạt bụi phép thuật & tim bay tung toé khi mở -->
+                <div class="cl-gift-particles" id="gift-particles">
+                  <span class="cl-p-item p1">✨</span>
+                  <span class="cl-p-item p2">💖</span>
+                  <span class="cl-p-item p3">🌸</span>
+                  <span class="cl-p-item p4">✨</span>
+                  <span class="cl-p-item p5">❤️</span>
+                  <span class="cl-p-item p6">✨</span>
+                  <span class="cl-p-item p7">💕</span>
+                  <span class="cl-p-item p8">⭐</span>
                 </div>
-                <!-- Dây ruy băng ngang nắp -->
-                <div class="cl-lid-ribbon"></div>
-                <!-- Vành nắp hộp -->
-                <div class="cl-lid-rim"></div>
               </div>
 
-              <!-- Thân hộp quà sang trọng -->
-              <div class="cl-gift-body">
-                <!-- Ruy băng chữ thập thân hộp -->
-                <div class="cl-body-ribbon-v"></div>
-                <div class="cl-body-ribbon-h"></div>
-                <!-- Tia sáng bừng nở từ bên trong hộp -->
-                <div class="cl-body-inner-light"></div>
-              </div>
-
-              <!-- Các hạt bụi phép thuật & tim bay tung toé khi mở -->
-              <div class="cl-gift-particles" id="gift-particles">
-                <span class="cl-p-item p1">✨</span>
-                <span class="cl-p-item p2">💖</span>
-                <span class="cl-p-item p3">🌸</span>
-                <span class="cl-p-item p4">✨</span>
-                <span class="cl-p-item p5">❤️</span>
-                <span class="cl-p-item p6">✨</span>
-                <span class="cl-p-item p7">💕</span>
-                <span class="cl-p-item p8">⭐</span>
+              <!-- Lời ngỏ trang nhã & Nhãn gợi ý chạm mở hộp quà -->
+              <div class="cl-gift-tap-hint">
+                <span class="cl-tap-pulse"></span>
+                <span class="cl-tap-text">
+                  <i class="fa-solid fa-gift"></i> Mở hộp quà mừng <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </span>
               </div>
 
             </div>
-
-            <!-- Nhãn gợi ý tương tác mở hộp quà -->
-            <div class="cl-gift-tap-hint">
-              <span class="cl-tap-pulse"></span>
-              <span class="cl-tap-text">
-                <i class="fa-solid fa-gift"></i> Chạm để mở hộp quà <i class="fa-solid fa-wand-magic-sparkles"></i>
-              </span>
-            </div>
-
           </div>
-        </div>
 
-        <!-- WRAPPER CHỨA THẺ QR (ẨN BAN ĐẦU, HIỆN RA MƯỢT MÀ SAU KHI MỞ HỘP) -->
-        <div class="cl-gift-cards-wrapper" id="gift-cards-wrapper">
-          <div class="cl-gift-cards-inner">
+          <!-- LỚP 2: DANH SÁCH THẺ QR NGÂN HÀNG (CÙNG NẰM TRONG CÙNG Ô GRID - CHỐNG GIẬT LAG) -->
+          <div class="cl-gift-stage-cards" id="gift-cards-stage">
             
             <div class="cl-gift-cards-stack">
               
@@ -825,6 +802,7 @@
             </div>
 
           </div>
+
         </div>
 
       </section>

@@ -2357,50 +2357,49 @@ img {
 }
 
 /* ==========================================================================
-   HỘP QUÀ TƯƠNG TÁC 3D & HIỆU ỨNG MỞ QUÀ SIÊU MƯỢT (CINELOVE 42 WEDDING GIFT)
-   Tối ưu GPU Hardware Acceleration (translate3d, scale3d, rotateX, opacity) - Zero Lag
+   HỘP QUÀ TƯƠNG TÁC CƯỚI TỰ NHIÊN SANG TRỌNG & ZERO-JUMP CSS GRID ARCHITECTURE
+   - Khung nhìn ổn định: Cả Hộp quà và Thẻ QR cùng nằm trong 1 ô Grid (1/2, 1/2)
+   - Tuyệt đối KHÔNG làm giật / nhảy các view bên dưới (Section 9/Guestbook)
+   - Hình ảnh hộp quà cưới tự nhiên, chân thực, hoa văn dập nổi & nơ lụa vàng kim hoàng
+   - Tối ưu 100% GPU Compositor (translate3d, scale3d, opacity)
    ========================================================================== */
 
-.cl-gift-box-stage {
-  perspective: 900px;
+.cl-gift-viewport {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  align-items: center;
+  justify-items: center;
   width: 100%;
-  max-width: 320px;
-  margin: 22px auto 10px;
+  min-height: 380px;
+  position: relative;
+  margin-top: 12px;
+  perspective: 900px;
+}
+
+.cl-gift-stage-box,
+.cl-gift-stage-cards {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  width: 100%;
+  max-width: 480px;
+  transition: opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.42s ease;
+  will-change: opacity, transform;
+}
+
+/* 1. LỚP HỘP QUÀ CƯỚI */
+.cl-gift-stage-box {
+  opacity: 1;
+  visibility: visible;
+  transform: scale3d(1, 1, 1);
+  pointer-events: auto;
+  z-index: 2;
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   outline: none;
-  max-height: 380px;
-  opacity: 1;
-  transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
-  transition: max-height 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
-              opacity 0.45s ease, 
-              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
-              margin 0.5s ease;
-  will-change: max-height, opacity, transform;
-}
-
-.cl-gift-box-stage:hover .cl-gift-box-3d {
-  transform: translateY(-5px) scale(1.02);
-}
-
-.cl-gift-box-stage:active .cl-gift-box-3d {
-  transform: translateY(-1px) scale(0.98);
-}
-
-/* Trạng thái khi hộp quà đang mở và sau khi đã mở xong */
-.cl-gift-box-stage.is-opening {
-  pointer-events: none;
-}
-
-.cl-gift-box-stage.is-opened {
-  max-height: 0;
-  opacity: 0;
-  margin-top: 0;
-  margin-bottom: 0;
-  pointer-events: none;
-  overflow: hidden;
-  transform: scale3d(0.85, 0.85, 1);
 }
 
 .cl-gift-box-container {
@@ -2409,205 +2408,74 @@ img {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 16px 10px 10px;
+  padding: 10px 10px 14px;
 }
 
-/* Vầng sáng hào quang mềm mại quanh hộp */
+/* Vầng hào quang mềm mại */
 .cl-gift-glow {
   position: absolute;
-  top: 38%;
+  top: 40%;
   left: 50%;
-  width: 220px;
-  height: 180px;
+  width: 250px;
+  height: 200px;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(239, 168, 178, 0.38) 0%, rgba(252, 237, 239, 0) 72%);
+  background: radial-gradient(circle, rgba(239, 168, 178, 0.4) 0%, rgba(252, 237, 239, 0) 72%);
   border-radius: 50%;
-  filter: blur(14px);
+  filter: blur(16px);
   pointer-events: none;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-/* Khối Hộp Quà 3D */
-.cl-gift-box-3d {
+/* Khối hình hộp quà cưới tự nhiên */
+.cl-gift-box-visual {
   position: relative;
-  width: 154px;
-  height: 130px;
-  transform-style: preserve-3d;
-  animation: clGiftBreathe 3.4s ease-in-out infinite;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 210px;
+  height: 200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: clGiftBreathe 3.6s ease-in-out infinite;
   will-change: transform;
 }
 
-/* Bóng đổ 3D thở theo nhịp nổi */
+.cl-gift-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 12px 20px rgba(112, 34, 42, 0.18));
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cl-gift-stage-box:hover .cl-gift-img {
+  transform: translateY(-5px) scale(1.03);
+}
+
+.cl-gift-stage-box:active .cl-gift-img {
+  transform: translateY(1px) scale(0.97);
+}
+
+/* Bóng đổ thực tế dưới đáy hộp */
 .cl-gift-shadow {
-  width: 145px;
-  height: 18px;
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 155px;
+  height: 16px;
   background: radial-gradient(ellipse at center, rgba(112, 34, 42, 0.28) 0%, rgba(112, 34, 42, 0) 72%);
   border-radius: 50%;
-  margin-top: 8px;
-  animation: clShadowBreathe 3.4s ease-in-out infinite;
+  animation: clShadowBreathe 3.6s ease-in-out infinite;
   will-change: transform, opacity;
-}
-
-/* Nắp Hộp Quà */
-.cl-gift-lid {
-  position: absolute;
-  top: -12px;
-  left: -8px;
-  width: 170px;
-  height: 34px;
-  background: linear-gradient(135deg, #a62e3d 0%, #83242f 60%, #5a161d 100%);
-  border-radius: 10px 10px 6px 6px;
-  box-shadow: 0 6px 16px rgba(84, 22, 28, 0.35), 
-              inset 0 2px 3px rgba(255, 255, 255, 0.35), 
-              inset 0 -2px 4px rgba(0, 0, 0, 0.22);
-  z-index: 6;
-  transform-origin: 50% 100%;
-  transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
-  will-change: transform;
-}
-
-.cl-lid-rim {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 0 0 6px 6px;
-}
-
-.cl-lid-ribbon {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 26px;
-  height: 100%;
-  background: linear-gradient(90deg, #d4af37 0%, #fff5c0 42%, #ffd700 68%, #b8860b 100%);
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
-}
-
-/* Nơ Ruy Băng Vàng 3D Sang Trọng Trên Nắp */
-.cl-gift-bow {
-  position: absolute;
-  top: -24px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 72px;
-  height: 30px;
   pointer-events: none;
 }
 
-.cl-bow-loop {
-  position: absolute;
-  top: 2px;
-  width: 32px;
-  height: 24px;
-  border-radius: 50% 50% 40% 40%;
-  background: linear-gradient(135deg, #fff3a8 0%, #ffd700 50%, #b8860b 100%);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.28);
-}
-
-.cl-bow-loop-left {
-  left: 6px;
-  transform: rotate(-32deg);
-}
-
-.cl-bow-loop-right {
-  right: 6px;
-  transform: rotate(32deg);
-}
-
-.cl-bow-center {
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #fffde6 0%, #ffd700 55%, #996515 100%);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
-  z-index: 3;
-}
-
-.cl-bow-tail {
-  position: absolute;
-  top: 18px;
-  width: 8px;
-  height: 20px;
-  background: linear-gradient(180deg, #ffd700 0%, #b8860b 100%);
-  border-radius: 0 0 4px 4px;
-  z-index: 1;
-}
-
-.cl-bow-tail-left {
-  left: 20px;
-  transform: rotate(-22deg);
-}
-
-.cl-bow-tail-right {
-  right: 20px;
-  transform: rotate(22deg);
-}
-
-/* Thân Hộp Quà */
-.cl-gift-body {
-  position: absolute;
-  top: 20px;
-  left: 0;
-  width: 154px;
-  height: 110px;
-  background: linear-gradient(145deg, #912734 0%, #70222a 60%, #4a1318 100%);
-  border-radius: 0 0 16px 16px;
-  box-shadow: 0 18px 32px -8px rgba(74, 19, 24, 0.42), 
-              inset 0 2px 4px rgba(255, 255, 255, 0.2), 
-              inset 0 -4px 8px rgba(0, 0, 0, 0.35);
-  overflow: hidden;
-  transform-origin: 50% 100%;
-}
-
-.cl-body-ribbon-v {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 26px;
-  height: 100%;
-  background: linear-gradient(90deg, #d4af37 0%, #fff5c0 42%, #ffd700 68%, #b8860b 100%);
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.22);
-}
-
-.cl-body-ribbon-h {
-  position: absolute;
-  top: 40px;
-  left: 0;
-  width: 100%;
-  height: 22px;
-  background: linear-gradient(180deg, #d4af37 0%, #fff5c0 42%, #ffd700 68%, #b8860b 100%);
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.22);
-}
-
-/* Hào quang bừng sáng từ bên trong lòng hộp khi mở */
-.cl-body-inner-light {
-  position: absolute;
-  top: -12px;
-  left: 10%;
-  width: 80%;
-  height: 45px;
-  background: radial-gradient(ellipse at top, #fffbe6 0%, rgba(255, 215, 0, 0.85) 50%, rgba(255, 215, 0, 0) 100%);
-  opacity: 0;
-  filter: blur(8px);
-  transform: scale(0.6);
-  transition: opacity 0.3s ease, transform 0.45s ease;
-  pointer-events: none;
-}
-
-/* Hạt bụi phép thuật & tim bay tung toé khi mở */
+/* Hạt bụi phép thuật & tim bung tỏa khi mở */
 .cl-gift-particles {
   position: absolute;
-  top: 15px;
+  top: 45%;
   left: 50%;
   width: 0;
   height: 0;
@@ -2619,7 +2487,7 @@ img {
   position: absolute;
   top: 0;
   left: 0;
-  font-size: 1.3rem;
+  font-size: 1.35rem;
   line-height: 1;
   opacity: 0;
   transform: translate3d(0, 0, 0) scale(0.2);
@@ -2628,67 +2496,33 @@ img {
   user-select: none;
 }
 
-/* Khi đang mở hộp (Trigger bởi JS qua class .is-opening) */
-.cl-gift-box-stage.is-opening .cl-gift-lid {
-  transform: translate3d(0, -90px, 0) rotateX(68deg) rotateZ(-14deg) scale(1.05);
+/* Hoạt cảnh khi kích hoạt mở hộp */
+.cl-gift-viewport.is-opening .cl-gift-box-visual {
+  animation: giftBoxOpenPulse 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-.cl-gift-box-stage.is-opening .cl-gift-body {
-  animation: giftBodySquash 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+.cl-gift-viewport.is-opening .cl-gift-glow {
+  transform: translate(-50%, -50%) scale(1.5);
+  opacity: 1;
 }
 
-.cl-gift-box-stage.is-opening .cl-body-inner-light {
-  opacity: 1;
-  transform: scale(1.6);
-}
-
-.cl-gift-box-stage.is-opening .cl-gift-glow {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1.3);
-}
-
-/* Hạt bung tỏa theo các hướng khác nhau */
-.cl-gift-box-stage.is-opening .cl-p-item.p1 {
-  transform: translate3d(-65px, -95px, 0) scale(1.3) rotate(-25deg);
-  opacity: 1;
-}
-.cl-gift-box-stage.is-opening .cl-p-item.p2 {
-  transform: translate3d(65px, -100px, 0) scale(1.4) rotate(30deg);
-  opacity: 1;
-}
-.cl-gift-box-stage.is-opening .cl-p-item.p3 {
-  transform: translate3d(-90px, -45px, 0) scale(1.1) rotate(-45deg);
-  opacity: 1;
-}
-.cl-gift-box-stage.is-opening .cl-p-item.p4 {
-  transform: translate3d(90px, -40px, 0) scale(1.2) rotate(40deg);
-  opacity: 1;
-}
-.cl-gift-box-stage.is-opening .cl-p-item.p5 {
-  transform: translate3d(-35px, -125px, 0) scale(1.5) rotate(15deg);
-  opacity: 1;
-}
-.cl-gift-box-stage.is-opening .cl-p-item.p6 {
-  transform: translate3d(35px, -120px, 0) scale(1.35) rotate(-30deg);
-  opacity: 1;
-}
-.cl-gift-box-stage.is-opening .cl-p-item.p7 {
-  transform: translate3d(-95px, -5px, 0) scale(1.15) rotate(50deg);
-  opacity: 1;
-}
-.cl-gift-box-stage.is-opening .cl-p-item.p8 {
-  transform: translate3d(95px, -10px, 0) scale(1.25) rotate(-55deg);
-  opacity: 1;
-}
+.cl-gift-viewport.is-opening .cl-p-item.p1 { transform: translate3d(-75px, -100px, 0) scale(1.3) rotate(-25deg); opacity: 1; }
+.cl-gift-viewport.is-opening .cl-p-item.p2 { transform: translate3d(75px, -105px, 0) scale(1.4) rotate(30deg); opacity: 1; }
+.cl-gift-viewport.is-opening .cl-p-item.p3 { transform: translate3d(-105px, -45px, 0) scale(1.1) rotate(-45deg); opacity: 1; }
+.cl-gift-viewport.is-opening .cl-p-item.p4 { transform: translate3d(105px, -40px, 0) scale(1.2) rotate(40deg); opacity: 1; }
+.cl-gift-viewport.is-opening .cl-p-item.p5 { transform: translate3d(-40px, -135px, 0) scale(1.5) rotate(15deg); opacity: 1; }
+.cl-gift-viewport.is-opening .cl-p-item.p6 { transform: translate3d(40px, -130px, 0) scale(1.35) rotate(-30deg); opacity: 1; }
+.cl-gift-viewport.is-opening .cl-p-item.p7 { transform: translate3d(-110px, -5px, 0) scale(1.15) rotate(50deg); opacity: 1; }
+.cl-gift-viewport.is-opening .cl-p-item.p8 { transform: translate3d(110px, -10px, 0) scale(1.25) rotate(-55deg); opacity: 1; }
 
 /* Nhãn Gợi Ý Chạm Mở Hộp Quà */
 .cl-gift-tap-hint {
   position: relative;
-  margin-top: 18px;
+  margin-top: 14px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 18px;
+  padding: 8px 20px;
   border-radius: 999px;
   background: linear-gradient(135deg, #ffffff 0%, #fff5f6 100%);
   border: 1.5px solid var(--cl-rose-border);
@@ -2696,7 +2530,7 @@ img {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.cl-gift-box-stage:hover .cl-gift-tap-hint {
+.cl-gift-stage-box:hover .cl-gift-tap-hint {
   transform: scale(1.04);
   box-shadow: 0 6px 18px rgba(112, 34, 42, 0.14);
 }
@@ -2732,64 +2566,64 @@ img {
   font-size: 0.9rem;
 }
 
-/* ==========================================================================
-   WRAPPER THẺ QR NGÂN HÀNG (HIỆN RA MƯỢT MÀ VỚI CSS GRID & SPRING EASING)
-   ========================================================================== */
-
-.cl-gift-cards-wrapper {
-  display: grid;
-  grid-template-rows: 0fr;
+/* 2. LỚP THẺ QR NGÂN HÀNG (TRONG CÙNG Ô GRID) */
+.cl-gift-stage-cards {
   opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 20px, 0) scale3d(0.96, 0.96, 1);
   pointer-events: none;
-  transition: grid-template-rows 0.65s cubic-bezier(0.16, 1, 0.3, 1), 
-              opacity 0.45s ease;
-  will-change: grid-template-rows, opacity;
+  z-index: 1;
 }
 
-.cl-gift-cards-inner {
-  overflow: hidden;
-  min-height: 0;
+/* Trạng thái KHI ĐÃ MỞ (Class .is-opened trên Viewport) */
+.cl-gift-viewport.is-opened .cl-gift-stage-box {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale3d(0.92, 0.92, 1);
+  pointer-events: none;
+  z-index: 1;
 }
 
-.cl-gift-cards-wrapper.is-visible {
-  grid-template-rows: 1fr;
+.cl-gift-viewport.is-opened .cl-gift-stage-cards {
   opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
   pointer-events: auto;
+  z-index: 2;
 }
 
 .cl-gift-cards-stack {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  margin-top: 14px;
+  gap: 20px;
 }
 
-/* Hiệu ứng trượt vào siêu mượt của 2 thẻ QR */
+/* Hiệu ứng trượt vào so le của 2 thẻ QR */
 .cl-gift-row.card-groom,
 .cl-gift-row.card-bride {
-  transform: translate3d(0, 28px, 0);
+  transform: translate3d(0, 20px, 0);
   opacity: 0;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
-              opacity 0.5s ease;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 0.45s ease;
   will-change: transform, opacity;
 }
 
-.cl-gift-cards-wrapper.is-visible .cl-gift-row.card-groom {
+.cl-gift-viewport.is-opened .cl-gift-row.card-groom {
   transform: translate3d(0, 0, 0);
   opacity: 1;
-  transition-delay: 0.12s;
+  transition-delay: 0.1s;
 }
 
-.cl-gift-cards-wrapper.is-visible .cl-gift-row.card-bride {
+.cl-gift-viewport.is-opened .cl-gift-row.card-bride {
   transform: translate3d(0, 0, 0);
   opacity: 1;
-  transition-delay: 0.28s;
+  transition-delay: 0.22s;
 }
 
 /* Nút Đóng lại hộp quà */
 .cl-gift-reclose-wrap {
-  margin-top: 22px;
-  margin-bottom: 8px;
+  margin-top: 18px;
+  margin-bottom: 4px;
 }
 
 .cl-gift-reclose-btn {
@@ -2828,18 +2662,18 @@ img {
     transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translate3d(0, -8px, 0);
+    transform: translate3d(0, -7px, 0);
   }
 }
 
 @keyframes clShadowBreathe {
   0%, 100% {
-    transform: scale(1);
+    transform: translateX(-50%) scale(1);
     opacity: 0.45;
   }
   50% {
-    transform: scale(0.82);
-    opacity: 0.22;
+    transform: translateX(-50%) scale(0.85);
+    opacity: 0.25;
   }
 }
 
@@ -2858,18 +2692,21 @@ img {
   }
 }
 
-@keyframes giftBodySquash {
+@keyframes giftBoxOpenPulse {
   0% {
-    transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1) rotate(0deg);
   }
-  22% {
-    transform: scale3d(1.07, 0.92, 1);
+  20% {
+    transform: scale3d(1.08, 0.92, 1) translateY(4px);
   }
-  55% {
-    transform: scale3d(0.97, 1.03, 1);
+  45% {
+    transform: scale3d(0.95, 1.08, 1) translateY(-12px) rotate(-2deg);
+  }
+  70% {
+    transform: scale3d(1.04, 0.98, 1) translateY(-5px) rotate(1.5deg);
   }
   100% {
-    transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1) translateY(0) rotate(0deg);
   }
 }
 
