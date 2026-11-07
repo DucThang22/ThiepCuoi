@@ -467,13 +467,13 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 20%;
+  object-position: center 15%;
   display: block;
   border-radius: 8px;
 }
 
 .envelope-stage.opening .envelope-photo-card {
-  transform: translateY(-68px);
+  transform: translateY(-118px);
   z-index: 8;
   pointer-events: auto;
   opacity: 1;
@@ -486,8 +486,13 @@ img {
 }
 
 @keyframes photoGentleBob {
-  0% { transform: translateY(-68px); }
-  100% { transform: translateY(-73px); }
+  0% { transform: translateY(-118px); }
+  100% { transform: translateY(-124px); }
+}
+
+@keyframes photoGentleBobMobile {
+  0% { transform: translateY(-105px); }
+  100% { transform: translateY(-110px); }
 }
 
 .envelope-pocket {
@@ -605,9 +610,14 @@ img {
 }
 
 .envelope-stage.opening .envelope-wax-seal {
-  transform: translate(-50%, -50%) scale(0.65);
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.envelope-stage.opening .seal-glow {
   opacity: 0;
-  pointer-events: none;
+  animation: none;
 }
 
 .envelope-bottom-info {
@@ -638,8 +648,11 @@ img {
   .envelope-wedding-emblem { margin-bottom: 14px; }
   .song-hy-icon { width: 54px; height: 54px; }
   .envelope-stage { width: 320px; height: 210px; margin: 10px 0 18px; }
-  .envelope-stage.opening .envelope-photo-card { transform: translateY(-58px); }
-  .flower-top-left { top: -34px; left: -28px; width: 170px; }
+  .envelope-stage.opening .envelope-photo-card { transform: translateY(-105px); }
+  .envelope-stage.opened-float .envelope-photo-card {
+    animation: photoGentleBobMobile 3.2s ease-in-out infinite alternate;
+  }
+  .flower-top-left { top: -34px; left: -28px; width: 175px; }
   .envelope-wax-seal { width: 54px; height: 54px; }
   .envelope-couple-names { font-size: 2.2rem; }
 }
