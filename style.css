@@ -347,11 +347,11 @@ img {
 }
 
 .song-hy-icon {
-  width: 58px;
-  height: 58px;
+  width: 64px;
+  height: 64px;
   object-fit: contain;
   display: inline-block;
-  filter: drop-shadow(0 4px 10px rgba(167, 34, 40, 0.22));
+  filter: drop-shadow(0 4px 12px rgba(167, 34, 40, 0.26));
   animation: emblemGentleFloat 3.8s ease-in-out infinite alternate;
 }
 
@@ -431,36 +431,18 @@ img {
   z-index: 1;
 }
 
-.envelope-back-flap {
-  position: absolute;
-  top: -80px;
-  left: 0;
-  width: 100%;
-  height: 85px;
-  background: linear-gradient(180deg, #7a1116 0%, #5e0b0f 100%);
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-  z-index: 2;
-  opacity: 0;
-  transform: scaleY(0.1);
-  transform-origin: bottom center;
-  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.envelope-stage.opening .envelope-back-flap {
-  opacity: 1;
-  transform: scaleY(1);
-}
-
 .envelope-photo-card {
   position: absolute;
   top: 15px;
   left: 18px;
   right: 18px;
   height: 205px;
-  z-index: 3;
+  z-index: 4;
   display: flex;
   flex-direction: column;
-  transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1) 0.25s, opacity 0.35s ease 0.15s, visibility 0.35s;
+  transition: transform 0.88s cubic-bezier(0.25, 1, 0.5, 1) 0.35s, 
+              opacity 0.35s ease 0.25s, 
+              visibility 0.35s;
   transform: translateY(0);
   box-sizing: border-box;
   pointer-events: none;
@@ -548,7 +530,7 @@ img {
   height: 58%;
   background: linear-gradient(0deg, #911319 0%, #a1171e 100%);
   clip-path: polygon(0 100%, 50% 0, 100% 100%);
-  filter: drop-shadow(0 -3px 8px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 -2px 6px rgba(0, 0, 0, 0.16));
 }
 
 .envelope-top-flap {
@@ -559,16 +541,19 @@ img {
   height: 58%;
   z-index: 15;
   transform-origin: top center;
-  transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s 0.35s;
+  transform: rotateX(0deg);
+  transition: transform 0.8s cubic-bezier(0.35, 0, 0.25, 1), z-index 0s 0.38s;
   transform-style: preserve-3d;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.26));
+  pointer-events: none;
 }
 
 .flap-triangle {
   width: 100%;
   height: 100%;
-  background: linear-gradient(180deg, #a81920 0%, #99141a 100%);
+  background: linear-gradient(180deg, #ab1b21 0%, #8f1217 100%);
   clip-path: polygon(0 0, 50% 100%, 100% 0);
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.2));
+  transition: background 0.6s ease, filter 0.35s ease;
 }
 
 .envelope-wax-seal {
@@ -580,7 +565,7 @@ img {
   height: 66px;
   z-index: 20;
   cursor: pointer;
-  transition: transform 0.4s ease, filter 0.4s ease;
+  transition: transform 0.35s ease, opacity 0.3s ease;
   filter: drop-shadow(0 4px 12px rgba(50, 0, 5, 0.45));
 }
 
@@ -611,6 +596,16 @@ img {
 
 .envelope-stage.opening .envelope-top-flap {
   transform: rotateX(180deg);
+  z-index: 2;
+}
+
+.envelope-stage.opening .flap-triangle {
+  background: linear-gradient(180deg, #5c0b10 0%, #420609 100%);
+  filter: none;
+}
+
+.envelope-stage.opening .envelope-wax-seal {
+  transform: translate(-50%, -50%) scale(0.65);
   opacity: 0;
   pointer-events: none;
 }
@@ -641,7 +636,7 @@ img {
   .envelope-top-title { margin-bottom: 4px; }
   .envelope-title-cursive { font-size: 1.85rem; }
   .envelope-wedding-emblem { margin-bottom: 14px; }
-  .song-hy-icon { width: 48px; height: 48px; }
+  .song-hy-icon { width: 54px; height: 54px; }
   .envelope-stage { width: 320px; height: 210px; margin: 10px 0 18px; }
   .envelope-stage.opening .envelope-photo-card { transform: translateY(-58px); }
   .flower-top-left { top: -34px; left: -28px; width: 170px; }
