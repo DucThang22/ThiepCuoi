@@ -344,14 +344,20 @@ img {
   position: relative;
   z-index: 50;
   user-select: none;
+  transition: transform 0.85s cubic-bezier(0.25, 1, 0.5, 1), z-index 0s 0.35s;
+}
+
+.envelope-cover-overlay.envelope-opened .envelope-wedding-emblem {
+  transform: translateY(-20px);
+  z-index: 6;
 }
 
 .song-hy-icon {
-  width: 64px;
-  height: 64px;
+  width: 78px;
+  height: 78px;
   object-fit: contain;
   display: inline-block;
-  filter: drop-shadow(0 4px 12px rgba(167, 34, 40, 0.26));
+  filter: drop-shadow(0 4px 14px rgba(167, 34, 40, 0.28));
   animation: emblemGentleFloat 3.8s ease-in-out infinite alternate;
 }
 
@@ -415,8 +421,13 @@ img {
   width: 100%;
   height: 100%;
   border-radius: 6px;
-  box-shadow: 0 20px 45px rgba(115, 17, 24, 0.32), 0 5px 15px rgba(0, 0, 0, 0.08);
-  background: linear-gradient(145deg, #a72228 0%, #8c1419 60%, #6e0e13 100%);
+  box-shadow: 
+    0 26px 55px rgba(60, 5, 10, 0.42),
+    0 8px 22px rgba(0, 0, 0, 0.18),
+    inset 0 1px 2px rgba(255, 255, 255, 0.28),
+    inset 0 -1.5px 3px rgba(0, 0, 0, 0.4);
+  background: radial-gradient(circle at 35% 20%, #b81e26 0%, #99141b 45%, #750c12 90%, #5e080d 100%);
+  border: 1px solid rgba(212, 175, 55, 0.25);
   overflow: visible;
 }
 
@@ -426,7 +437,8 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #640c11;
+  background: radial-gradient(circle at 50% 30%, #680d12 0%, #4a060a 65%, #2e0205 100%);
+  box-shadow: inset 0 20px 35px rgba(0, 0, 0, 0.55);
   border-radius: 6px;
   z-index: 1;
 }
@@ -449,16 +461,20 @@ img {
   opacity: 0;
   visibility: hidden;
   overflow: hidden;
-  background: transparent;
+  background: #ffffff;
+  padding: 3px;
   border-radius: 8px;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.28);
+  box-shadow: 
+    0 18px 45px rgba(0, 0, 0, 0.35),
+    0 4px 12px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.7);
   border: none;
 }
 
 .photo-img-wrapper {
   width: 100%;
   height: 100%;
-  border-radius: 8px;
+  border-radius: 6px;
   overflow: hidden;
   background: #fbf5ef;
 }
@@ -469,11 +485,11 @@ img {
   object-fit: cover;
   object-position: center 15%;
   display: block;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .envelope-stage.opening .envelope-photo-card {
-  transform: translateY(-118px);
+  transform: translateY(-82px);
   z-index: 8;
   pointer-events: auto;
   opacity: 1;
@@ -486,13 +502,13 @@ img {
 }
 
 @keyframes photoGentleBob {
-  0% { transform: translateY(-118px); }
-  100% { transform: translateY(-124px); }
+  0% { transform: translateY(-82px); }
+  100% { transform: translateY(-87px); }
 }
 
 @keyframes photoGentleBobMobile {
-  0% { transform: translateY(-105px); }
-  100% { transform: translateY(-110px); }
+  0% { transform: translateY(-72px); }
+  100% { transform: translateY(-77px); }
 }
 
 .envelope-pocket {
@@ -513,8 +529,9 @@ img {
   left: 0;
   width: 55%;
   height: 100%;
-  background: linear-gradient(135deg, #871015 0%, #94151b 100%);
+  background: linear-gradient(135deg, #780d12 0%, #8c1319 50%, #a3171e 100%);
   clip-path: polygon(0 0, 100% 50%, 0 100%);
+  filter: drop-shadow(2px 1px 4px rgba(0, 0, 0, 0.22));
 }
 
 .pocket-right {
@@ -523,8 +540,9 @@ img {
   right: 0;
   width: 55%;
   height: 100%;
-  background: linear-gradient(-135deg, #871015 0%, #94151b 100%);
+  background: linear-gradient(-135deg, #780d12 0%, #8c1319 50%, #a3171e 100%);
   clip-path: polygon(100% 0, 0 50%, 100% 100%);
+  filter: drop-shadow(-2px 1px 4px rgba(0, 0, 0, 0.22));
 }
 
 .pocket-bottom {
@@ -533,9 +551,9 @@ img {
   left: 0;
   width: 100%;
   height: 58%;
-  background: linear-gradient(0deg, #911319 0%, #a1171e 100%);
+  background: linear-gradient(0deg, #7e0e13 0%, #94151b 50%, #b21a21 100%);
   clip-path: polygon(0 100%, 50% 0, 100% 100%);
-  filter: drop-shadow(0 -2px 6px rgba(0, 0, 0, 0.16));
+  filter: drop-shadow(0 -4px 10px rgba(35, 3, 6, 0.35));
 }
 
 .envelope-top-flap {
@@ -555,9 +573,9 @@ img {
 .flap-triangle {
   width: 100%;
   height: 100%;
-  background: linear-gradient(180deg, #ab1b21 0%, #8f1217 100%);
+  background: radial-gradient(ellipse at 50% 0%, #c4232b 0%, #a0161d 60%, #820e14 100%);
   clip-path: polygon(0 0, 50% 100%, 100% 0);
-  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 5px 12px rgba(45, 4, 8, 0.38));
   transition: background 0.6s ease, filter 0.35s ease;
 }
 
@@ -571,7 +589,7 @@ img {
   z-index: 20;
   cursor: pointer;
   transition: transform 0.35s ease, opacity 0.3s ease;
-  filter: drop-shadow(0 4px 12px rgba(50, 0, 5, 0.45));
+  filter: drop-shadow(0 6px 14px rgba(35, 2, 5, 0.6)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 .envelope-wax-seal img {
@@ -605,8 +623,8 @@ img {
 }
 
 .envelope-stage.opening .flap-triangle {
-  background: linear-gradient(180deg, #5c0b10 0%, #420609 100%);
-  filter: none;
+  background: radial-gradient(ellipse at 50% 100%, #52090d 0%, #3a0407 100%);
+  filter: drop-shadow(0 -3px 8px rgba(0, 0, 0, 0.32));
 }
 
 .envelope-stage.opening .envelope-wax-seal {
@@ -645,10 +663,13 @@ img {
   .envelope-screen-wrapper { padding: 15px 10px; }
   .envelope-top-title { margin-bottom: 4px; }
   .envelope-title-cursive { font-size: 1.85rem; }
-  .envelope-wedding-emblem { margin-bottom: 14px; }
-  .song-hy-icon { width: 54px; height: 54px; }
+  .envelope-wedding-emblem { margin-bottom: 16px; }
+  .envelope-cover-overlay.envelope-opened .envelope-wedding-emblem {
+    transform: translateY(-22px);
+  }
+  .song-hy-icon { width: 68px; height: 68px; }
   .envelope-stage { width: 320px; height: 210px; margin: 10px 0 18px; }
-  .envelope-stage.opening .envelope-photo-card { transform: translateY(-105px); }
+  .envelope-stage.opening .envelope-photo-card { transform: translateY(-72px); }
   .envelope-stage.opened-float .envelope-photo-card {
     animation: photoGentleBobMobile 3.2s ease-in-out infinite alternate;
   }
