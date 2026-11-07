@@ -377,14 +377,57 @@ document.addEventListener('DOMContentLoaded', () => {
   const coverflowDotsWrap = document.getElementById('coverflow-dots');
   let coverflowIndex = 0;
   const totalSlides = coverflowSlides.length;
+  let isLightboxOpen = false;
 
   if (coverflowSlides.length && coverflowDotsWrap) {
+    // ==========================================
+    // HIỆU ỨNG TỰ ĐỘNG CHUYỂN ẢNH ALBUM (AUTO-PLAY)
+    // ==========================================
+    const AUTO_PLAY_INTERVAL = 3000; // Tự động chuyển sau mỗi 3 giây
+    let autoPlayTimer = null;
+    let isUserInteracting = false;
+
+    function startAutoPlay() {
+      stopAutoPlay();
+      if (isLightboxOpen) return;
+      autoPlayTimer = setInterval(() => {
+        if (!isUserInteracting && !isLightboxOpen) {
+          nextCoverflowSlide(false);
+        }
+      }, AUTO_PLAY_INTERVAL);
+    }
+
+    function stopAutoPlay() {
+      if (autoPlayTimer) {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+      }
+    }
+
+    function restartAutoPlayWithDelay(delay = AUTO_PLAY_INTERVAL) {
+      stopAutoPlay();
+      if (isLightboxOpen) return;
+      autoPlayTimer = setTimeout(() => {
+        if (!isUserInteracting && !isLightboxOpen) {
+          nextCoverflowSlide(false);
+        }
+        startAutoPlay();
+      }, delay);
+    }
+
+    // Kết nối để Lightbox có thể tạm dừng/tiếp tục chuyển ảnh
+    window.pauseAlbumAutoPlay = stopAutoPlay;
+    window.resumeAlbumAutoPlay = startAutoPlay;
+
     // Tạo các chấm phân trang
     coverflowDotsWrap.innerHTML = '';
     coverflowSlides.forEach((_, idx) => {
       const dot = document.createElement('span');
       dot.className = `cl-coverflow-dot ${idx === 0 ? 'active' : ''}`;
-      dot.addEventListener('click', () => goToCoverflowSlide(idx));
+      dot.addEventListener('click', () => {
+        goToCoverflowSlide(idx);
+        restartAutoPlayWithDelay();
+      });
       coverflowDotsWrap.appendChild(dot);
     });
 
@@ -444,16 +487,22 @@ document.addEventListener('DOMContentLoaded', () => {
       updateCoverflow(idx);
     }
 
-    function nextCoverflowSlide() {
+    function nextCoverflowSlide(resetTimer = true) {
       updateCoverflow(coverflowIndex + 1);
+      if (resetTimer) restartAutoPlayWithDelay();
     }
 
-    function prevCoverflowSlide() {
+    function prevCoverflowSlide(resetTimer = true) {
       updateCoverflow(coverflowIndex - 1);
+      if (resetTimer) restartAutoPlayWithDelay();
     }
 
-    if (coverflowPrevBtn) coverflowPrevBtn.addEventListener('click', prevCoverflowSlide);
-    if (coverflowNextBtn) coverflowNextBtn.addEventListener('click', nextCoverflowSlide);
+    if (coverflowPrevBtn) {
+      coverflowPrevBtn.addEventListener('click', () => prevCoverflowSlide(true));
+    }
+    if (coverflowNextBtn) {
+      coverflowNextBtn.addEventListener('click', () => nextCoverflowSlide(true));
+    }
 
     // Click vào slide: active thì mở Lightbox, không active thì chuyển tới slide đó
     coverflowSlides.forEach((slide, sIdx) => {
@@ -463,6 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
           openGalleryLightbox(sIdx);
         } else {
           goToCoverflowSlide(sIdx);
+          restartAutoPlayWithDelay();
         }
       });
     });
@@ -473,7 +523,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let diffX = 0;
 
     if (coverflowContainer) {
+      // Hover trên máy tính: tạm dừng, rời chuột: tiếp tục
+      coverflowContainer.addEventListener('mouseenter', () => {
+        isUserInteracting = true;
+        stopAutoPlay();
+      });
+      coverflowContainer.addEventListener('mouseleave', () => {
+        isUserInteracting = false;
+        startAutoPlay();
+      });
+
+      // Chạm vuốt trên điện thoại: tạm dừng khi vuốt, tự động chuyển tiếp mượt mà sau khi thả tay
       coverflowContainer.addEventListener('touchstart', (e) => {
+        isUserInteracting = true;
+        stopAutoPlay();
         startX = e.touches[0].clientX;
         diffX = 0;
       }, { passive: true });
@@ -483,18 +546,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }, { passive: true });
 
       coverflowContainer.addEventListener('touchend', () => {
+        isUserInteracting = false;
         if (Math.abs(diffX) > 35) {
           if (diffX < 0) {
-            nextCoverflowSlide();
+            nextCoverflowSlide(false);
           } else {
-            prevCoverflowSlide();
+            prevCoverflowSlide(false);
           }
         }
         diffX = 0;
+        restartAutoPlayWithDelay(2500);
       });
 
       coverflowContainer.addEventListener('mousedown', (e) => {
         isDragging = true;
+        isUserInteracting = true;
+        stopAutoPlay();
         startX = e.clientX;
         diffX = 0;
       });
@@ -507,29 +574,31 @@ document.addEventListener('DOMContentLoaded', () => {
       window.addEventListener('mouseup', () => {
         if (!isDragging) return;
         isDragging = false;
+        isUserInteracting = false;
         if (Math.abs(diffX) > 40) {
           if (diffX < 0) {
-            nextCoverflowSlide();
+            nextCoverflowSlide(false);
           } else {
-            prevCoverflowSlide();
+            prevCoverflowSlide(false);
           }
         }
         diffX = 0;
+        restartAutoPlayWithDelay(2500);
       });
     }
 
-    // Tự động chuyển sau mỗi 5s
-    let autoPlayTimer = setInterval(nextCoverflowSlide, 5000);
-    if (coverflowContainer) {
-      coverflowContainer.addEventListener('mouseenter', () => clearInterval(autoPlayTimer));
-      coverflowContainer.addEventListener('mouseleave', () => {
-        clearInterval(autoPlayTimer);
-        autoPlayTimer = setInterval(nextCoverflowSlide, 5000);
-      });
-      coverflowContainer.addEventListener('touchstart', () => clearInterval(autoPlayTimer), { passive: true });
-    }
+    // Tạm dừng khi chuyển tab trình duyệt, chạy tiếp khi quay lại
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    });
 
+    // Kích hoạt slider và tự động chuyển ảnh ban đầu
     updateCoverflow(0);
+    startAutoPlay();
   }
 
   // 4.2. LIGHTBOX FUNCTIONS
@@ -552,6 +621,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function openGalleryLightbox(index) {
     if (!lightbox || !lightboxImg) return;
+    isLightboxOpen = true;
+    if (window.pauseAlbumAutoPlay) window.pauseAlbumAutoPlay();
     currentImgIndex = index;
     lightboxImg.src = gallerySources[currentImgIndex];
     if (lightboxPrev) lightboxPrev.style.display = 'block';
@@ -562,6 +633,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function openSingleLightbox(src) {
     if (!lightbox || !lightboxImg) return;
+    isLightboxOpen = true;
+    if (window.pauseAlbumAutoPlay) window.pauseAlbumAutoPlay();
     lightboxImg.src = src;
     if (lightboxPrev) lightboxPrev.style.display = 'none';
     if (lightboxNext) lightboxNext.style.display = 'none';
@@ -571,6 +644,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function closeLightbox() {
     if (!lightbox) return;
+    isLightboxOpen = false;
+    if (window.resumeAlbumAutoPlay) window.resumeAlbumAutoPlay();
     lightbox.classList.remove('active');
     setTimeout(() => { lightbox.style.display = 'none'; }, 350);
   }
