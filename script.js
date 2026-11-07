@@ -6,9 +6,12 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // ==========================================
-  // 1. DYNAMIC WEDDING COUNTDOWN (20/12/2026 lúc 09:30)
+  // 1. DYNAMIC WEDDING COUNTDOWN (Đọc theo data-countdown-target hoặc mặc định 09:30)
   // ==========================================
-  const COUNTDOWN_TARGET = new Date("2026-12-20T09:30:00").getTime();
+  const targetAttr = document.body ? document.body.getAttribute('data-countdown-target') : null;
+  const COUNTDOWN_TARGET = targetAttr 
+    ? new Date(targetAttr).getTime() 
+    : new Date("2026-12-20T09:30:00").getTime();
 
   function updateCountdown() {
     const now = new Date().getTime();

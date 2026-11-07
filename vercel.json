@@ -1,6 +1,13 @@
 {
   "version": 2,
   "cleanUrls": true,
+  "rewrites": [
+    { "source": "/trang-thang", "destination": "/trang-thang.html" },
+    { "source": "/Trang-Thang", "destination": "/trang-thang.html" },
+    { "source": "/trangthang", "destination": "/trang-thang.html" },
+    { "source": "/nha-gai", "destination": "/trang-thang.html" },
+    { "source": "/nhagai", "destination": "/trang-thang.html" }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",
