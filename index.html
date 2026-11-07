@@ -562,8 +562,8 @@
 
       </section>
 
-      <!-- SECTION 6: ABOUT US (CÔ DÂU & CHÚ RỂ - CHUẨN CINELOVE 42) -->
-      <section class="cl-section cl-about-section reveal-up">
+      <!-- SECTION 6: ABOUT US (CÔ DÂU & CHÚ RỂ - PHONG CÁCH TẠP CHÍ CƯỚI CAO CẤP) -->
+      <section class="cl-section cl-about-section reveal-up" id="about-section">
         
         <!-- Header có vòng tròn hồng pastel + ngôi sao lấp lánh -->
         <div class="cl-about-header text-center">
@@ -577,42 +577,78 @@
         <div class="cl-profiles-wrap">
           
           <!-- THẺ CÔ DÂU (BRIDE) -->
-          <div class="cl-profile-card bride-card reveal-left">
+          <div class="cl-profile-card bride-card reveal-up">
+            <!-- Khung ảnh chân dung lớn, sắc nét chuẩn tạp chí -->
             <div class="cl-profile-photo-col">
-              <div class="cl-avatar-border">
-                <img src="assets/images/TTT08939_web.jpg" alt="Cô dâu Kiều Trang" class="cl-profile-img">
+              <div class="cl-avatar-frame gallery-trigger" data-img-src="assets/images/TTT08816_web.jpg" title="Nhấp để xem ảnh đầy đủ">
+                <img src="assets/images/bride_portrait.jpg" alt="Cô dâu Kiều Trang" class="cl-profile-img">
+                <div class="cl-photo-overlay-badge">
+                  <i class="fa-solid fa-expand"></i> Phóng to
+                </div>
               </div>
             </div>
+
+            <!-- Cột thông tin cô dâu -->
             <div class="cl-profile-info-col">
-              <span class="cl-role-tag">Bride</span>
-              <h3 class="cl-profile-name">Kiều Trang</h3>
-              <div class="cl-profile-meta">
-                <span><i class="fa-regular fa-calendar"></i> 02/06/2002</span>
-                <span><i class="fa-solid fa-location-dot"></i> Thái Bình</span>
+              <div class="cl-profile-badge-row">
+                <span class="cl-role-tag bride-tag"><i class="fa-solid fa-heart"></i> Cô Dâu • Bride</span>
+                <button type="button" class="cl-profile-heart-btn" onclick="reactProfileHeart(this)" title="Thả tim cho cô dâu">
+                  <i class="fa-solid fa-heart"></i> <span class="cl-heart-num">288</span>
+                </button>
               </div>
-              <p class="cl-profile-quote">
-                "Hạnh phúc trọn vẹn nhất là khi tìm thấy một người cùng mình ngắm bình minh và nắm tay đi qua những ngày giông bão."
-              </p>
+              
+              <h3 class="cl-profile-name">Kiều Trang</h3>
+              
+              <div class="cl-profile-meta">
+                <span class="cl-meta-item"><i class="fa-regular fa-calendar-heart"></i> 02/06/2002</span>
+                <span class="cl-meta-divider">•</span>
+                <span class="cl-meta-item"><i class="fa-solid fa-location-dot"></i> Thái Bình</span>
+              </div>
+
+              <div class="cl-profile-quote-wrap">
+                <i class="fa-solid fa-quote-left cl-quote-mark"></i>
+                <p class="cl-profile-quote">
+                  "Hạnh phúc trọn vẹn nhất là khi tìm thấy một người cùng mình ngắm bình minh và nắm tay đi qua những ngày giông bão."
+                </p>
+              </div>
             </div>
           </div>
 
           <!-- THẺ CHÚ RỂ (GROOM) -->
-          <div class="cl-profile-card groom-card reveal-right delay-1">
+          <div class="cl-profile-card groom-card reveal-up delay-1">
+            <!-- Khung ảnh chân dung lớn, sắc nét chuẩn tạp chí -->
             <div class="cl-profile-photo-col">
-              <div class="cl-avatar-border">
-                <img src="assets/images/TTT08688_web.jpg" alt="Chú rể Đức Thắng" class="cl-profile-img">
+              <div class="cl-avatar-frame gallery-trigger" data-img-src="assets/images/TTT08867_web.jpg" title="Nhấp để xem ảnh đầy đủ">
+                <img src="assets/images/groom_portrait.jpg" alt="Chú rể Đức Thắng" class="cl-profile-img">
+                <div class="cl-photo-overlay-badge">
+                  <i class="fa-solid fa-expand"></i> Phóng to
+                </div>
               </div>
             </div>
+
+            <!-- Cột thông tin chú rể -->
             <div class="cl-profile-info-col">
-              <span class="cl-role-tag">Groom</span>
-              <h3 class="cl-profile-name">Đức Thắng</h3>
-              <div class="cl-profile-meta">
-                <span><i class="fa-regular fa-calendar"></i> 22/02/1997</span>
-                <span><i class="fa-solid fa-location-dot"></i> Thái Bình</span>
+              <div class="cl-profile-badge-row">
+                <span class="cl-role-tag groom-tag"><i class="fa-solid fa-gem"></i> Chú Rể • Groom</span>
+                <button type="button" class="cl-profile-heart-btn" onclick="reactProfileHeart(this)" title="Thả tim cho chú rể">
+                  <i class="fa-solid fa-heart"></i> <span class="cl-heart-num">326</span>
+                </button>
               </div>
-              <p class="cl-profile-quote">
-                "Gặp em là định mệnh ngọt ngào, yêu em là quyết định đúng đắn nhất và chăm sóc em suốt đời là lời hứa anh sẽ thực hiện."
-              </p>
+              
+              <h3 class="cl-profile-name">Đức Thắng</h3>
+              
+              <div class="cl-profile-meta">
+                <span class="cl-meta-item"><i class="fa-regular fa-calendar-heart"></i> 22/02/1997</span>
+                <span class="cl-meta-divider">•</span>
+                <span class="cl-meta-item"><i class="fa-solid fa-location-dot"></i> Thái Bình</span>
+              </div>
+
+              <div class="cl-profile-quote-wrap">
+                <i class="fa-solid fa-quote-left cl-quote-mark"></i>
+                <p class="cl-profile-quote">
+                  "Gặp em là định mệnh ngọt ngào, yêu em là quyết định đúng đắn nhất và chăm sóc em suốt đời là lời hứa anh sẽ thực hiện."
+                </p>
+              </div>
             </div>
           </div>
 

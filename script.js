@@ -643,6 +643,29 @@ document.addEventListener('DOMContentLoaded', () => {
     window.showToast(`Đã sao chép STK ${ownerLabel} (${text})!`);
   }
 
+  // Tương tác thả tim hồ sơ cô dâu & chú rể
+  window.reactProfileHeart = function(btn) {
+    if (!btn) return;
+    const numEl = btn.querySelector('.cl-heart-num');
+    if (!numEl) return;
+    let count = parseInt(numEl.innerText, 10) || 0;
+
+    if (btn.classList.contains('is-loved')) {
+      btn.classList.remove('is-loved');
+      count = Math.max(0, count - 1);
+    } else {
+      btn.classList.add('is-loved');
+      count += 1;
+      if (navigator.vibrate) {
+        try { navigator.vibrate(25); } catch (e) {}
+      }
+      if (window.showToast) {
+        window.showToast("Cảm ơn bạn đã thả tim chúc phúc! ❤️");
+      }
+    }
+    numEl.innerText = count;
+  };
+
   // --- LOGIC HỘP QUÀ TƯƠNG TÁC TỰ NHIÊN MỞ RA VIEW QR NGÂN HÀNG (ZERO-JUMP LAYOUT) ---
   const giftViewport = document.getElementById('gift-viewport');
   const giftBoxStage = document.getElementById('gift-box-stage');

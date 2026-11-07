@@ -2079,115 +2079,287 @@ img {
   padding: 30px 14px 40px;
 }
 
+/* ==========================================================================
+   SECTION 6: ABOUT US (CÔ DÂU & CHÚ RỂ - PHONG CÁCH TẠP CHÍ CƯỚI CAO CẤP)
+   Ảnh chân dung lớn 4:5 rõ nét, khung nghệ thuật & hiệu ứng animation siêu mượt
+   ========================================================================== */
+
 .cl-about-header {
   position: relative;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
 .cl-about-circle-badge {
-  width: 54px;
-  height: 54px;
+  width: 50px;
+  height: 50px;
   background: radial-gradient(circle, var(--cl-rose-accent) 0%, var(--cl-blush-soft) 100%);
   border-radius: 50%;
-  margin: 0 auto 6px;
+  margin: 0 auto 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.85;
+  box-shadow: 0 4px 14px rgba(216, 124, 136, 0.35);
+  animation: badgePulse 3.2s ease-in-out infinite;
 }
 
 .cl-sparkle {
   color: #ffffff;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
+  animation: sparkleRotate 6s linear infinite;
+  display: inline-block;
 }
 
 .cl-about-script {
   font-family: var(--font-cursive);
-  font-size: 3.2rem;
+  font-size: 3.4rem;
   color: var(--cl-rose-deep);
   line-height: 1;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
+  letter-spacing: 1px;
 }
 
 .cl-about-subtitle {
-  font-size: 0.84rem;
+  font-family: var(--font-body);
+  font-size: 0.86rem;
   color: var(--cl-text-muted);
+  letter-spacing: 0.5px;
 }
 
 .cl-profiles-wrap {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 26px;
 }
 
+/* THẺ PROFILE CÔ DÂU / CHÚ RỂ */
 .cl-profile-card {
   background: var(--cl-card-bg);
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: var(--shadow-cl-card);
+  border-radius: 24px;
+  padding: 16px;
+  box-shadow: 0 12px 32px rgba(112, 34, 42, 0.08);
   border: 1px solid var(--cl-rose-border);
   display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-.cl-profile-photo-col {
-  flex-shrink: 0;
-}
-
-.cl-avatar-border {
-  width: 110px;
-  height: 140px;
-  border-radius: 14px;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
   overflow: hidden;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  border: 3px solid var(--cl-blush-accent);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow;
+}
+
+.cl-profile-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 42px rgba(112, 34, 42, 0.14);
+}
+
+/* KHUNG ẢNH CHÂN DUNG LỚN RÕ NÉT (HERO PORTRAIT) */
+.cl-profile-photo-col {
+  width: 100%;
+}
+
+.cl-avatar-frame {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 22px rgba(112, 34, 42, 0.12);
+  border: 2px solid var(--cl-blush-accent);
+  background: #fdf6f7;
+  cursor: pointer;
+}
+
+.cl-avatar-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 65%, rgba(112, 34, 42, 0.25) 100%);
+  pointer-events: none;
 }
 
 .cl-profile-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 20%;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.cl-profile-card:hover .cl-profile-img {
+  transform: scale(1.04);
+}
+
+/* Nút badge phóng to nhỏ góc ảnh */
+.cl-photo-overlay-badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--cl-rose-deep);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.cl-avatar-frame:hover .cl-photo-overlay-badge {
+  background: #ffffff;
+  transform: scale(1.05);
+}
+
+/* CỘT THÔNG TIN */
 .cl-profile-info-col {
-  flex: 1;
+  padding: 4px 6px 6px;
+  text-align: left;
+}
+
+.cl-profile-badge-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
 }
 
 .cl-role-tag {
-  display: inline-block;
-  font-size: 0.72rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.74rem;
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
   color: var(--cl-rose-mid);
   background: var(--cl-blush-soft);
-  padding: 3px 8px;
-  border-radius: 6px;
-  margin-bottom: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--cl-rose-border);
+}
+
+.cl-role-tag.bride-tag {
+  color: #a82e3f;
+  background: #fdf0f2;
+}
+
+.cl-role-tag.groom-tag {
+  color: #3b5a7e;
+  background: #f0f4f9;
+  border-color: #d6e2ee;
+}
+
+/* Nút thả tim tương tác vi mô */
+.cl-profile-heart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #ffffff;
+  border: 1px solid var(--cl-rose-border);
+  color: var(--cl-rose-accent);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(112, 34, 42, 0.05);
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cl-profile-heart-btn:hover {
+  background: #fff0f3;
+  color: #d90429;
+  transform: scale(1.06);
+}
+
+.cl-profile-heart-btn:active {
+  transform: scale(0.92);
+}
+
+.cl-profile-heart-btn.is-loved {
+  background: #ff4d6d;
+  color: #ffffff;
+  border-color: #ff4d6d;
 }
 
 .cl-profile-name {
   font-family: var(--font-cursive);
-  font-size: 2.1rem;
+  font-size: 2.6rem;
   color: var(--cl-rose-deep);
   line-height: 1.1;
-  margin-bottom: 4px;
+  margin: 4px 0 6px;
 }
 
 .cl-profile-meta {
   display: flex;
-  gap: 12px;
-  font-size: 0.78rem;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
   color: var(--cl-text-muted);
-  margin-bottom: 8px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.cl-meta-item i {
+  color: var(--cl-rose-accent);
+  margin-right: 4px;
+}
+
+.cl-meta-divider {
+  color: var(--cl-rose-border);
+  font-weight: bold;
+}
+
+/* KHUNG TRÍCH DẪN TÌNH YÊU */
+.cl-profile-quote-wrap {
+  position: relative;
+  background: linear-gradient(135deg, #fdf8f7 0%, #fffbfb 100%);
+  border-radius: 14px;
+  padding: 12px 14px 12px 32px;
+  border-left: 3px solid var(--cl-rose-accent);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.cl-quote-mark {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: var(--cl-rose-accent);
+  opacity: 0.45;
+  font-size: 0.95rem;
 }
 
 .cl-profile-quote {
-  font-size: 0.8rem;
+  font-family: var(--font-serif);
+  font-size: 0.86rem;
   font-style: italic;
   color: var(--cl-text-dark);
-  line-height: 1.45;
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (min-width: 600px) {
+  .cl-profile-card {
+    flex-direction: row;
+    align-items: center;
+    padding: 20px;
+    gap: 24px;
+  }
+  .cl-profile-photo-col {
+    width: 200px;
+    flex-shrink: 0;
+  }
+  .cl-avatar-frame {
+    height: 250px;
+  }
 }
 
 /* SECTION 7: RSVP - XÁC NHẬN THAM DỰ */
