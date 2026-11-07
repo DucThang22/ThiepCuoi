@@ -1783,13 +1783,13 @@ img {
   transform: scale(1.05);
 }
 
-/* 3. Chủ thể bóc tách từ ảnh 9824 (Foreground Sticker Cutout) */
+/* 3. Chủ thể bóc tách từ ảnh 9027 (Foreground Sticker Cutout) */
 .cl-editorial-cutout {
   position: absolute;
   bottom: 0px;
-  left: 8px;
-  width: 50%;
-  max-width: 220px;
+  left: 6px;
+  width: 58%;
+  max-width: 255px;
   z-index: 3;
   pointer-events: auto;
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
@@ -1815,7 +1815,7 @@ img {
   bottom: 25px;
   width: 44%;
   text-align: right;
-  z-index: 2;
+  z-index: 4;
 }
 
 .cl-editorial-love-title {
@@ -1860,14 +1860,16 @@ img {
     right: 10px;
   }
   .cl-editorial-cutout {
-    width: 50%;
+    width: 58%;
+    max-width: 245px;
     bottom: 0px;
-    left: 4px;
+    left: 2px;
   }
   .cl-editorial-bottom-text {
     right: 12px;
     bottom: 20px;
-    width: 44%;
+    width: 42%;
+    z-index: 4;
   }
 }
 
@@ -1879,7 +1881,9 @@ img {
     height: 295px;
   }
   .cl-editorial-cutout {
-    width: 50%;
+    width: 58%;
+    max-width: 220px;
+    left: 0;
   }
   .cl-editorial-love-title {
     font-size: 1.25rem;
@@ -2185,6 +2189,10 @@ img {
   object-position: center 20%;
   display: block;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cl-profile-img.groom-img {
+  object-position: 36% 16%;
 }
 
 .cl-profile-card:hover .cl-profile-img {
