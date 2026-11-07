@@ -523,7 +523,7 @@ img {
 }
 
 .envelope-stage.opening .envelope-photo-card {
-  transform: translateY(-82px);
+  transform: translateY(-92px);
   z-index: 8;
   pointer-events: auto;
   opacity: 1;
@@ -536,13 +536,13 @@ img {
 }
 
 @keyframes photoGentleBob {
-  0% { transform: translateY(-82px); }
-  100% { transform: translateY(-87px); }
+  0% { transform: translateY(-92px); }
+  100% { transform: translateY(-97px); }
 }
 
 @keyframes photoGentleBobMobile {
-  0% { transform: translateY(-72px); }
-  100% { transform: translateY(-77px); }
+  0% { transform: translateY(-82px); }
+  100% { transform: translateY(-87px); }
 }
 
 .envelope-pocket {
@@ -711,7 +711,7 @@ img {
   .envelope-cover-overlay.envelope-opened .envelope-ground-shadow {
     transform: translateY(32px) scale(1.1, 1.05);
   }
-  .envelope-stage.opening .envelope-photo-card { transform: translateY(-72px); }
+  .envelope-stage.opening .envelope-photo-card { transform: translateY(-82px); }
   .envelope-stage.opened-float .envelope-photo-card {
     animation: photoGentleBobMobile 3.2s ease-in-out infinite alternate;
   }
