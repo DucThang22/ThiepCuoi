@@ -373,18 +373,52 @@ img {
   height: 250px;
   perspective: 1200px;
   cursor: pointer;
-  margin: 10px 0 25px;
-  animation: envelopeFloating 3.6s ease-in-out infinite alternate;
+  margin: 10px 0 6px;
+  animation: envelopeFloating 2.2s ease-in-out infinite alternate;
   transition: transform 0.85s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 @keyframes envelopeFloating {
   0% { transform: translateY(0); }
-  100% { transform: translateY(-9px); }
+  100% { transform: translateY(-11px); }
 }
 
 .envelope-stage:hover {
-  transform: translateY(-12px) scale(1.015);
+  transform: translateY(-14px) scale(1.015);
+}
+
+/* Hiệu ứng bóng đổ sàn tương tác chuyển động to nhỏ theo độ nâng của thiệp */
+.envelope-ground-shadow {
+  width: 320px;
+  max-width: 82vw;
+  height: 18px;
+  margin: 0 auto 20px;
+  background: radial-gradient(ellipse at center, rgba(70, 7, 12, 0.45) 0%, rgba(85, 9, 15, 0.25) 45%, rgba(90, 10, 16, 0.08) 65%, transparent 78%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(4px);
+  animation: shadowPulsing 2.2s ease-in-out infinite alternate;
+  transition: transform 0.85s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.85s ease;
+}
+
+@keyframes shadowPulsing {
+  0% {
+    transform: scale(1, 1);
+    opacity: 0.85;
+    filter: blur(4px);
+  }
+  100% {
+    transform: scale(0.82, 0.72);
+    opacity: 0.42;
+    filter: blur(6.5px);
+  }
+}
+
+.envelope-cover-overlay.envelope-opened .envelope-ground-shadow {
+  animation: none;
+  transform: translateY(38px) scale(1.12, 1.05);
+  opacity: 0.75;
+  filter: blur(5px);
 }
 
 .envelope-stage.opening {
@@ -668,7 +702,15 @@ img {
     transform: translateY(-22px);
   }
   .song-hy-icon { width: 68px; height: 68px; }
-  .envelope-stage { width: 320px; height: 210px; margin: 10px 0 18px; }
+  .envelope-stage { width: 320px; height: 210px; margin: 10px 0 4px; }
+  .envelope-ground-shadow {
+    width: 260px;
+    height: 14px;
+    margin: 0 auto 16px;
+  }
+  .envelope-cover-overlay.envelope-opened .envelope-ground-shadow {
+    transform: translateY(32px) scale(1.1, 1.05);
+  }
   .envelope-stage.opening .envelope-photo-card { transform: translateY(-72px); }
   .envelope-stage.opened-float .envelope-photo-card {
     animation: photoGentleBobMobile 3.2s ease-in-out infinite alternate;
