@@ -1,0 +1,724 @@
+/* ==========================================================================
+   GUI-HUY.CSS - SPECIAL PRANK & CUSTOM STYLES DÀNH RIÊNG CHO BẠN THÂN HOÀNG HUY
+   Không ảnh hưởng đến thiệp cưới chính thức (index.html & trang-thang.html)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. PRANK GATE OVERLAY (MÀN HÌNH MỞ ĐẦU TƯƠNG TÁC 1 CHỈ VÀNG)
+   -------------------------------------------------------------------------- */
+.prank-gate-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: radial-gradient(circle at 50% 15%, #fff6f8 0%, #fae1e7 45%, #f2c2ce 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
+}
+
+.prank-gate-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Floating background emojis */
+.prank-bg-floating {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.prank-float-item {
+  position: absolute;
+  font-size: 1.4rem;
+  opacity: 0.35;
+  user-select: none;
+  animation: floatUp 8s linear infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+  15% { opacity: 0.45; }
+  85% { opacity: 0.45; }
+  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+/* Main Card */
+.prank-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 460px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 28px;
+  padding: 28px 22px 24px;
+  box-shadow: 0 25px 60px rgba(184, 51, 75, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+  text-align: center;
+  border: 1px solid rgba(240, 204, 213, 0.8);
+}
+
+/* Airmail Header Stamp */
+.prank-airmail-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #fff5f7 0%, #ffe9ee 100%);
+  border: 2px dashed #b8334b;
+  border-radius: 30px;
+  padding: 6px 14px;
+  color: #b8334b;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  box-shadow: 0 3px 10px rgba(184, 51, 75, 0.08);
+}
+
+.prank-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  color: #721c24;
+  margin: 0 0 4px;
+  font-weight: 700;
+}
+
+.prank-card-subtitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.85rem;
+  color: #8c535d;
+  margin: 0 0 14px;
+}
+
+/* Trang Bobblehead Avatar */
+.prank-avatar-zone {
+  position: relative;
+  display: inline-block;
+  margin: 6px auto 10px;
+  cursor: pointer;
+}
+
+.prank-avatar-wrapper {
+  position: relative;
+  width: 145px;
+  height: 175px;
+  margin: 0 auto;
+  transform-origin: bottom center;
+  animation: trangBobbleWobble 2.4s ease-in-out infinite;
+  transition: transform 0.3s ease;
+}
+
+.prank-avatar-wrapper:hover {
+  animation-duration: 0.9s;
+}
+
+@keyframes trangBobbleWobble {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  20% {
+    transform: rotate(-6deg) translateY(-4px);
+  }
+  40% {
+    transform: rotate(5deg) translateY(2px);
+  }
+  60% {
+    transform: rotate(-4deg) translateY(-2px);
+  }
+  80% {
+    transform: rotate(3deg) translateY(1px);
+  }
+}
+
+.prank-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 18px rgba(184, 51, 75, 0.25));
+}
+
+.prank-avatar-tag {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #b8334b, #8a1f32);
+  color: #fff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+  box-shadow: 0 4px 10px rgba(184, 51, 75, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  background: #2ecc71;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px #2ecc71;
+  animation: pulseDot 1.2s infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* Speech Bubble */
+.prank-speech-bubble {
+  position: relative;
+  background: #fff;
+  border: 2px solid #f2cad4;
+  border-radius: 20px;
+  padding: 16px 18px 14px;
+  margin: 14px 0 18px;
+  text-align: left;
+  box-shadow: 0 8px 24px rgba(184, 51, 75, 0.08);
+}
+
+.prank-speech-bubble::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 10px 12px 10px;
+  border-style: solid;
+  border-color: transparent transparent #f2cad4 transparent;
+}
+
+.prank-speech-bubble::after {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 9px 10px 9px;
+  border-style: solid;
+  border-color: transparent transparent #fff transparent;
+}
+
+.prank-speech-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.94rem;
+  line-height: 1.6;
+  color: #2c2527;
+  font-weight: 500;
+  margin: 0;
+  min-height: 80px;
+}
+
+.prank-type-cursor {
+  display: inline-block;
+  color: #b8334b;
+  font-weight: 700;
+  animation: blinkCursor 0.8s infinite;
+}
+
+@keyframes blinkCursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.prank-speech-subnote {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #fad3dc;
+  font-size: 0.78rem;
+  color: #a04052;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.prank-speech-subnote.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Buttons Zone */
+.prank-btn-zone {
+  position: relative;
+  min-height: 120px;
+  margin-top: 10px;
+}
+
+/* Nút Đồng Ý */
+.btn-prank-agree {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #d4af37 0%, #f39c12 40%, #b8334b 100%);
+  color: #fff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-prank-agree:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(212, 175, 55, 0.6);
+}
+
+.btn-prank-agree:active {
+  transform: translateY(1px);
+}
+
+.btn-prank-agree::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: rotate(25deg);
+  animation: btnShimmer 3s infinite;
+}
+
+@keyframes btnShimmer {
+  0% { left: -60%; }
+  40%, 100% { left: 140%; }
+}
+
+.agree-subtext {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.9;
+  margin-top: 2px;
+}
+
+/* Nút Mơ Đi (Runaway Button) */
+.btn-prank-runaway {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  transform: translateX(-50%);
+  padding: 9px 22px;
+  border-radius: 50px;
+  background: #f1f2f6;
+  color: #57606f;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: 2px dashed #ced6e0;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: left 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              top 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.2s ease;
+  z-index: 1000000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.btn-prank-runaway:hover {
+  background: #ffeaa7;
+  color: #d63031;
+  border-color: #fab1a0;
+}
+
+/* Floating toast near runaway button */
+.runaway-toast {
+  position: fixed;
+  background: rgba(45, 52, 54, 0.92);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  pointer-events: none;
+  z-index: 1000001;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  animation: popToast 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  white-space: nowrap;
+}
+
+@keyframes popToast {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   2. PLEDGE CERTIFICATE MODAL (GIẤY CAM KẾT VUI NHỘN)
+   -------------------------------------------------------------------------- */
+.pledge-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000002;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.35s ease;
+}
+
+.pledge-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.pledge-card {
+  width: 100%;
+  max-width: 440px;
+  background: #fff;
+  border-radius: 24px;
+  padding: 28px 22px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+  transform: scale(0.85);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 3px double #d4af37;
+}
+
+.pledge-modal-overlay.active .pledge-card {
+  transform: scale(1);
+}
+
+.pledge-gold-badge {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 8px;
+  animation: bounceGold 1s infinite alternate ease-in-out;
+}
+
+@keyframes bounceGold {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-8px) scale(1.08); }
+}
+
+.pledge-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  color: #b8334b;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.pledge-subtitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.82rem;
+  color: #7f8c8d;
+  margin: 0 0 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.pledge-box {
+  background: #fffbf0;
+  border: 1px dashed #d4af37;
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  text-align: left;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: #3b2a2d;
+}
+
+.pledge-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.pledge-row:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.pledge-row strong {
+  color: #b8334b;
+}
+
+.btn-pledge-confirm {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #b8334b 0%, #8a1f32 100%);
+  color: #fff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(184, 51, 75, 0.4);
+  transition: transform 0.2s ease;
+}
+
+.btn-pledge-confirm:hover {
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   3. TEASING ANIMATION TRÊN CHỮ "NGƯỜI THƯƠNG" (TRONG THIỆP CƯỚI)
+   -------------------------------------------------------------------------- */
+.huy-envelope-vip-card {
+  margin: 8px auto 14px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(184, 51, 75, 0.15);
+  max-width: 380px;
+  width: 90%;
+  text-align: center;
+  border: 1px solid #f6ccd5;
+}
+
+.huy-envelope-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #b8334b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.huy-guest-line {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  color: #3b2a2d;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.huy-name-tag {
+  color: #b8334b;
+  font-weight: 700;
+}
+
+/* Tease Container */
+.tease-lover-wrap {
+  position: relative;
+  display: inline-block;
+  padding: 0 4px;
+  margin: 0 2px;
+}
+
+.tease-lover-text {
+  font-family: 'Pinyon Script', cursive;
+  font-size: 1.45rem;
+  color: #8c535d;
+  transition: color 0.3s ease;
+}
+
+/* Gạch xoá bằng bút đỏ */
+.tease-cross-line {
+  position: absolute;
+  left: -4%;
+  top: 55%;
+  width: 108%;
+  height: 3px;
+  background: #e74c3c;
+  border-radius: 2px;
+  transform: rotate(-6deg) scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 1px 3px rgba(231, 76, 60, 0.4);
+}
+
+.tease-cross-line.active {
+  transform: rotate(-6deg) scaleX(1);
+}
+
+/* Con dấu ĐÃ ĐỘC THÂN */
+.tease-stamp {
+  display: inline-block;
+  border: 2px solid #e74c3c;
+  color: #e74c3c;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transform: rotate(-10deg) scale(0);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  margin-left: 6px;
+  vertical-align: middle;
+  background: rgba(231, 76, 60, 0.08);
+}
+
+.tease-stamp.active {
+  transform: rotate(-10deg) scale(1);
+}
+
+/* Lời trêu chọc bên dưới */
+.tease-joke-note {
+  display: block;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.76rem;
+  color: #c0392b;
+  font-weight: 600;
+  margin-top: 6px;
+  line-height: 1.4;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.tease-joke-note.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   4. THƯ RIÊNG GỬI HUY TRONG SECTION THƯ MỜI CƯỚI
+   -------------------------------------------------------------------------- */
+.huy-invitation-special-card {
+  background: linear-gradient(135deg, #fff9fa 0%, #fff0f3 100%);
+  border: 2px dashed #b8334b;
+  border-radius: 20px;
+  padding: 18px 20px;
+  margin-bottom: 22px;
+  text-align: left;
+  box-shadow: 0 6px 18px rgba(184, 51, 75, 0.08);
+  position: relative;
+}
+
+.huy-special-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #fff;
+  background: #b8334b;
+  padding: 3px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.huy-special-quote {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #3b2a2d;
+  font-style: italic;
+  margin: 0 0 10px;
+}
+
+.huy-special-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #27ae60;
+  background: #eafaf1;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid #a3e4d7;
+}
+
+/* --------------------------------------------------------------------------
+   5. FLOATING 1 CHỈ VÀNG BADGE & QUỸ MỪNG CƯỚI RIÊNG CHO HUY
+   -------------------------------------------------------------------------- */
+.floating-gold-badge {
+  position: fixed;
+  left: 18px;
+  bottom: 22px;
+  z-index: 99998;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 2px solid #d4af37;
+  border-radius: 40px;
+  padding: 7px 14px;
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.35);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #795548;
+}
+
+.floating-gold-badge:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 12px 25px rgba(212, 175, 55, 0.5);
+}
+
+.floating-gold-icon {
+  font-size: 1.2rem;
+  animation: wobbleCoin 2s infinite ease-in-out;
+}
+
+@keyframes wobbleCoin {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+}
+
+/* Highlight trên Hộp quà cưới của Kiều Trang */
+.bride-vip-gift-highlight {
+  border: 2px solid #d4af37 !important;
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25) !important;
+  position: relative;
+}
+
+.bride-vip-ribbon {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #d4af37, #f39c12);
+  color: #fff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 12px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4);
+  white-space: nowrap;
+}
