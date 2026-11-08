@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // -------------------------------------------------------------------------
   // 2. HIỆU ỨNG TYPEWRITER LỜI NHẮN CỦA TRANG
   // -------------------------------------------------------------------------
-  const fullText = "Gửi Huy, trong ngày trọng đại của cuộc đời mình Trang rất buồn khi Huy không thể về được nhưng không sao cả Trang sẽ cố gắng để vượt qua, nếu Huy thực sự muốn chúc phúc cho Trang thì hãy mừng Trang 1 chỉ vàng nhé :D";
+  const fullText = "Gửi Huy ộp pa, trong ngày trọng đại của cuộc đời mình Trang rất buồn khi Huy không thể về được nhưng không sao cả Trang sẽ cố gắng để vượt qua, nếu Huy thực sự muốn chúc phúc cho Trang thì hãy mừng Trang 1 chỉ vàng nhé :D";
   const typewriterEl = document.getElementById('prank-typewriter-text');
   const subnoteEl = document.getElementById('prank-subnote');
   let charIdx = 0;
@@ -47,12 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const escapeJokes = [
     "Né nè! Bắt được hông? 😜",
     "Gần trúng rồi, cố lên bro! 😂",
-    "Mùa đông Hàn Quốc lạnh, tay chậm thế! ❄️",
+    "Trời lạnh thế này, tay chậm thế! ❄️",
     "Vàng đang hạ giá kìa, bấm Đồng Ý đi! 📈",
     "Ủa tưởng bấm được hả? Mơ đi! 🏃‍♂️💨",
     "Chạy đâu cho thoát khỏi lòng bàn tay Trang! 😈",
     "Nút này tạo ra chỉ để ngắm thôi nha! 🤣",
-    "Thôi chấp nhận số phận đi Huy: 1 CHỈ VÀNG! 💍"
+    "Thôi chấp nhận số phận đi Huy ộp pa: 1 CHỈ VÀNG! 💍"
   ];
 
   function showToastNearButton(x, y, text) {

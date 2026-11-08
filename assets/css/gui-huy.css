@@ -660,7 +660,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   6. BỐ CỤC SECTION 2 (THƯ MỜI CƯỚI): ĐẢM BẢO KHÔNG CHE MẶT CÔ DÂU CHÚ RỂ
+   6. BỐ CỤC SECTION 2 (THƯ MỜI CƯỚI): ĐẢM BẢO KHÔNG CHE MẶT CÔ DÂU CHÚ RỂ VÀ CÂN ĐỐI
    -------------------------------------------------------------------------- */
 .cl-invitation-cover,
 .cl-invitation-content-overlay {
@@ -668,7 +668,7 @@
 }
 
 .cl-invitation-bg-img {
-  object-position: 50% 6% !important;
+  object-position: 64% 5% !important;
 }
 
 @media (max-width: 480px) {
@@ -677,7 +677,7 @@
     min-height: 1180px !important;
   }
   .cl-invitation-bg-img {
-    object-position: 50% 5% !important;
+    object-position: 64% 5% !important;
   }
 }
 
