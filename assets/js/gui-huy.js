@@ -1,108 +1,15 @@
 /**
- * GUI-HUY.JS - SCRIPT TRÊU ĐÙA & TƯƠNG TÁC DÀNH RIÊNG CHO BẠN THÂN HOÀNG HUY
+ * GUI-HUY.JS - SCRIPT TRÊU ĐÙA & TƯƠNG TÁC DÀNH RIÊNG CHO BẠN THÂN HUY
  * Chạy độc lập, không làm ảnh hưởng đến thiệp cưới chính thức
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   // -------------------------------------------------------------------------
-  // 1. WEB AUDIO API SYNTHESIZER (ÂM THANH VUI NHỘN KHÔNG CẦN TẢI FILE NGOÀI)
+  // 1. ÂM THANH: ĐÃ LOẠI BỎ HẾT ÂM THANH CLICK / BOING / HIỆU ỨNG NGOÀI NHẠC NỀN
   // -------------------------------------------------------------------------
-  let audioCtx = null;
-
-  function getAudioContext() {
-    if (!audioCtx) {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (AudioContext) {
-        audioCtx = new AudioContext();
-      }
-    }
-    if (audioCtx && audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
-    return audioCtx;
-  }
-
-  // Âm thanh lò xo / né tránh khi nút Mơ Đi chạy (Boing sound)
-  function playBoingSound() {
-    try {
-      const ctx = getAudioContext();
-      if (!ctx) return;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-
-      osc.type = 'sine';
-      const now = ctx.currentTime;
-      osc.frequency.setValueAtTime(220, now);
-      osc.frequency.exponentialRampToValueAtTime(700, now + 0.15);
-      osc.frequency.exponentialRampToValueAtTime(320, now + 0.28);
-
-      gain.gain.setValueAtTime(0.3, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.28);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start(now);
-      osc.stop(now + 0.28);
-    } catch (e) {
-      // Ignored
-    }
-  }
-
-  // Âm thanh chiến thắng / chuông vàng khi ấn Đồng Ý (Fanfare Chime)
-  function playChimeSound() {
-    try {
-      const ctx = getAudioContext();
-      if (!ctx) return;
-      const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
-      notes.forEach((freq, idx) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        const now = ctx.currentTime + idx * 0.08;
-
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(freq, now);
-
-        gain.gain.setValueAtTime(0.25, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
-
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-
-        osc.start(now);
-        osc.stop(now + 0.6);
-      });
-    } catch (e) {
-      // Ignored
-    }
-  }
-
-  // Âm thanh gạch xoá bút đỏ khi trêu Huy mới chia tay
-  function playScribbleSound() {
-    try {
-      const ctx = getAudioContext();
-      if (!ctx) return;
-      const now = ctx.currentTime;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(160, now);
-      osc.frequency.linearRampToValueAtTime(90, now + 0.12);
-      osc.frequency.linearRampToValueAtTime(140, now + 0.25);
-
-      gain.gain.setValueAtTime(0.18, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start(now);
-      osc.stop(now + 0.25);
-    } catch (e) {
-      // Ignored
-    }
-  }
+  function playBoingSound() {}
+  function playChimeSound() {}
+  function playScribbleSound() {}
 
   // -------------------------------------------------------------------------
   // 2. HIỆU ỨNG TYPEWRITER LỜI NHẮN CỦA TRANG
@@ -367,3 +274,4 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(inviteSection);
   }
 });
+
