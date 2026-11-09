@@ -6,11 +6,7 @@
     { "source": "/Trang-Thang", "destination": "/trang-thang.html" },
     { "source": "/trangthang", "destination": "/trang-thang.html" },
     { "source": "/nha-gai", "destination": "/trang-thang.html" },
-    { "source": "/nhagai", "destination": "/trang-thang.html" },
-    { "source": "/gui-huy", "destination": "/gui-huy.html" },
-    { "source": "/Gui-Huy", "destination": "/gui-huy.html" },
-    { "source": "/huy", "destination": "/gui-huy.html" },
-    { "source": "/guihuy", "destination": "/gui-huy.html" }
+    { "source": "/nhagai", "destination": "/trang-thang.html" }
   ],
   "headers": [
     {
