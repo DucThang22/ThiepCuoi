@@ -492,9 +492,9 @@ img {
   height: 100%;
   pointer-events: none;
   z-index: 4;
-  /* Chặn 100% không cho ảnh lọt ra đáy phong bì, cho phép ảnh trượt tự do lên trên (-400px) */
-  clip-path: inset(-400px 0 0 0 round 0 0 6px 6px);
-  -webkit-clip-path: inset(-400px 0 0 0 round 0 0 6px 6px);
+  /* Chặn 100% không cho ảnh lọt ra đáy phong bì (bottom: 0), mở rộng 2 bên (-80px) để không bao giờ cắt xén bóng mờ tạo vệt xám ở 2 bên trái/phải */
+  clip-path: inset(-400px -80px 0 -80px round 0 0 6px 6px);
+  -webkit-clip-path: inset(-400px -80px 0 -80px round 0 0 6px 6px);
   overflow: visible;
 }
 
@@ -525,9 +525,9 @@ img {
   padding: 3px;
   border-radius: 8px;
   box-shadow: 
-    0 18px 45px rgba(0, 0, 0, 0.35),
-    0 4px 12px rgba(0, 0, 0, 0.18),
-    0 0 0 1px rgba(255, 255, 255, 0.7);
+    0 10px 24px rgba(70, 8, 12, 0.16),
+    0 2px 6px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(255, 255, 255, 0.95);
   border: none;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -594,7 +594,6 @@ img {
   height: 100%;
   background: linear-gradient(135deg, #780d12 0%, #8c1319 50%, #a3171e 100%);
   clip-path: polygon(0 0, 100% 50%, 0 100%);
-  filter: drop-shadow(2px 1px 4px rgba(0, 0, 0, 0.22));
 }
 
 .pocket-right {
@@ -605,7 +604,6 @@ img {
   height: 100%;
   background: linear-gradient(-135deg, #780d12 0%, #8c1319 50%, #a3171e 100%);
   clip-path: polygon(100% 0, 0 50%, 100% 100%);
-  filter: drop-shadow(-2px 1px 4px rgba(0, 0, 0, 0.22));
 }
 
 .pocket-bottom {
