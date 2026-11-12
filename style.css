@@ -111,6 +111,8 @@ img {
   max-width: 100%;
   height: auto;
   display: block;
+  background-color: transparent !important;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .text-center { text-align: center; }
@@ -357,13 +359,16 @@ img {
   height: 78px;
   object-fit: contain;
   display: inline-block;
-  filter: drop-shadow(0 4px 14px rgba(167, 34, 40, 0.28));
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  filter: drop-shadow(0 3px 8px rgba(167, 34, 40, 0.22));
   animation: emblemGentleFloat 3.8s ease-in-out infinite alternate;
 }
 
 @keyframes emblemGentleFloat {
-  0% { transform: translateY(0); filter: drop-shadow(0 4px 10px rgba(167, 34, 40, 0.22)); }
-  100% { transform: translateY(-3px); filter: drop-shadow(0 7px 16px rgba(167, 34, 40, 0.32)); }
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-4px); }
 }
 
 .envelope-stage {
@@ -437,7 +442,9 @@ img {
   width: 100%;
   height: auto;
   display: block;
-  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.14));
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .flower-top-left {
@@ -477,12 +484,31 @@ img {
   z-index: 1;
 }
 
+.envelope-photo-slot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 4;
+  /* Chặn 100% không cho ảnh lọt ra đáy phong bì, cho phép ảnh trượt tự do lên trên (-400px) */
+  clip-path: inset(-400px 0 0 0 round 0 0 6px 6px);
+  -webkit-clip-path: inset(-400px 0 0 0 round 0 0 6px 6px);
+  overflow: visible;
+}
+
+.envelope-stage.opening .envelope-photo-slot {
+  z-index: 8;
+  pointer-events: auto;
+}
+
 .envelope-photo-card {
   position: absolute;
   top: 15px;
   left: 18px;
   right: 18px;
-  height: 205px;
+  height: 195px;
   z-index: 4;
   display: flex;
   flex-direction: column;
@@ -503,6 +529,9 @@ img {
     0 4px 12px rgba(0, 0, 0, 0.18),
     0 0 0 1px rgba(255, 255, 255, 0.7);
   border: none;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 .photo-img-wrapper {
@@ -528,7 +557,7 @@ img {
   pointer-events: auto;
   opacity: 1;
   visibility: visible;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .envelope-stage.opened-float .envelope-photo-card {
@@ -711,9 +740,18 @@ img {
   .envelope-cover-overlay.envelope-opened .envelope-ground-shadow {
     transform: translateY(32px) scale(1.1, 1.05);
   }
-  .envelope-stage.opening .envelope-photo-card { transform: translateY(-82px); }
+  .envelope-photo-card {
+    top: 14px !important;
+    left: 14px !important;
+    right: 14px !important;
+    height: 165px !important;
+  }
+  .envelope-stage.opening .envelope-photo-card {
+    transform: translateY(-82px) !important;
+    overflow: hidden !important;
+  }
   .envelope-stage.opened-float .envelope-photo-card {
-    animation: photoGentleBobMobile 3.2s ease-in-out infinite alternate;
+    animation: photoGentleBobMobile 3.2s ease-in-out infinite alternate !important;
   }
   .flower-top-left { top: -34px; left: -28px; width: 175px; }
   .envelope-wax-seal { width: 54px; height: 54px; }
@@ -1874,8 +1912,11 @@ img {
   width: 100%;
   height: auto;
   display: block;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
   /* Đổ bóng sticker sang trọng tạo chiều sâu 3D trên nền và ảnh nền */
-  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.2)) drop-shadow(0 2px 8px rgba(112, 34, 42, 0.14));
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.16));
   cursor: pointer;
 }
 
@@ -2696,7 +2737,9 @@ img {
   height: 100%;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 12px 20px rgba(112, 34, 42, 0.18));
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
