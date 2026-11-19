@@ -52,11 +52,27 @@ def main():
 
     print(f"[*] Tìm thấy tổng cộng {len(proj_deps)} deployments.")
     
-    # Giữ lại bản mới nhất đang hoạt động
-    keep_id = proj_deps[0].get("uid")
-    to_delete = proj_deps[1:]
+    # Sắp xếp mới nhất trước. Giữ lại: bản Production READY mới nhất + bản Preview READY mới nhất.
+    # Không bao giờ xoá bản đang build/xếp hàng (chưa READY), tránh xoá nhầm bản production đang chạy.
+    proj_deps.sort(key=lambda d: d.get("created", 0), reverse=True)
+    keep = {}
+    for d in proj_deps:
+        if d.get("state") != "READY":
+            continue
+        target = d.get("target") or "preview"
+        if target not in keep:
+            keep[target] = d
 
-    print(f"[*] Giữ lại bản deployment mới nhất: {proj_deps[0].get('url')} (ID: {keep_id})")
+    if "production" not in keep:
+        print("[!] Không tìm thấy bản Production nào đã READY. Dừng lại để an toàn, không xoá gì.")
+        return
+
+    keep_ids = {d.get("uid") for d in keep.values()}
+    to_delete = [d for d in proj_deps
+                 if d.get("uid") not in keep_ids and d.get("state") in ("READY", "ERROR", "CANCELED")]
+
+    for target, d in keep.items():
+        print(f"[*] Giữ lại bản {target}: {d.get('url')} (ID: {d.get('uid')})")
     print(f"[*] Chuẩn bị xóa {len(to_delete)} bản deployments cũ để giải phóng dung lượng...")
 
     deleted_count = 0

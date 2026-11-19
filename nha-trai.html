@@ -2,6 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
+  <meta name="theme-color" content="#fbf6f2">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Thiệp Mời Cưới - Đức Thắng & Kiều Trang | 20.12.2026</title>
   
@@ -11,23 +12,33 @@
   <meta property="og:description" content="Trân trọng kính mời bạn đến dự tiệc mừng lễ thành hôn của Đức Thắng & Kiều Trang!">
   <meta property="og:image" content="assets/images/TTT09584_web.jpg">
   
-  <!-- Google Fonts: Playfair Display, Pinyon Script, Plus Jakarta Sans, Cormorant Garamond -->
+  <!-- Favicon (tránh request 404 /favicon.ico) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%E2%9D%A4%EF%B8%8F%3C/text%3E%3C/svg%3E">
+
+  <!-- Tải trước tài nguyên màn phong bì (font thư pháp tự host) -->
+  <link rel="preload" href="assets/fonts/pinyon-script-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/pinyon-script-latin-ext.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/pinyon-script-vietnamese.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Google Fonts: Playfair Display, Plus Jakarta Sans, Cormorant Garamond (Pinyon Script tự host trong style.css) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
   
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20261119">
 </head>
-<body>
+<body class="envelope-locked">
 
   <!-- ==========================================
        BACKGROUND MUSIC (Bật/Tắt Nhạc Nền: Beautiful in White)
        ========================================== -->
-  <audio id="bg-music" loop preload="auto">
+  <audio id="bg-music" loop preload="none">
     <source src="assets/music/beautiful-in-white.mp3" type="audio/mpeg">
     <source src="https://archive.org/download/westlifebeautifulinwhite_201911/Westlife%20-%20Beautiful%20in%20White.mp3" type="audio/mpeg">
     Trình duyệt của bạn không hỗ trợ phát nhạc nền.
@@ -40,7 +51,7 @@
   <!-- ==========================================
        1. ENVELOPE COVER (MÀN HÌNH BẮT ĐẦU - PHONG BÌ THƯ ĐỎ GIỮ NGUYÊN HOÀN TOÀN)
        ========================================== -->
-  <div id="envelope-cover" class="envelope-cover-overlay">
+  <div id="envelope-cover" class="envelope-cover-overlay is-preparing">
     <div class="envelope-screen-wrapper">
       
       <!-- Tiêu đề trên cùng: Thiệp Mời Cưới -->
@@ -50,7 +61,7 @@
 
       <!-- Biểu tượng Song Hỷ (囍) v2 -->
       <div class="envelope-wedding-emblem" id="envelope-wedding-emblem">
-        <img src="assets/images/Song_hy_v2.png" alt="Biểu tượng Song Hỷ" class="song-hy-icon">
+        <picture><source srcset="assets/opt/Song_hy_v2.webp" type="image/webp"><img src="assets/opt/Song_hy_v2.png" alt="Biểu tượng Song Hỷ" class="song-hy-icon" fetchpriority="high" data-critical></picture>
       </div>
 
       <!-- Khung phong bì 3D tương tác -->
@@ -60,7 +71,7 @@
         <div class="envelope-body">
           <!-- Cụm hoa góc trên bên trái -->
           <div class="envelope-flower flower-top-left">
-            <img src="assets/images/flower_top_left.png" alt="Hoa cưới trang trí góc trên bên trái">
+            <picture><source srcset="assets/opt/flower_top_left.webp" type="image/webp"><img src="assets/opt/flower_top_left.png" alt="Hoa cưới trang trí góc trên bên trái" fetchpriority="high" data-critical></picture>
           </div>
 
           <!-- Mặt sau phong bì -->
@@ -70,7 +81,7 @@
           <div class="envelope-photo-slot">
             <div class="envelope-photo-card" id="envelope-photo-card">
               <div class="photo-img-wrapper">
-                <img src="assets/images/TTT09222_web.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang" class="photo-couple-img">
+                <picture><source srcset="assets/opt/TTT09222_web.webp" type="image/webp"><img src="assets/opt/TTT09222_web.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang" class="photo-couple-img" decoding="async"></picture>
               </div>
             </div>
           </div>
@@ -89,7 +100,7 @@
 
           <!-- Con dấu sáp ở chính giữa phong bì -->
           <div class="envelope-wax-seal" id="envelope-wax-seal">
-            <img src="assets/images/wax_seal.png" alt="Con dấu sáp đỏ niêm phong thiệp cưới">
+            <picture><source srcset="assets/opt/wax_seal.webp" type="image/webp"><img src="assets/opt/wax_seal.png" alt="Con dấu sáp đỏ niêm phong thiệp cưới" fetchpriority="high" data-critical></picture>
             <div class="seal-glow"></div>
           </div>
         </div>
@@ -106,6 +117,11 @@
 
     </div>
 
+    <!-- Hiệu ứng chờ nhẹ nhàng khi mạng chậm (chỉ hiện nếu ảnh phong bì chưa tải xong) -->
+    <div class="envelope-loader" aria-hidden="true">
+      <span class="envelope-loader-heart">&#10084;</span>
+    </div>
+
     <!-- Container chứa hiệu ứng trái tim đỏ bay lên -->
     <div id="envelope-hearts-container" class="envelope-hearts-container"></div>
   </div>
@@ -115,7 +131,7 @@
        ========================================== -->
   <div class="cl-hero-wrapper">
     <header id="hero">
-      <div class="hero-bg" style="background-image: url('assets/images/TTT09584_web.jpg');"></div>
+      <div class="hero-bg"><picture><source srcset="assets/opt/TTT09584_web.webp" type="image/webp"><img src="assets/opt/TTT09584_web.jpg" alt="" class="hero-bg-img" fetchpriority="low" decoding="async"></picture></div>
       <div class="hero-overlay"></div>
       
       <div class="hero-content">
@@ -150,7 +166,7 @@
         
         <!-- Ảnh nền váy cưới & hoa ngọt ngào -->
         <div class="cl-invitation-cover">
-          <img src="assets/images/TTT08627_web.jpg" alt="Thư mời cưới Đức Thắng Kiều Trang" class="cl-invitation-bg-img" loading="eager" decoding="async">
+          <picture><source srcset="assets/opt/TTT08627_web.webp" type="image/webp"><img src="assets/opt/TTT08627_web.jpg" alt="Thư mời cưới Đức Thắng Kiều Trang" class="cl-invitation-bg-img" fetchpriority="low" decoding="async"></picture>
 
           <!-- Lớp phủ chứa 4 ô Countdown và Card thư mời -->
           <div class="cl-invitation-content-overlay">
@@ -436,12 +452,12 @@
 
           <!-- Khung ảnh chính góc trên bên phải (Upper-right framed photo) -->
           <div class="cl-editorial-main-frame reveal-scale delay-1">
-            <img src="assets/images/TTT08789_web.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang" class="gallery-trigger" data-img-src="assets/images/TTT08789_web.jpg">
+            <picture><source srcset="assets/opt/TTT08789_web_thumb.webp" type="image/webp"><img src="assets/opt/TTT08789_web_thumb.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang" class="gallery-trigger" data-img-src="assets/opt/TTT08789_web.jpg" loading="lazy" decoding="async"></picture>
           </div>
 
           <!-- Chủ thể cặp đôi bóc tách từ ảnh 9027 với viền sticker trắng ở góc dưới bên trái -->
           <div class="cl-editorial-cutout reveal-up delay-2">
-            <img src="assets/images/TTT09027_v2.png" alt="Đức Thắng & Kiều Trang" class="gallery-trigger" data-img-src="assets/images/TTT09027_web.jpg">
+            <picture><source srcset="assets/opt/TTT09027_v2.webp" type="image/webp"><img src="assets/opt/TTT09027_v2.png" alt="Đức Thắng & Kiều Trang" class="gallery-trigger" data-img-src="assets/opt/TTT09027_web.jpg" loading="lazy" decoding="async"></picture>
           </div>
 
           <!-- Cụm Typography I LOVE YOU và Lời thơ ở góc dưới bên phải -->
@@ -467,70 +483,70 @@
               
               <div class="cl-coverflow-slide" data-index="0">
                 <div class="cl-slide-card">
-                  <img src="assets/images/TTT08627_web.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 1" class="gallery-trigger" data-img-index="0">
+                  <picture><source srcset="assets/opt/TTT08627_web_thumb.webp" type="image/webp"><img src="assets/opt/TTT08627_web_thumb.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 1" class="gallery-trigger" data-img-index="0" loading="lazy" decoding="async" data-full="assets/opt/TTT08627_web.jpg"></picture>
                   <div class="cl-slide-zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
                 </div>
               </div>
 
               <div class="cl-coverflow-slide" data-index="1">
                 <div class="cl-slide-card">
-                  <img src="assets/images/TTT08982_web.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 2" class="gallery-trigger" data-img-index="1">
+                  <picture><source srcset="assets/opt/TTT08982_web_thumb.webp" type="image/webp"><img src="assets/opt/TTT08982_web_thumb.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 2" class="gallery-trigger" data-img-index="1" loading="lazy" decoding="async" data-full="assets/opt/TTT08982_web.jpg"></picture>
                   <div class="cl-slide-zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
                 </div>
               </div>
 
               <div class="cl-coverflow-slide" data-index="2">
                 <div class="cl-slide-card">
-                  <img src="assets/images/TTT09584_web.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 3" class="gallery-trigger" data-img-index="2">
+                  <picture><source srcset="assets/opt/TTT09584_web_thumb.webp" type="image/webp"><img src="assets/opt/TTT09584_web_thumb.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 3" class="gallery-trigger" data-img-index="2" loading="lazy" decoding="async" data-full="assets/opt/TTT09584_web.jpg"></picture>
                   <div class="cl-slide-zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
                 </div>
               </div>
 
               <div class="cl-coverflow-slide" data-index="3">
                 <div class="cl-slide-card">
-                  <img src="assets/images/TTT09222_web.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 4" class="gallery-trigger" data-img-index="3">
+                  <picture><source srcset="assets/opt/TTT09222_web_thumb.webp" type="image/webp"><img src="assets/opt/TTT09222_web_thumb.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 4" class="gallery-trigger" data-img-index="3" loading="lazy" decoding="async" data-full="assets/opt/TTT09222_web.jpg"></picture>
                   <div class="cl-slide-zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
                 </div>
               </div>
 
               <div class="cl-coverflow-slide" data-index="4">
                 <div class="cl-slide-card">
-                  <img src="assets/images/TTT09824_web.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 5" class="gallery-trigger" data-img-index="4">
+                  <picture><source srcset="assets/opt/TTT09824_web_thumb.webp" type="image/webp"><img src="assets/opt/TTT09824_web_thumb.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 5" class="gallery-trigger" data-img-index="4" loading="lazy" decoding="async" data-full="assets/opt/TTT09824_web.jpg"></picture>
                   <div class="cl-slide-zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
                 </div>
               </div>
 
               <div class="cl-coverflow-slide" data-index="5">
                 <div class="cl-slide-card">
-                  <img src="assets/images/TTT09053_web.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 6" class="gallery-trigger" data-img-index="5">
+                  <picture><source srcset="assets/opt/TTT09053_web_thumb.webp" type="image/webp"><img src="assets/opt/TTT09053_web_thumb.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 6" class="gallery-trigger" data-img-index="5" loading="lazy" decoding="async" data-full="assets/opt/TTT09053_web.jpg"></picture>
                   <div class="cl-slide-zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
                 </div>
               </div>
 
                <div class="cl-coverflow-slide" data-index="6">
                 <div class="cl-slide-card">
-                  <img src="assets/images/TTT09839_web.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 7" class="gallery-trigger" data-img-index="6">
+                  <picture><source srcset="assets/opt/TTT09839_web_thumb.webp" type="image/webp"><img src="assets/opt/TTT09839_web_thumb.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 7" class="gallery-trigger" data-img-index="6" loading="lazy" decoding="async" data-full="assets/opt/TTT09839_web.jpg"></picture>
                   <div class="cl-slide-zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
                 </div>
               </div>
 
               <div class="cl-coverflow-slide" data-index="7">
                 <div class="cl-slide-card">
-                  <img src="assets/images/TTT08816_web.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 8" class="gallery-trigger" data-img-index="7">
+                  <picture><source srcset="assets/opt/TTT08816_web_thumb.webp" type="image/webp"><img src="assets/opt/TTT08816_web_thumb.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 8" class="gallery-trigger" data-img-index="7" loading="lazy" decoding="async" data-full="assets/opt/TTT08816_web.jpg"></picture>
                   <div class="cl-slide-zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
                 </div>
               </div>
 
               <div class="cl-coverflow-slide" data-index="8">
                 <div class="cl-slide-card">
-                  <img src="assets/images/TTT09334_web.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 9" class="gallery-trigger" data-img-index="8">
+                  <picture><source srcset="assets/opt/TTT09334_web_thumb.webp" type="image/webp"><img src="assets/opt/TTT09334_web_thumb.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 9" class="gallery-trigger" data-img-index="8" loading="lazy" decoding="async" data-full="assets/opt/TTT09334_web.jpg"></picture>
                   <div class="cl-slide-zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
                 </div>
               </div>
 
               <div class="cl-coverflow-slide" data-index="9">
                 <div class="cl-slide-card">
-                  <img src="assets/images/TTT09654_web.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 10" class="gallery-trigger" data-img-index="9">
+                  <picture><source srcset="assets/opt/TTT09654_web_thumb.webp" type="image/webp"><img src="assets/opt/TTT09654_web_thumb.jpg" alt="Ảnh cưới Đức Thắng & Kiều Trang 10" class="gallery-trigger" data-img-index="9" loading="lazy" decoding="async" data-full="assets/opt/TTT09654_web.jpg"></picture>
                   <div class="cl-slide-zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
                 </div>
               </div>
@@ -570,8 +586,8 @@
           <div class="cl-profile-card bride-card reveal-up">
             <!-- Khung ảnh chân dung lớn, sắc nét chuẩn tạp chí -->
             <div class="cl-profile-photo-col">
-              <div class="cl-avatar-frame gallery-trigger" data-img-src="assets/images/TTT08816_web.jpg" title="Nhấp để xem ảnh đầy đủ">
-                <img src="assets/images/bride_portrait.jpg" alt="Cô dâu Kiều Trang" class="cl-profile-img">
+              <div class="cl-avatar-frame gallery-trigger" data-img-src="assets/opt/TTT08816_web.jpg" title="Nhấp để xem ảnh đầy đủ">
+                <picture><source srcset="assets/opt/bride_portrait.webp" type="image/webp"><img src="assets/opt/bride_portrait.jpg" alt="Cô dâu Kiều Trang" class="cl-profile-img" loading="lazy" decoding="async"></picture>
                 <div class="cl-photo-overlay-badge">
                   <i class="fa-solid fa-expand"></i> Phóng to
                 </div>
@@ -608,8 +624,8 @@
           <div class="cl-profile-card groom-card reveal-up delay-1">
             <!-- Khung ảnh chân dung lớn, sắc nét chuẩn tạp chí -->
             <div class="cl-profile-photo-col">
-              <div class="cl-avatar-frame gallery-trigger" data-img-src="assets/images/TTT08688_web.jpg" title="Nhấp để xem ảnh đầy đủ">
-                <img src="assets/images/TTT08688_web.jpg" alt="Chú rể Đức Thắng" class="cl-profile-img groom-img">
+              <div class="cl-avatar-frame gallery-trigger" data-img-src="assets/opt/TTT08688_web.jpg" title="Nhấp để xem ảnh đầy đủ">
+                <picture><source srcset="assets/opt/TTT08688_web.webp" type="image/webp"><img src="assets/opt/TTT08688_web.jpg" alt="Chú rể Đức Thắng" class="cl-profile-img groom-img" loading="lazy" decoding="async"></picture>
                 <div class="cl-photo-overlay-badge">
                   <i class="fa-solid fa-expand"></i> Phóng to
                 </div>
@@ -732,7 +748,7 @@
 
               <!-- Hộp quà cưới tự nhiên sang trọng -->
               <div class="cl-gift-box-visual" id="gift-box-visual">
-                <img src="assets/images/wedding_gift_box.png" alt="Hộp quà cưới Đức Thắng & Kiều Trang" class="cl-gift-img">
+                <picture><source srcset="assets/opt/wedding_gift_box.webp" type="image/webp"><img src="assets/opt/wedding_gift_box.png" alt="Hộp quà cưới Đức Thắng & Kiều Trang" class="cl-gift-img" loading="lazy" decoding="async"></picture>
                 
                 <!-- Bóng đổ mềm thực tế dưới đáy hộp quà -->
                 <div class="cl-gift-shadow"></div>
@@ -770,13 +786,13 @@
               <div class="cl-gift-row card-groom">
                 <div class="cl-gift-avatar-wrap">
                   <div class="cl-dashed-ring">
-                    <img src="assets/images/TTT08867_avatar.jpg" alt="Chú rể Đức Thắng" class="cl-dashed-avatar groom-avatar">
+                    <picture><source srcset="assets/opt/TTT08867_avatar.webp" type="image/webp"><img src="assets/opt/TTT08867_avatar.jpg" alt="Chú rể Đức Thắng" class="cl-dashed-avatar groom-avatar" loading="lazy" decoding="async"></picture>
                   </div>
                 </div>
 
                 <div class="cl-gift-card">
                   <div class="cl-gift-qr-box" title="Nhấp để phóng to QR">
-                    <img src="assets/images/qr_groom_clean.png" alt="QR VietinBank Chú rể Đức Thắng" class="cl-gift-qr gallery-trigger" data-img-src="assets/images/qr_groom_clean.png">
+                    <picture><source srcset="assets/opt/qr_groom_clean.webp" type="image/webp"><img src="assets/opt/qr_groom_clean.png" alt="QR VietinBank Chú rể Đức Thắng" class="cl-gift-qr gallery-trigger" data-img-src="assets/opt/qr_groom_clean.png" loading="lazy" decoding="async"></picture>
                   </div>
                   <div class="cl-gift-info">
                     <span class="cl-gift-role">Chú rể</span>
@@ -796,7 +812,7 @@
               <div class="cl-gift-row reverse card-bride">
                 <div class="cl-gift-card">
                   <div class="cl-gift-qr-box" title="Nhấp để phóng to QR">
-                    <img src="assets/images/qr_bride_clean.png" alt="QR VietinBank Cô dâu Kiều Trang" class="cl-gift-qr gallery-trigger" data-img-src="assets/images/qr_bride_clean.png">
+                    <picture><source srcset="assets/opt/qr_bride_clean.webp" type="image/webp"><img src="assets/opt/qr_bride_clean.png" alt="QR VietinBank Cô dâu Kiều Trang" class="cl-gift-qr gallery-trigger" data-img-src="assets/opt/qr_bride_clean.png" loading="lazy" decoding="async"></picture>
                   </div>
                   <div class="cl-gift-info">
                     <span class="cl-gift-role">Cô dâu</span>
@@ -813,7 +829,7 @@
 
                 <div class="cl-gift-avatar-wrap">
                   <div class="cl-dashed-ring">
-                    <img src="assets/images/TTT08816_avatar.jpg" alt="Cô dâu Kiều Trang" class="cl-dashed-avatar bride-avatar">
+                    <picture><source srcset="assets/opt/TTT08816_avatar.webp" type="image/webp"><img src="assets/opt/TTT08816_avatar.jpg" alt="Cô dâu Kiều Trang" class="cl-dashed-avatar bride-avatar" loading="lazy" decoding="async"></picture>
                   </div>
                 </div>
               </div>
@@ -840,7 +856,7 @@
           
           <!-- Hình ảnh 3D cô dâu chú rể khiêu vũ ngọt ngào (Render 3D tuyệt đẹp) -->
           <div class="cl-dancing-couple-wrap reveal-scale">
-            <img src="assets/images/couple_dance_3d.jpg" alt="3D Couple Dancing" class="cl-dancing-couple-img">
+            <picture><source srcset="assets/opt/couple_dance_3d.webp" type="image/webp"><img src="assets/opt/couple_dance_3d.jpg" alt="3D Couple Dancing" class="cl-dancing-couple-img" loading="lazy" decoding="async"></picture>
           </div>
 
           <!-- Chữ Thank you thư pháp lớn màu hồng mận -->
@@ -939,6 +955,6 @@
   <div id="toast" class="toast-msg">Đã lưu thông tin thành công!</div>
 
   <!-- Main JavaScript File -->
-  <script src="script.js"></script>
+  <script src="script.js?v=20261119"></script>
 </body>
 </html>

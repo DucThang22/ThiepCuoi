@@ -6,6 +6,73 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // ==========================================
+  // 0. TIỆN ÍCH CHUNG
+  // ==========================================
+
+  // localStorage có thể bị chặn (chế độ ẩn danh, trình duyệt trong Zalo/Messenger) hoặc chứa dữ liệu hỏng
+  // => luôn bọc try/catch để không làm sập toàn bộ script
+  const safeStorage = {
+    get(key, fallback) {
+      try {
+        const raw = window.localStorage.getItem(key);
+        return raw === null ? fallback : JSON.parse(raw);
+      } catch (e) {
+        return fallback;
+      }
+    },
+    set(key, value) {
+      try {
+        window.localStorage.setItem(key, JSON.stringify(value));
+      } catch (e) { /* bỏ qua */ }
+    }
+  };
+
+  // Phát hiện trình duyệt hỗ trợ WebP (dùng cho ảnh phóng to trong lightbox)
+  let supportsWebP = false;
+  (function detectWebP() {
+    const probe = new Image();
+    probe.onload = () => { supportsWebP = probe.width === 1; };
+    probe.src = 'data:image/webp;base64,UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA';
+  })();
+
+  function optimizedSrc(src) {
+    if (!src || !supportsWebP || src.indexOf('assets/opt/') === -1) return src;
+    return src.replace(/\.(jpe?g|png)$/i, '.webp');
+  }
+
+  // ==========================================
+  // 0.1. HIỆN PHONG BÌ TRỌN VẸN KHI ẢNH & FONT ĐÃ SẴN SÀNG
+  // (tối đa chờ 3s, mạng chậm vẫn hiện; ảnh đã cache thì hiện ngay lập tức)
+  // ==========================================
+  const envelopeCoverEl = document.getElementById('envelope-cover');
+
+  function waitForImage(img) {
+    const decode = () => (img.decode ? img.decode().catch(() => {}) : Promise.resolve());
+    if (img.complete) return img.naturalWidth ? decode() : Promise.resolve();
+    return new Promise(resolve => {
+      img.addEventListener('load', () => decode().then(resolve), { once: true });
+      img.addEventListener('error', resolve, { once: true });
+    });
+  }
+
+  function revealEnvelope() {
+    if (envelopeCoverEl) envelopeCoverEl.classList.remove('is-preparing');
+  }
+
+  if (envelopeCoverEl && envelopeCoverEl.classList.contains('is-preparing')) {
+    const criticalImgs = Array.from(envelopeCoverEl.querySelectorAll('img[data-critical]'));
+    const fontReady = (document.fonts && document.fonts.load)
+      ? document.fonts.load('1em "Pinyon Script"').catch(() => {})
+      : Promise.resolve();
+    const timeout = new Promise(resolve => setTimeout(resolve, 3000));
+
+    Promise.race([
+      Promise.all(criticalImgs.map(waitForImage).concat(fontReady)),
+      timeout
+    ]).then(() => requestAnimationFrame(revealEnvelope));
+  }
+
+  // ==========================================
   // 1. DYNAMIC WEDDING COUNTDOWN (Đọc theo data-countdown-target hoặc mặc định 09:30)
   // ==========================================
   const targetAttr = document.body ? document.body.getAttribute('data-countdown-target') : null;
@@ -13,37 +80,42 @@ document.addEventListener('DOMContentLoaded', () => {
     ? new Date(targetAttr).getTime() 
     : new Date("2026-12-20T09:30:00").getTime();
 
+  const daysEl = document.getElementById('days');
+  const hoursEl = document.getElementById('hours');
+  const minutesEl = document.getElementById('minutes');
+  const secondsEl = document.getElementById('seconds');
+  let countdownTimer = null;
+
+  // Chỉ ghi DOM khi giá trị thay đổi (textContent không gây tính lại layout như innerText)
+  function setNum(el, value) {
+    const text = String(value).padStart(2, '0');
+    if (el.textContent !== text) el.textContent = text;
+  }
+
   function updateCountdown() {
-    const now = new Date().getTime();
-    const distance = COUNTDOWN_TARGET - now;
+    if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
 
-    const daysEl = document.getElementById('days');
-    const hoursEl = document.getElementById('hours');
-    const minutesEl = document.getElementById('minutes');
-    const secondsEl = document.getElementById('seconds');
+    const distance = COUNTDOWN_TARGET - Date.now();
 
-    if (!daysEl) return;
-
-    if (distance < 0) {
-      daysEl.innerText = "00";
-      hoursEl.innerText = "00";
-      minutesEl.innerText = "00";
-      secondsEl.innerText = "00";
+    if (!(distance > 0)) {
+      setNum(daysEl, 0);
+      setNum(hoursEl, 0);
+      setNum(minutesEl, 0);
+      setNum(secondsEl, 0);
+      if (countdownTimer) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+      }
       return;
     }
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    daysEl.innerText = String(days).padStart(2, '0');
-    hoursEl.innerText = String(hours).padStart(2, '0');
-    minutesEl.innerText = String(minutes).padStart(2, '0');
-    secondsEl.innerText = String(seconds).padStart(2, '0');
+    setNum(daysEl, Math.floor(distance / (1000 * 60 * 60 * 24)));
+    setNum(hoursEl, Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+    setNum(minutesEl, Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+    setNum(secondsEl, Math.floor((distance % (1000 * 60)) / 1000));
   }
 
-  setInterval(updateCountdown, 1000);
+  countdownTimer = setInterval(updateCountdown, 1000);
   updateCountdown();
 
 
@@ -106,6 +178,46 @@ document.addEventListener('DOMContentLoaded', () => {
   if (musicBtn) {
     musicBtn.addEventListener('click', toggleAudio);
   }
+
+  // Nhạc nền 3.6MB không tải ngay khi vào trang (tránh tranh băng thông với ảnh phong bì).
+  // Bắt đầu tải ngầm sau khi trang đã tải xong ảnh => lúc khách chạm mở thiệp nhạc phát gần như tức thì.
+  function warmUpMusic() {
+    if (!bgMusic || bgMusic.preload === 'auto') return;
+    // Chỉ đổi thuộc tính preload (không gọi load() để không huỷ lệnh play() đang chờ)
+    bgMusic.preload = 'auto';
+  }
+
+  const scheduleWarmUp = () => {
+    setTimeout(() => {
+      if (isPlaying || (bgMusic && !bgMusic.paused)) return; // đã phát rồi thì không cần
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(warmUpMusic, { timeout: 2000 });
+      } else {
+        warmUpMusic();
+      }
+    }, 800);
+  };
+
+  if (document.readyState === 'complete') {
+    scheduleWarmUp();
+  } else {
+    window.addEventListener('load', scheduleWarmUp, { once: true });
+  }
+
+  // Khách chuyển sang Zalo/Messenger hoặc tắt màn hình => tạm dừng nhạc, quay lại thì phát tiếp
+  let pausedByVisibility = false;
+  document.addEventListener('visibilitychange', () => {
+    if (!bgMusic) return;
+    if (document.hidden) {
+      if (isPlaying) {
+        pausedByVisibility = true;
+        pauseAudio();
+      }
+    } else if (pausedByVisibility) {
+      pausedByVisibility = false;
+      if (!userManuallyPaused) playAudio();
+    }
+  });
 
   // Hiệu ứng 3 trái tim đỏ lớn bay lên từ bên trong phong bì sau khi mở
   function spawnThreeBigRedHearts() {
@@ -224,7 +336,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflowY = '';
 
     // Mặc định cuộn lên trang đầu tiên (Hero Screen / Trang đầu tiên)
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    // (dùng scrollTo(0, 0): giá trị behavior 'instant' gây lỗi TypeError trên một số trình duyệt cũ)
+    window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
 
@@ -337,10 +450,24 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   adjustTimelineTrack();
-  window.addEventListener('resize', adjustTimelineTrack);
+
+  // Trên điện thoại, sự kiện resize bắn liên tục khi thanh địa chỉ ẩn/hiện lúc cuộn.
+  // Gom lại (debounce) để không đo layout (getBoundingClientRect) giữa lúc cuộn => hết giật.
+  let timelineResizeTimer = null;
+  let lastViewportWidth = window.innerWidth;
+  window.addEventListener('resize', () => {
+    if (window.innerWidth === lastViewportWidth) return; // chỉ đổi chiều cao (thanh địa chỉ) => bỏ qua
+    lastViewportWidth = window.innerWidth;
+    clearTimeout(timelineResizeTimer);
+    timelineResizeTimer = setTimeout(adjustTimelineTrack, 150);
+  }, { passive: true });
   window.addEventListener('orientationchange', () => {
     setTimeout(adjustTimelineTrack, 250);
   });
+  // Font chữ tải xong có thể làm thay đổi chiều cao các dòng timeline
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(adjustTimelineTrack).catch(() => {});
+  }
 
 
   // ==========================================
@@ -355,8 +482,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Tự động đồng bộ danh sách ảnh từ coverflow slider
   const coverflowImgEls = document.querySelectorAll('#album-coverflow .gallery-trigger');
+  // Album hiển thị ảnh thumbnail nhỏ (data-full là ảnh đầy đủ để phóng to trong lightbox)
   const gallerySources = coverflowImgEls.length
-    ? Array.from(coverflowImgEls).map(img => img.getAttribute('src')).filter(Boolean)
+    ? Array.from(coverflowImgEls).map(img => img.getAttribute('data-full') || img.getAttribute('src')).filter(Boolean)
     : [
         'assets/images/TTT08627_web.jpg',
         'assets/images/TTT08982_web.jpg',
@@ -387,10 +515,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const AUTO_PLAY_INTERVAL = 3000; // Tự động chuyển sau mỗi 3 giây
     let autoPlayTimer = null;
     let isUserInteracting = false;
+    // Chỉ tự chuyển ảnh khi album đang nằm trong màn hình (đỡ tốn CPU/GPU khi khách xem phần khác)
+    let isAlbumInView = !('IntersectionObserver' in window);
 
     function startAutoPlay() {
       stopAutoPlay();
-      if (isLightboxOpen) return;
+      if (isLightboxOpen || !isAlbumInView || document.hidden) return;
       autoPlayTimer = setInterval(() => {
         if (!isUserInteracting && !isLightboxOpen) {
           nextCoverflowSlide(false);
@@ -407,7 +537,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function restartAutoPlayWithDelay(delay = AUTO_PLAY_INTERVAL) {
       stopAutoPlay();
-      if (isLightboxOpen) return;
+      if (isLightboxOpen || !isAlbumInView || document.hidden) return;
       autoPlayTimer = setTimeout(() => {
         if (!isUserInteracting && !isLightboxOpen) {
           nextCoverflowSlide(false);
@@ -599,11 +729,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Kích hoạt slider và tự động chuyển ảnh ban đầu
     updateCoverflow(0);
-    startAutoPlay();
+
+    if ('IntersectionObserver' in window && coverflowContainer) {
+      const albumObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          isAlbumInView = entry.isIntersecting;
+          if (isAlbumInView) {
+            if (!isUserInteracting) startAutoPlay();
+          } else {
+            stopAutoPlay();
+          }
+        });
+      }, { threshold: 0.2 });
+      albumObserver.observe(coverflowContainer);
+    } else {
+      startAutoPlay();
+    }
   }
 
   // 4.2. LIGHTBOX FUNCTIONS
-  document.querySelectorAll('.gallery-trigger:not(.cl-coverflow-slide .gallery-trigger)').forEach(trigger => {
+  // Lưu ý: không dùng selector ':not(.a .b)' (CSS Selectors 4) vì trình duyệt Android/iOS cũ báo lỗi
+  // SyntaxError => toàn bộ phần script phía sau (QR, RSVP, lời chúc...) ngừng chạy.
+  Array.from(document.querySelectorAll('.gallery-trigger'))
+    .filter(el => !el.closest('.cl-coverflow-slide'))
+    .forEach(trigger => {
     trigger.addEventListener('click', () => {
       const explicitSrc = trigger.getAttribute('data-img-src');
       if (explicitSrc) {
@@ -620,27 +769,56 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  function openGalleryLightbox(index) {
-    if (!lightbox || !lightboxImg) return;
-    isLightboxOpen = true;
-    if (window.pauseAlbumAutoPlay) window.pauseAlbumAutoPlay();
-    currentImgIndex = index;
-    lightboxImg.src = gallerySources[currentImgIndex];
-    if (lightboxPrev) lightboxPrev.style.display = 'block';
-    if (lightboxNext) lightboxNext.style.display = 'block';
+  let lightboxHideTimer = null;
+  let isGalleryMode = false;
+
+  function setLightboxImage(src) {
+    if (!lightboxImg) return;
+    lightboxImg.src = optimizedSrc(src);
+  }
+
+  // Tải trước ảnh kế bên để vuốt/bấm chuyển ảnh trong lightbox không phải chờ
+  function preloadNeighbors(index) {
+    if (!gallerySources.length) return;
+    [index + 1, index - 1].forEach(i => {
+      const src = gallerySources[(i + gallerySources.length) % gallerySources.length];
+      const img = new Image();
+      img.decoding = 'async';
+      img.src = optimizedSrc(src);
+    });
+  }
+
+  function showLightbox() {
+    if (lightboxHideTimer) {
+      clearTimeout(lightboxHideTimer);
+      lightboxHideTimer = null;
+    }
     lightbox.style.display = 'flex';
     setTimeout(() => lightbox.classList.add('active'), 10);
+  }
+
+  function openGalleryLightbox(index) {
+    if (!lightbox || !lightboxImg || !gallerySources.length) return;
+    isLightboxOpen = true;
+    isGalleryMode = true;
+    if (window.pauseAlbumAutoPlay) window.pauseAlbumAutoPlay();
+    currentImgIndex = index;
+    setLightboxImage(gallerySources[currentImgIndex]);
+    preloadNeighbors(currentImgIndex);
+    if (lightboxPrev) lightboxPrev.style.display = 'block';
+    if (lightboxNext) lightboxNext.style.display = 'block';
+    showLightbox();
   }
 
   function openSingleLightbox(src) {
     if (!lightbox || !lightboxImg) return;
     isLightboxOpen = true;
+    isGalleryMode = false;
     if (window.pauseAlbumAutoPlay) window.pauseAlbumAutoPlay();
-    lightboxImg.src = src;
+    setLightboxImage(src);
     if (lightboxPrev) lightboxPrev.style.display = 'none';
     if (lightboxNext) lightboxNext.style.display = 'none';
-    lightbox.style.display = 'flex';
-    setTimeout(() => lightbox.classList.add('active'), 10);
+    showLightbox();
   }
 
   function closeLightbox() {
@@ -648,17 +826,44 @@ document.addEventListener('DOMContentLoaded', () => {
     isLightboxOpen = false;
     if (window.resumeAlbumAutoPlay) window.resumeAlbumAutoPlay();
     lightbox.classList.remove('active');
-    setTimeout(() => { lightbox.style.display = 'none'; }, 350);
+    // Lưu timer để nếu mở lại ngay trong 350ms thì lightbox không bị ẩn mất
+    lightboxHideTimer = setTimeout(() => {
+      lightbox.style.display = 'none';
+      lightboxHideTimer = null;
+    }, 350);
   }
 
   function showNextImage() {
+    if (!isGalleryMode || !gallerySources.length) return;
     currentImgIndex = (currentImgIndex + 1) % gallerySources.length;
-    lightboxImg.src = gallerySources[currentImgIndex];
+    setLightboxImage(gallerySources[currentImgIndex]);
+    preloadNeighbors(currentImgIndex);
   }
 
   function showPrevImage() {
+    if (!isGalleryMode || !gallerySources.length) return;
     currentImgIndex = (currentImgIndex - 1 + gallerySources.length) % gallerySources.length;
-    lightboxImg.src = gallerySources[currentImgIndex];
+    setLightboxImage(gallerySources[currentImgIndex]);
+    preloadNeighbors(currentImgIndex);
+  }
+
+  // Vuốt trái/phải để chuyển ảnh trong lightbox trên điện thoại
+  if (lightbox) {
+    let lbStartX = 0;
+    let lbStartY = 0;
+    lightbox.addEventListener('touchstart', (e) => {
+      lbStartX = e.touches[0].clientX;
+      lbStartY = e.touches[0].clientY;
+    }, { passive: true });
+    lightbox.addEventListener('touchend', (e) => {
+      if (!isGalleryMode || !e.changedTouches.length) return;
+      const dx = e.changedTouches[0].clientX - lbStartX;
+      const dy = e.changedTouches[0].clientY - lbStartY;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+        if (dx < 0) showNextImage();
+        else showPrevImage();
+      }
+    }, { passive: true });
   }
 
   if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
@@ -846,9 +1051,10 @@ document.addEventListener('DOMContentLoaded', () => {
         time: new Date().toLocaleString('vi-VN')
       };
 
-      const existingRsvpList = JSON.parse(localStorage.getItem('wedding_rsvp_list')) || [];
+      const storedRsvp = safeStorage.get('wedding_rsvp_list', []);
+      const existingRsvpList = Array.isArray(storedRsvp) ? storedRsvp : [];
       existingRsvpList.push(rsvpData);
-      localStorage.setItem('wedding_rsvp_list', JSON.stringify(existingRsvpList));
+      safeStorage.set('wedding_rsvp_list', existingRsvpList);
 
       if (attendance === 'yes') {
         window.showToast(`Cảm ơn ${name}! Cô dâu & Chú rể rất vui được đón tiếp bạn.`);
@@ -889,12 +1095,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ];
 
+  function getWishes() {
+    const stored = safeStorage.get('wedding_wishes', null);
+    return Array.isArray(stored) ? stored : defaultWishes.slice();
+  }
+
   function loadWishes() {
     if (!guestbookMessages) return;
-    const wishes = JSON.parse(localStorage.getItem('wedding_wishes')) || defaultWishes;
-    guestbookMessages.innerHTML = '';
+    const wishes = getWishes();
+    // Dựng toàn bộ danh sách trong bộ nhớ rồi chèn 1 lần (tránh reflow nhiều lần)
+    const fragment = document.createDocumentFragment();
 
-    [...wishes].reverse().forEach(wish => {
+    wishes.slice().reverse().forEach(wish => {
+      if (!wish) return;
       const item = document.createElement('div');
       item.className = 'wish-item-bubble';
       item.innerHTML = `
@@ -904,12 +1117,15 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <p class="wish-content-text">${escapeHtml(wish.text)}</p>
       `;
-      guestbookMessages.appendChild(item);
+      fragment.appendChild(item);
     });
+
+    guestbookMessages.innerHTML = '';
+    guestbookMessages.appendChild(fragment);
   }
 
   function addGuestbookEntry(name, text) {
-    const wishes = JSON.parse(localStorage.getItem('wedding_wishes')) || defaultWishes;
+    const wishes = getWishes();
     const newEntry = {
       name: name,
       text: text,
@@ -919,7 +1135,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })
     };
     wishes.push(newEntry);
-    localStorage.setItem('wedding_wishes', JSON.stringify(wishes));
+    safeStorage.set('wedding_wishes', wishes);
     loadWishes();
   }
 
@@ -944,9 +1160,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function escapeHtml(string) {
+  function escapeHtml(value) {
     const div = document.createElement('div');
-    div.innerText = string;
+    div.textContent = value == null ? '' : String(value);
     return div.innerHTML;
   }
 
@@ -1042,7 +1258,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Nút like tăng dần
-  let currentLikes = parseInt(localStorage.getItem('wedding_likes_count') || '222', 10);
+  let currentLikes = parseInt(safeStorage.get('wedding_likes_count', 222), 10);
+  if (!Number.isFinite(currentLikes)) currentLikes = 222;
   if (likeCounter) {
     likeCounter.innerText = currentLikes;
   }
@@ -1050,7 +1267,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (floatLikeBtn) {
     floatLikeBtn.addEventListener('click', () => {
       currentLikes += 1;
-      localStorage.setItem('wedding_likes_count', String(currentLikes));
+      safeStorage.set('wedding_likes_count', String(currentLikes));
       if (likeCounter) likeCounter.innerText = currentLikes;
       floatLikeBtn.classList.add('liked');
       triggerHeartsBurst(6);

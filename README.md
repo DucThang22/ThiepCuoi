@@ -73,6 +73,22 @@ Tìm đến khu vực mừng cưới ở cuối trang, thay đổi Số tài kho
 
 ---
 
+## ⚡ Tối Ưu Tốc Độ (bắt buộc làm sau khi thay ảnh / sửa thiệp)
+
+- Ảnh gốc nằm trong `assets/images/`. Trang web dùng bản đã nén trong `assets/opt/` (WebP + JPG/PNG dự phòng cho máy cũ).
+  Sau khi thêm/thay ảnh, khai báo ảnh trong `tools/optimize_images.py` rồi chạy:
+  ```bash
+  python tools/optimize_images.py
+  ```
+- Chỉ sửa 2 file gốc `index.html` (nhà trai) và `nha-gai.html` (nhà gái), sau đó chạy lệnh dưới để cập nhật các bản sao
+  (`nha-trai.html`, `trang-thang.html`, các thư mục `nha-trai/`, `nha-gai/`, `trang-thang/`):
+  ```bash
+  python tools/sync_pages.py
+  ```
+- Thư mục `assets/` được cache 1 năm (`vercel.json`). Khi thay ảnh, hãy **đặt tên file mới** thay vì ghi đè tên cũ, nếu không khách đã từng mở thiệp vẫn thấy ảnh cũ.
+
+---
+
 ## 🚀 Hướng Dẫn Đưa Trang Web Lên Mạng Miễn Phí (Hosting)
 
 Khi đã chỉnh sửa ưng ý, bạn có thể tải trang web này lên mạng hoàn toàn miễn phí để lấy đường link gửi cho mọi người:
